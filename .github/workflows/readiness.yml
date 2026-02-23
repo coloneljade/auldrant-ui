@@ -1,0 +1,19 @@
+name: Merge Readiness
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review]
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  checks: read
+jobs:
+  readiness:
+    uses: coloneljade/merge-bot/.github/workflows/readiness.yml@v1
+    with:
+      pr-number: ${{ github.event.pull_request.number }}
+      pr-sha: ${{ github.event.pull_request.head.sha }}
+      version-file: 'package.json'
+    secrets:
+      app-id: ${{ secrets.MERGE_APP_ID }}
+      private-key: ${{ secrets.MERGE_APP_PRIVATE_KEY }}

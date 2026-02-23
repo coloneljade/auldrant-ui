@@ -1,0 +1,22 @@
+name: Merge Bot
+on:
+  issue_comment:
+    types: [created]
+concurrency:
+  group: merge-${{ github.event.issue.number }}
+  cancel-in-progress: false
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  checks: read
+jobs:
+  merge:
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/merge')
+    uses: coloneljade/merge-bot/.github/workflows/merge.yml@v1
+    with:
+      bump-map: '{"feature":"minor","feat":"minor","fix":"patch"}'
+      version-file: 'package.json'
+    secrets:
+      app-id: ${{ secrets.MERGE_APP_ID }}
+      private-key: ${{ secrets.MERGE_APP_PRIVATE_KEY }}
