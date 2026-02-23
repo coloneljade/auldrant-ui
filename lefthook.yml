@@ -1,0 +1,11 @@
+pre-commit:
+  parallel: true
+  commands:
+    check:
+      run: bun run check
+      env:
+        PATH: $HOME/.bun/bin:$PATH
+    typecheck:
+      run: bun run typecheck
+      env:
+        PATH: $HOME/.bun/bin:$PATH
