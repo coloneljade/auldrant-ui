@@ -2,9 +2,9 @@
 
 ## Core Principle
 
-**Branch early, commit often, push when done.**
+**Branch early, implement freely, stage cleanly, push when done.**
 
-Every implementation follows: scratch branch → incremental commits → finalize and push.
+Every implementation follows: scratch branch → implement → verify → stage → push.
 
 ## Scratch Branch
 
@@ -21,121 +21,59 @@ git checkout -b claude/<short-description>
 - Use `claude/` prefix — this is a working branch, renamed before push
 - One scratch branch per task/plan
 
-## Commit Cadence
+## Implementation Phase
 
-**After each logical step**, run `/pre-commit` then `/commit`. Do not batch everything at the end.
+Work without committing — focus on getting the complete solution working.
 
-### Task–Commit Gate
+- Run build/format checks as desired for your own feedback (not mandatory per-step)
+- Keep focus on correctness and completeness
+- One-off commits via `/pre-commit` + `/commit` are still available for standalone fixes
+  unrelated to the current implementation
 
-**Do NOT mark a task as completed (TaskUpdate status=completed) unless all changes
-for that task have been committed via `/pre-commit` then `/commit`.** This is the
-enforcement mechanism — treat task completion as proof of commit, not proof of file creation.
+### Task–Verify Gate
 
-### What's a "Logical Step"?
+**Do NOT mark a task as completed (TaskUpdate status=completed) unless changes are
+verified** — the implementation builds, tests pass, and changes are present in the
+working tree. Task completion means "verified working," not "files created."
 
-One coherent change that could be understood and reverted independently:
+## Session Boundaries
 
-- A packaging or build fix (separate from feature work)
-- Core scaffolding files for a new feature
-- Configuration and tooling setup
-- CI/CD and dev environment changes
-- Test additions or updates
-- Documentation updates (CHANGELOG, README)
+When implementation spans multiple sessions, use WIP checkpoints:
 
-### Signals You Should Commit
+```bash
+git add -A && git commit -s -m "wip: checkpoint"
+```
 
-- You just finished a distinct piece of work
-- The next thing you'll do is a different concern
-- You've touched 5+ files on the same concern — commit before moving on
-- You're about to change direction or approach
+- Not quality-gated — raw safety checkpoint only
+- `/stage` absorbs these automatically during its reset step
+- Resume work in the next session by continuing on the same branch
 
-### Signals You Should NOT Commit Yet
+## Staging Phase
 
-- Current change doesn't build
-- You're mid-way through a single concern
-- Splitting here would leave broken or confusing state
+When implementation is complete and verified, run `/stage` to create all commits
+in one pass from uncommitted changes.
 
-## History Cleanup
+`/stage` analyzes the full diff, proposes logical commit groups, and creates clean
+commits with proper messages and signoff — no incremental commit noise to clean up.
 
-Before pushing, assess whether branch history needs cleanup.
-
-### When to Rewrite
-
-- Branch has `fixup!` commits (created by `/commit` fixup detection)
-- WIP commits that should be folded into complete units
-- Wrong commit ordering (setup after features, tests before code)
-- Implicit fixups (build fixes, forgotten files) as separate commits
-
-### When NOT to Rewrite
-
-- History is already clean (each commit is one logical change)
-- Single commit on the branch
-- Branch is shared with other contributors (coordinate first)
-
-### Finalization Sequence
+## Finalization Sequence
 
 The full sequence from implementation to PR:
 
-1. `/rewrite` (optional) — clean up history if needed
+1. `/stage` — create clean commits from uncommitted changes
 2. `/push` — rename branch and push to remote
 3. `/pr` — create pull request
 
 These are separate steps — you can `/push` multiple times during development
 without creating a PR. Use `/pr` when ready to submit for review.
 
-## CHANGELOG
+**Note:** `/rewrite` is still available if you committed incrementally and need
+to clean up already-committed history. `/stage` and `/rewrite` serve different
+scenarios — `/stage` works from uncommitted changes, `/rewrite` works from
+existing commits.
 
-Follow [Keep a Changelog](https://keepachangelog.com/) format.
+## CHANGELOG and Versioning
 
-### When to Update
-
-**User-facing changes require a CHANGELOG entry:**
-- New features or capabilities
-- Bug fixes users might encounter
-- Behavior changes
-- Removed features
-- Security fixes
-
-**Skip CHANGELOG for:**
-- Internal refactoring (no behavior change)
-- Test-only changes
-- Documentation-only changes (unless user-facing docs)
-- Build/CI configuration changes
-
-### Placement
-
-- **Multi-commit work**: CHANGELOG goes in a final `docs` commit
-- **Single-commit work**: bundle CHANGELOG in with the change
-
-### Format
-
-```markdown
-## [Unreleased]
-
-### Added
-- Feature description ([#123](url))
-
-### Changed
-- Existing behavior that changed
-
-### Fixed
-- Bug that was fixed
-
-### Removed
-- Feature or capability removed
-
-### Security
-- Security-related changes
-```
-
-### Entry Guidelines
-
-- One line per change
-- Concise but complete
-- Link to PR/issue when available
-- Use imperative mood ("Add" not "Added")
-- Group related changes under one entry
-
-## Finalization
-
-When all commits are done, use `/push` to rename the branch and push.
+CHANGELOG entries and version bumps are handled automatically by the merge bot when
+`/merge` is invoked on the PR. **Do NOT** manually edit CHANGELOG versions or bump
+the version in `package.json` — the bot owns this entirely.

@@ -1,5 +1,6 @@
 ---
 description: Create well-structured git commits with clear, conventional messages. Use after completing a logical unit of work.
+model: haiku
 ---
 
 # Commit Workflow

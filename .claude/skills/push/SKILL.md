@@ -1,5 +1,6 @@
 ---
 description: Finalize branch naming and safely push to remote. Use when ready to push code.
+model: haiku
 ---
 
 # Push Workflow
@@ -17,7 +18,13 @@ git log --oneline main..HEAD
 - [ ] All commits build successfully
 - [ ] Branch name starts with `claude/` (ready for rename)
 
-If the working tree is dirty, run `/pre-commit` then `/commit` first.
+If the working tree is dirty, run `/stage` first (or `/pre-commit` + `/commit` for a one-off).
+
+## Review Commits
+
+Present the branch log and proposed branch rename, then proceed with the
+rename and push. The user can interrupt to adjust if needed — don't gate
+on explicit approval.
 
 ## Branch Rename
 
@@ -54,6 +61,10 @@ Only when history was rewritten (rebase, amend):
 ```bash
 git push --force-with-lease origin <type>/<description>
 ```
+
+**Pause for explicit approval before executing.** This overwrites remote history —
+higher stakes than local commits. Present what will be force-pushed and wait for
+the user to confirm.
 
 **Never use bare `--force`.** `--force-with-lease` prevents overwriting others' work.
 
