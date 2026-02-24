@@ -1,5 +1,5 @@
 ---
-description: Create or update a pull request with CHANGELOG entries and PR links. Use when ready to submit work for review.
+description: Create or update a pull request with issue links. Use when ready to submit work for review.
 ---
 
 # Pull Request Workflow
@@ -17,7 +17,9 @@ gh auth status
   ```
   ## PR Failed — GitHub CLI Not Found
 
-  Install from: https://cli.github.com/
+  The `/pr` skill requires the GitHub CLI (`gh`).
+  The devcontainer includes it — rebuild the container if missing.
+  Otherwise install from: https://cli.github.com/
   Then run: gh auth login
   ```
 - **Not authenticated**: stop immediately.
@@ -48,114 +50,71 @@ gh pr list --head <branch> --json number,url
 - If a PR exists → note the number for `gh pr edit` later
 - If no PR exists → will use `gh pr create`
 
-## Step 3 — Create PR (If New)
+## Step 3 — Check for Related Issues
+
+```bash
+gh issue list --state open --json number,title,labels
+```
+
+- If open issues exist, present them to the user and ask which (if any) this PR fixes
+- If no open issues, skip this step
+
+## Step 4 — Build PR
 
 ### PR Title
 
-- **Single commit on branch**: use the commit subject verbatim
-- **Multiple commits**: compose a `type(scope): summary` title, under 70 characters
+Derive the title from the branch name. The branch was already named deliberately
+during `/push` as `type/description` — convert it to `type: description` (or
+`type(scope): description` if scope is clear from context). Under 70 characters.
+
+Do not independently recompose the type or summary — the branch name is the
+single source of truth. If the branch name is wrong, fix it before creating the PR.
 
 ### PR Body
 
-Build the initial body from commit history (CHANGELOG comes next):
+Build the body from commit history and issue links:
 
 ```bash
 git log --format="- %s" main..HEAD
 ```
 
-### Command
+Structure:
 
+```markdown
+## Summary
+[commit log summary as bullet points]
+
+## Fixes
+Fixes #N
+Fixes #M
+
+## Test Plan
+- [ ] Verified item
+```
+
+The `## Fixes` section is only included when the user selected issues in Step 3.
+Each issue gets its own `Fixes #N` line for GitHub auto-close. The keyword `Fixes`
+must be on the same line as the issue reference.
+
+### Create or Update
+
+**New PR:**
 ```bash
 gh pr create --base main --title "<title>" --body "$(cat <<'EOF'
-## Summary
-[commit log summary]
-
-## Test Plan
-- [ ] Verified item
+...
 EOF
 )"
 ```
 
-Capture the PR number and URL from output.
-
-## Step 4 — CHANGELOG Entry with PR Links
-
-Determine which CHANGELOG state applies, then act accordingly.
-
-### Detect Branch-Specific Entries
-
+**Existing PR:**
 ```bash
-git diff main -- CHANGELOG.md | grep '^+- '
-```
-
-This finds list-item lines added by this branch (not already on main).
-
-### Case A: Entries Exist Without PR Links
-
-Lines found that do NOT contain `([#` — append the PR link to each within the `## [Unreleased]` section:
-
-```
-([#N](https://github.com/<owner>/<repo>/pull/N))
-```
-
-### Case B: Entries Exist With PR Links
-
-All found lines already contain `([#` — skip to Step 6.
-
-### Case C: No Entries
-
-No branch-specific CHANGELOG lines found. Compose entries under `## [Unreleased]` with
-the PR link baked in from the start:
-
-1. Review the branch commits to determine user-facing changes
-2. Draft entries under the appropriate categories (`### Added`, `### Changed`, etc.)
-3. Include the PR link on each entry
-4. **Present proposed entries to the user for approval before writing**
-
-Only modify within the `## [Unreleased]` section. Do not touch released sections.
-
-## Step 5 — Commit and Push CHANGELOG
-
-If CHANGELOG was modified in Step 4:
-
-### Pre-commit Exception
-
-**Skip `/pre-commit` for this step.** Justification:
-- Only CHANGELOG.md is modified (markdown, not code)
-- `bun run check` and `bun run build` do not apply to markdown files
-- This is a skill-internal housekeeping step with predictable, minimal changes
-
-### Commit
-
-**Use `/commit`** to stage, compose the message, and apply sign-off. This ensures any future
-changes to commit conventions are automatically inherited.
-
-### Push
-
-```bash
-git push
-```
-
-## Step 6 — Update PR Body from CHANGELOG
-
-Extract the `[Unreleased]` section content and update the PR:
-
-1. Read CHANGELOG.md
-2. Extract everything between `## [Unreleased]` and the next `## [` heading
-3. Update the PR body:
-
-```bash
-gh pr edit <number> --body "$(cat <<'EOF'
-## Summary
-[Extracted CHANGELOG content]
-
-## Test Plan
-- [ ] Verified item
+gh pr edit <number> --title "<title>" --body "$(cat <<'EOF'
+...
 EOF
 )"
 ```
 
-## Step 7 — Output
+## Step 5 — Output
 
 ```
 ## PR Complete
@@ -163,12 +122,17 @@ EOF
 ### Pull Request
 [PR URL] — [created | updated]
 
-### CHANGELOG
-[N entries created with PR links | N entries annotated with PR links | Already up to date]
+### Issues
+[N issues linked | No issues linked]
 ```
+
+## CHANGELOG Note
+
+CHANGELOG entries are handled automatically by the merge bot when `/merge` is
+invoked on the PR. Do not manually create or modify CHANGELOG entries.
 
 ## Error Handling
 
-- **CHANGELOG commit/push fails**: report the error, note that the PR was already created successfully
-- **`gh pr edit` fails**: report the error, note that the push and CHANGELOG succeeded
+- **`gh pr create` fails**: report the full error output for debugging
+- **`gh pr edit` fails**: report the error with the existing PR URL
 - **Any `gh` command fails unexpectedly**: report the full error output for debugging

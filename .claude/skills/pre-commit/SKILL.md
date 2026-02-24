@@ -1,5 +1,6 @@
 ---
 description: Pre-commit quality checks. Run before committing to catch issues early.
+model: haiku
 ---
 
 # Pre-Commit Checks

@@ -32,10 +32,21 @@ Preact component library with strong accessibility, performance, and consistent 
 
 ## Quick Reference
 
+**Reviewing code?** → `/code-review [domain]` or `/full-review`
 **Need research first?** → `/research [topic]`
-**Ready to commit?** → `/pre-commit` then `/commit`
+**Ready to finalize?** → `/stage`
+**One-off commit?** → `/pre-commit` then `/commit`
+**Rewriting history?** → `/rewrite`
 **Ready to push?** → `/push`
 **Creating a PR?** → `/pr`
+**Presenting a decision?** → `/decision-brief`
+**Updating config?** → `/config-update`
+
+## Available Agents
+
+**Reviewers:** security, architecture, performance, accessibility
+**Experts:** frontend, troubleshooter, security, architecture, performance
+**Design:** design-advisor (Double Diamond facilitation)
 
 ## Key Constraints
 
