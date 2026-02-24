@@ -14,12 +14,17 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: resolve(__dirname, 'src/index.ts'),
-			name: 'AuldrantUI',
-			formats: ['es', 'cjs'],
+			formats: ['es'],
 			fileName: 'auldrant-ui',
 		},
 		rollupOptions: {
 			external: ['preact', 'preact/hooks', 'preact/jsx-runtime', '@preact/signals'],
+		},
+	},
+	resolve: {
+		alias: {
+			'@components': resolve(__dirname, 'src/components'),
+			'@styles': resolve(__dirname, 'src/styles'),
 		},
 	},
 });

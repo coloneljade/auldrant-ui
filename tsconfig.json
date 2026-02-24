@@ -11,6 +11,11 @@
 		"resolveJsonModule": true,
 		"allowImportingTsExtensions": true,
 		"moduleDetection": "force",
+		"baseUrl": ".",
+		"paths": {
+			"@components/*": ["./src/components/*"],
+			"@styles/*": ["./src/styles/*"]
+		},
 
 		"noEmit": true,
 		"isolatedModules": true,
