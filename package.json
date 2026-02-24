@@ -13,14 +13,12 @@
 		"url": "https://github.com/AuldrantCo/auldrant-ui/issues"
 	},
 	"homepage": "https://github.com/AuldrantCo/auldrant-ui#readme",
-	"main": "./dist/auldrant-ui.cjs",
 	"module": "./dist/auldrant-ui.js",
 	"types": "./dist/index.d.ts",
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
-			"import": "./dist/auldrant-ui.js",
-			"require": "./dist/auldrant-ui.cjs"
+			"import": "./dist/auldrant-ui.js"
 		},
 		"./styles/*": "./dist/styles/*"
 	},
@@ -45,7 +43,7 @@
 		"prepublishOnly": "bun run build",
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build",
-		"prepare": "lefthook install"
+		"prepare": "test -n \"$CI\" || lefthook install"
 	},
 	"engines": {
 		"bun": ">=1.0.0"

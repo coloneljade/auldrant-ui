@@ -1,2 +1,2 @@
-import '../src/styles/colors.css';
-import '../src/styles/layout.css';
+import '@styles/colors.css';
+import '@styles/layout.css';
