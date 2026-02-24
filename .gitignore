@@ -32,7 +32,7 @@ Thumbs.db
 # VSCode (allow settings and extensions)
 .vscode/*
 !.vscode/settings.json
-!.vscode/extensions.json
+!.vscode/tasks.json
 
 # Vite
 vite.config.ts.timestamp-*
