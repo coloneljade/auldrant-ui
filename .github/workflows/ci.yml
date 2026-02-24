@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   ci:
     runs-on: ubuntu-latest
@@ -31,3 +35,9 @@ jobs:
 
       - name: Build
         run: bun run build
+
+      - name: Publish to npm
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: bun publish --access public --tolerate-republish
+        env:
+          NPM_CONFIG_TOKEN: ${{ secrets.NPM_TOKEN }}
