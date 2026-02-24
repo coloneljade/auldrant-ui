@@ -3,6 +3,12 @@
 	"files": {
 		"includes": ["**", "!dist", "!storybook-static", "!.claude"]
 	},
+	"overrides": [
+		{
+			"includes": ["package.json"],
+			"formatter": { "enabled": false }
+		}
+	],
 	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"linter": {
 		"enabled": true,
