@@ -1,68 +1,68 @@
 {
-	"name": "@auldrant/ui",
-	"version": "0.0.0",
-	"type": "module",
-	"description": "Preact component library for Auldrant SPAs",
-	"author": "Colonel Jade",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/AuldrantCo/auldrant-ui.git"
-	},
-	"bugs": {
-		"url": "https://github.com/AuldrantCo/auldrant-ui/issues"
-	},
-	"homepage": "https://github.com/AuldrantCo/auldrant-ui#readme",
-	"module": "./dist/auldrant-ui.js",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/auldrant-ui.js"
-		},
-		"./styles/*": "./dist/styles/*"
-	},
-	"files": [
-		"dist",
-		"README.md",
-		"LICENSE",
-		"CHANGELOG.md"
-	],
-	"sideEffects": [
-		"**/*.css"
-	],
-	"scripts": {
-		"build": "vite build",
-		"check": "biome check .",
-		"check:fix": "biome check --fix .",
-		"format": "biome format --fix .",
-		"lint": "biome lint .",
-		"test": "bun test",
-		"test:watch": "bun test --watch",
-		"typecheck": "tsc --noEmit",
-		"prepublishOnly": "bun run build",
-		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build",
-		"prepare": "test -n \"$CI\" || lefthook install"
-	},
-	"engines": {
-		"bun": ">=1.0.0"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^2.4.4",
-		"@preact/preset-vite": "^2.10.3",
-		"@preact/signals": "^2.8.1",
-		"@storybook/preact-vite": "^10.2.10",
-		"@types/bun": "latest",
-		"lefthook": "^2.1.1",
-		"preact": "^10.28.4",
-		"storybook": "^10.2.10",
-		"typescript": "^5.9.3",
-		"vite": "^7.3.1",
-		"vite-plugin-dts": "^4.5.4"
-	},
-	"peerDependencies": {
-		"@preact/signals": "^2.8.1",
-		"preact": "^10.28.4"
-	}
+  "name": "@auldrant/ui",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Preact component library for Auldrant SPAs",
+  "author": "Colonel Jade",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AuldrantCo/auldrant-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AuldrantCo/auldrant-ui/issues"
+  },
+  "homepage": "https://github.com/AuldrantCo/auldrant-ui#readme",
+  "module": "./dist/auldrant-ui.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/auldrant-ui.js"
+    },
+    "./styles/*": "./dist/styles/*"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "check": "biome check .",
+    "check:fix": "biome check --fix .",
+    "format": "biome format --fix .",
+    "lint": "biome lint .",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "bun run build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "prepare": "test -n \"$CI\" || lefthook install"
+  },
+  "engines": {
+    "bun": ">=1.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.4",
+    "@preact/preset-vite": "^2.10.3",
+    "@preact/signals": "^2.8.1",
+    "@storybook/preact-vite": "^10.2.10",
+    "@types/bun": "latest",
+    "lefthook": "^2.1.1",
+    "preact": "^10.28.4",
+    "storybook": "^10.2.10",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "peerDependencies": {
+    "@preact/signals": "^2.8.1",
+    "preact": "^10.28.4"
+  }
 }
