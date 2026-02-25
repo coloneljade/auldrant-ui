@@ -1,0 +1,3 @@
+.link {
+	composes: link focus-ring from "@styles/shared.css";
+}

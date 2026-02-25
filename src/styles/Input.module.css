@@ -1,0 +1,3 @@
+.input {
+	composes: text-input focus-ring disabled from "@styles/shared.css";
+}

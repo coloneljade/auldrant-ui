@@ -1,0 +1,14 @@
+.skip {
+	composes: focus-ring from "@styles/shared.css";
+	position: absolute;
+	top: -100%;
+	left: 0;
+	padding: 0.5em 1em;
+	background: var(--aui-color-background);
+	color: var(--aui-color-primary);
+	z-index: 1000;
+}
+
+.skip:focus {
+	top: 0;
+}

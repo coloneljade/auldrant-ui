@@ -41,6 +41,7 @@
 	"cSpell.ignorePaths": ["devcontainer.json", "biome.json", "bun.lock"],
 	"cSpell.words": ["Auldrant", "biomejs", "preact", "lefthook", "storybook", "vite"],
 	"github.gitProtocol": "ssh",
+	"css.customData": [".vscode/css_custom_data.json"],
 	"search.exclude": {
 		"**/.git": true,
 		"**/node_modules": true,

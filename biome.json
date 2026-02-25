@@ -48,7 +48,8 @@
 				"noApproximativeNumericConstant": "error",
 				"noDoubleEquals": "error",
 				"noExplicitAny": "warn",
-				"noMisrefactoredShorthandAssign": "error"
+				"noMisrefactoredShorthandAssign": "error",
+				"noReactSpecificProps": "error"
 			}
 		}
 	},

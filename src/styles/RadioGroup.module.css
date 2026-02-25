@@ -1,0 +1,21 @@
+.fieldset {
+	border: none;
+	padding: 0;
+}
+
+.legend {
+	font-weight: bold;
+	margin-bottom: 0.5em;
+}
+
+.option {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: center;
+	gap: 0.5em;
+	margin-bottom: 0.25em;
+}
+
+.input {
+	composes: check-input focus-ring from "@styles/shared.css";
+}

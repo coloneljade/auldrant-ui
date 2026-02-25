@@ -1,0 +1,15 @@
+.wrapper {
+	display: grid;
+	gap: 0.25em;
+}
+
+.textarea {
+	composes: text-input focus-ring disabled from "@styles/shared.css";
+	resize: vertical;
+}
+
+.counter {
+	justify-self: end;
+	font-size: 0.875em;
+	color: var(--aui-color-text-muted);
+}
