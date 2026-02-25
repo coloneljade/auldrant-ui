@@ -27,7 +27,16 @@ describe('Button', () => {
 });
 ```
 
-## AAA Pattern
+## AAA Comments (Required)
+
+Every test body MUST have `// Arrange`, `// Act`, and `// Assert` section comments.
+
+When phases merge, use combined labels:
+- `// Act & Assert` — when a single call both performs the action and verifies the result
+- `// Arrange & Act` — when setup and action are inseparable
+
+When Arrange uses only parent-scope constants (defined in the enclosing `describe`),
+omit it and start with `// Act`.
 
 ```typescript
 it('returns null when user not found', () => {
@@ -40,7 +49,41 @@ it('returns null when user not found', () => {
   // Assert
   expect(result).toBeNull();
 });
+
+it('renders as an accessible button', () => {
+  // Act
+  const { getByRole } = render(<Button label={label} />);
+
+  // Assert
+  getByRole('button', { name: label });
+});
+
+it('has no automated a11y violations', async () => {
+  // Act & Assert
+  await renderAndCheckA11y(<Button label={label} />);
+});
 ```
+
+## WCAG SC References (A11y Tests)
+
+A11y tests group assertions under `describe('WCAG A')` / `describe('WCAG AA')` blocks.
+Each block gets a comment linking to the WCAG level overview. Test names include the
+SC number in parentheses:
+
+```tsx
+// https://www.w3.org/TR/WCAG22/#perceivable
+describe('WCAG A', () => {
+  it('is an accessible textbox with programmatic label (SC 4.1.2)', () => { ... });
+  it('exposes the disabled state (SC 4.1.2)', () => { ... });
+});
+
+// https://www.w3.org/TR/WCAG22/#adaptable
+describe('WCAG AA', () => {
+  it('derives autocomplete from input type (SC 1.3.5)', () => { ... });
+});
+```
+
+The axe scan stays outside level blocks (it covers multiple SCs across levels).
 
 ## Test Guidelines
 
