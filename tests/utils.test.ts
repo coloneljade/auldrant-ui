@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import { cx } from '@components/utils';
+import { cx } from '@scripts/utils';
 
 describe('cx', () => {
 	it('joins class names with a space', () => {

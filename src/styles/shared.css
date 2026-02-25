@@ -1,0 +1,46 @@
+/* Shared interactive element styles — composed by component CSS modules via composes. */
+
+.focus-ring:focus-visible {
+	outline: 2px solid var(--aui-color-focus-ring);
+	outline-offset: 2px;
+}
+
+.disabled:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.text-input {
+	padding: 0.375em 0.5em;
+	border: 1px solid var(--aui-color-border);
+	border-radius: 0.25em;
+	background: var(--aui-color-background);
+	color: var(--aui-color-text);
+	font: inherit;
+}
+
+.link {
+	color: var(--aui-color-primary);
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.link:hover {
+	color: var(--aui-color-primary-hover);
+}
+
+.check-input {
+	accent-color: var(--aui-color-primary);
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
