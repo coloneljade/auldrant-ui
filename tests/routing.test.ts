@@ -1,10 +1,9 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { hash, location, navigate, searchParams } from '@signals/routing';
+import { hash, location, navigate } from '@signals/routing';
 
 describe('routing signals', () => {
 	beforeEach(() => {
 		location.value = '/';
-		searchParams.value = new URLSearchParams();
 		hash.value = '';
 	});
 
@@ -14,20 +13,14 @@ describe('routing signals', () => {
 			expect(location.value).toBe('/users');
 		});
 
-		it('updates searchParams signal', () => {
-			navigate('/search?q=test');
-			expect(searchParams.value.get('q')).toBe('test');
-		});
-
 		it('updates hash signal', () => {
 			navigate('/page#section');
 			expect(hash.value).toBe('section');
 		});
 
-		it('handles path with all parts', () => {
+		it('handles path with search and hash', () => {
 			navigate('/items?sort=name#top');
 			expect(location.value).toBe('/items');
-			expect(searchParams.value.get('sort')).toBe('name');
 			expect(hash.value).toBe('top');
 		});
 

@@ -26,5 +26,5 @@ export { default as VisuallyHidden } from '@components/VisuallyHidden';
 export { cx } from '@scripts/utils';
 
 // Signals
-export { meta, title } from '@signals/head';
-export { hash, location, navigate, searchParams } from '@signals/routing';
+export { title } from '@signals/head';
+export { hash, location, navigate } from '@signals/routing';

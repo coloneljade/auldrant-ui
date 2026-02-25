@@ -3,9 +3,6 @@ import { signal } from '@preact/signals';
 /** Current URL pathname. */
 export const location = signal(window.location.pathname);
 
-/** Current URL search parameters. */
-export const searchParams = signal(new URLSearchParams(window.location.search));
-
 /** Current URL hash (without the `#` prefix). */
 export const hash = signal(window.location.hash.slice(1));
 
@@ -47,13 +44,11 @@ export function navigate(path: string, options?: { replace?: boolean }): void {
 	}
 
 	location.value = pathname;
-	searchParams.value = new URLSearchParams(search);
 	hash.value = hashPart;
 }
 
 /** Sync signals on browser back/forward navigation. */
 window.addEventListener('popstate', () => {
 	location.value = window.location.pathname;
-	searchParams.value = new URLSearchParams(window.location.search);
 	hash.value = window.location.hash.slice(1);
 });
