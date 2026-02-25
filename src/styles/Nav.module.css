@@ -1,0 +1,8 @@
+.nav {
+	display: grid;
+	gap: 0.5em;
+}
+
+.title {
+	font-weight: bold;
+}
