@@ -1,0 +1,16 @@
+{
+	"version": 1.1,
+	"properties": [
+		{
+			"name": "composes",
+			"description": "CSS Modules composition — imports class rules from another module at build time.",
+			"syntax": "<custom-ident> from <string>",
+			"references": [
+				{
+					"name": "CSS Modules: Composition",
+					"url": "https://github.com/css-modules/css-modules#composition"
+				}
+			]
+		}
+	]
+}

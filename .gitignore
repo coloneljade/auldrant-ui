@@ -29,10 +29,11 @@ Thumbs.db
 .claude/audit.log*
 .claude/debug-trace*
 
-# VSCode (allow settings and extensions)
+# VSCode (allow shared config only)
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
+!.vscode/css_custom_data.json
 
 # Vite
 vite.config.ts.timestamp-*

@@ -16,11 +16,11 @@
 			},
 			"extensions": [
 				"biomejs.biome",
+				"davidanson.vscode-markdownlint",
 				"editorconfig.editorconfig",
 				"gruntfuggly.todo-tree",
-				"davidanson.vscode-markdownlint",
-				"streetsidesoftware.code-spell-checker",
-				"redhat.vscode-yaml"
+				"redhat.vscode-yaml",
+				"streetsidesoftware.code-spell-checker"
 			]
 		}
 	},
