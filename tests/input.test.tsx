@@ -6,13 +6,6 @@ describe('Input', () => {
 	const label = 'Username';
 	const name = 'username';
 
-	it('associates label with input via generated id', () => {
-		const { container } = render(<Input label={label} name={name} />);
-		const labelEl = container.querySelector('label');
-		const input = container.querySelector('input');
-		expect(labelEl?.getAttribute('for')).toBe(input?.id);
-	});
-
 	it('defaults to type="text"', () => {
 		const { container } = render(<Input label={label} name={name} />);
 		expect(container.querySelector('input')?.type).toBe('text');

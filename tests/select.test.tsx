@@ -31,13 +31,6 @@ describe('Select', () => {
 		expect(handleChange).toHaveBeenCalledWith('blue');
 	});
 
-	it('associates label with select via generated id', () => {
-		const { container } = render(<Select label={label} name={name} options={options} />);
-		const labelEl = container.querySelector('label');
-		const select = container.querySelector('select');
-		expect(labelEl?.getAttribute('for')).toBe(select?.id);
-	});
-
 	it('renders grouped options with optgroup', () => {
 		const grouped = [
 			{

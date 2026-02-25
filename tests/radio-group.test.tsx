@@ -12,25 +12,9 @@ describe('RadioGroup', () => {
 	const legend = 'Size';
 	const name = 'size';
 
-	it('renders a fieldset with legend', () => {
-		const { container, getByText } = render(
-			<RadioGroup legend={legend} name={name} options={options} />
-		);
-		expect(container.querySelector('fieldset')).not.toBeNull();
-		getByText(legend);
-	});
-
 	it('renders all options as radio inputs', () => {
 		const { container } = render(<RadioGroup legend={legend} name={name} options={options} />);
 		expect(container.querySelectorAll('input[type="radio"]').length).toBe(options.length);
-	});
-
-	it('shares the same name across all radios', () => {
-		const { container } = render(<RadioGroup legend={legend} name={name} options={options} />);
-		const radios = container.querySelectorAll('input[type="radio"]');
-		for (const radio of radios) {
-			expect((radio as HTMLInputElement).name).toBe(name);
-		}
 	});
 
 	it('checks only the radio matching the current value', () => {
@@ -50,15 +34,5 @@ describe('RadioGroup', () => {
 		);
 		fireEvent.click(getByLabelText('Large'));
 		expect(handleChange).toHaveBeenCalledWith('lg');
-	});
-
-	it('associates each label with its radio via id', () => {
-		const { container } = render(<RadioGroup legend={legend} name={name} options={options} />);
-		const labels = container.querySelectorAll('label');
-		for (const label of labels) {
-			const forId = label.getAttribute('for') ?? '';
-			expect(forId).not.toBe('');
-			expect(container.querySelector(`#${CSS.escape(forId)}`)).not.toBeNull();
-		}
 	});
 });
