@@ -6,11 +6,6 @@ describe('Checkbox', () => {
 	const label = 'Accept terms';
 	const name = 'terms';
 
-	it('renders with a label', () => {
-		const { getByLabelText } = render(<Checkbox label={label} name={name} />);
-		getByLabelText(label);
-	});
-
 	it('associates label with checkbox via generated id', () => {
 		const { container } = render(<Checkbox label={label} name={name} />);
 		const labelEl = container.querySelector('label');

@@ -7,11 +7,6 @@ describe('DownloadLink', () => {
 	const fileName = 'report.pdf';
 	const label = 'Download Report';
 
-	it('renders a link with the label', () => {
-		const { getByText } = render(<DownloadLink href={href} fileName={fileName} label={label} />);
-		getByText(label);
-	});
-
 	it('sets the download attribute to the fileName', () => {
 		const { getByText } = render(<DownloadLink href={href} fileName={fileName} label={label} />);
 		expect((getByText(label) as HTMLAnchorElement).getAttribute('download')).toBe(fileName);

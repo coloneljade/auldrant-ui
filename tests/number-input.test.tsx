@@ -6,11 +6,6 @@ describe('NumberInput', () => {
 	const label = 'Quantity';
 	const name = 'quantity';
 
-	it('renders with a labeled input', () => {
-		const { getByText } = render(<NumberInput label={label} name={name} />);
-		getByText(new RegExp(`${label}:`));
-	});
-
 	it('associates label with input via generated id', () => {
 		const { container } = render(<NumberInput label={label} name={name} />);
 		const labelEl = container.querySelector('label');

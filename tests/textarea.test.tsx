@@ -7,11 +7,6 @@ describe('Textarea', () => {
 	const name = 'bio';
 	const maxChars = 200;
 
-	it('renders with a labeled textarea', () => {
-		const { getByText } = render(<Textarea label={label} name={name} maxChars={maxChars} />);
-		getByText(new RegExp(`${label}:`));
-	});
-
 	it('shows character counter', () => {
 		const { getByText } = render(<Textarea label={label} name={name} maxChars={maxChars} />);
 		getByText(new RegExp(`/ ${maxChars}`));

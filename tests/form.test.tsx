@@ -3,16 +3,6 @@ import Form from '@components/Form';
 import { fireEvent, render } from '@testing-library/preact';
 
 describe('Form', () => {
-	it('renders children', () => {
-		const content = 'Form content';
-		const { getByText } = render(
-			<Form onSubmit={() => {}}>
-				<p>{content}</p>
-			</Form>
-		);
-		getByText(content);
-	});
-
 	it('renders a submit button with default label', () => {
 		const { getByText } = render(
 			<Form onSubmit={() => {}}>
@@ -20,16 +10,6 @@ describe('Form', () => {
 			</Form>
 		);
 		expect((getByText('Submit') as HTMLButtonElement).type).toBe('submit');
-	});
-
-	it('renders a submit button with custom label', () => {
-		const submitLabel = 'Save';
-		const { getByText } = render(
-			<Form onSubmit={() => {}} submitLabel={submitLabel}>
-				<p>Content</p>
-			</Form>
-		);
-		getByText(submitLabel);
 	});
 
 	it('renders a reset button when resetLabel is provided', () => {

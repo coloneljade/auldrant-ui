@@ -4,12 +4,6 @@ import { location } from '@signals/routing';
 import { fireEvent, render } from '@testing-library/preact';
 
 describe('Link', () => {
-	it('renders an anchor with children', () => {
-		const text = 'About';
-		const { getByText } = render(<Link href="/about">{text}</Link>);
-		getByText(text);
-	});
-
 	it('navigates internally for relative paths', () => {
 		const text = 'Go';
 		const href = '/dashboard';

@@ -6,11 +6,6 @@ describe('Input', () => {
 	const label = 'Username';
 	const name = 'username';
 
-	it('renders with a labeled input', () => {
-		const { getByText } = render(<Input label={label} name={name} />);
-		getByText(new RegExp(`${label}:`));
-	});
-
 	it('associates label with input via generated id', () => {
 		const { container } = render(<Input label={label} name={name} />);
 		const labelEl = container.querySelector('label');
@@ -53,19 +48,16 @@ describe('Input', () => {
 		expect(container.querySelector('input')?.getAttribute('autocomplete')).toBe('given-name');
 	});
 
-	it('derives autocomplete from type for email', () => {
-		const { container } = render(<Input label="Email" name="email" type="email" />);
-		expect(container.querySelector('input')?.getAttribute('autocomplete')).toBe('email');
-	});
-
-	it('derives autocomplete from type for tel', () => {
-		const { container } = render(<Input label="Phone" name="phone" type="tel" />);
-		expect(container.querySelector('input')?.getAttribute('autocomplete')).toBe('tel');
-	});
-
-	it('derives autocomplete from type for url', () => {
-		const { container } = render(<Input label="Website" name="website" type="url" />);
-		expect(container.querySelector('input')?.getAttribute('autocomplete')).toBe('url');
+	it('derives autocomplete from input type', () => {
+		const cases = [
+			{ type: 'email', expected: 'email' },
+			{ type: 'tel', expected: 'tel' },
+			{ type: 'url', expected: 'url' },
+		] as const;
+		for (const { type, expected } of cases) {
+			const { container } = render(<Input label={type} name={type} type={type} />);
+			expect(container.querySelector('input')?.getAttribute('autocomplete')).toBe(expected);
+		}
 	});
 
 	it('allows autocomplete override for derived types', () => {

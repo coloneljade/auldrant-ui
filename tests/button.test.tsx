@@ -3,12 +3,6 @@ import Button from '@components/Button';
 import { fireEvent, render } from '@testing-library/preact';
 
 describe('Button', () => {
-	it('renders the label text', () => {
-		const label = 'Click me';
-		const { getByText } = render(<Button label={label} />);
-		getByText(label);
-	});
-
 	it('defaults to type="button"', () => {
 		const label = 'Test';
 		const { getByText } = render(<Button label={label} />);

@@ -6,11 +6,6 @@ describe('PasswordInput', () => {
 	const label = 'Password';
 	const name = 'password';
 
-	it('renders with a labeled input', () => {
-		const { getByText } = render(<PasswordInput label={label} name={name} purpose="current" />);
-		getByText(new RegExp(`${label}:`));
-	});
-
 	it('associates label with input via generated id', () => {
 		const { container } = render(<PasswordInput label={label} name={name} purpose="current" />);
 		const labelEl = container.querySelector('label');

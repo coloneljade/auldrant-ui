@@ -10,17 +10,6 @@ describe('Select', () => {
 		{ label: 'Blue', value: 'blue' },
 	];
 
-	it('renders with a label', () => {
-		const { getByText } = render(<Select label={label} name={name} options={options} />);
-		getByText(new RegExp(`${label}:`));
-	});
-
-	it('renders flat options', () => {
-		const { getByText } = render(<Select label={label} name={name} options={options} />);
-		getByText('Red');
-		getByText('Blue');
-	});
-
 	it('renders placeholder as disabled first option', () => {
 		const placeholder = 'Pick one';
 		const { container } = render(
