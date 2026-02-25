@@ -33,6 +33,10 @@ tools:
 - [ ] Consistent with codebase conventions
 - [ ] No misleading names
 
+### Documentation
+- [ ] All exported functions, components, hooks, types, and interfaces have JSDoc
+- [ ] Module entry points documented
+
 ## Self-Assessment Protocol
 
 After analysis, rate your confidence:

@@ -67,13 +67,22 @@ Preact component library with strong accessibility, performance, and consistent 
 
 ```
 src/
-  index.ts              # Library entry point (exports)
-  components/           # Component source files
-  styles/
-    colors.css          # Color custom properties
+  index.ts              # Library entry point (public API)
+  components/           # Flat — one .tsx per component, no subdirectories
+    Button.tsx
+    Card.tsx
+    ...
+  scripts/              # Shared types and utilities
+    types.ts            # IBaseProps, IFieldProps
+    utils.ts            # cx()
+  styles/               # All CSS — layout, tokens, and component modules
     layout.css          # Base layout reset
+    shared.css          # Shared interactive element styles (composed)
+    Button.module.css   # Component-scoped CSS modules
+    ...
 tests/
-  *.test.ts             # Test files
+  *.test.tsx            # Component tests
+  *.test.ts             # Signal/utility tests
 ```
 
 ### Required Files
@@ -86,4 +95,19 @@ tests/
 
 Never read/search: `node_modules/`, `dist/`, `bun.lock`, `storybook-static/`
 
-See `rules/` for detailed guidelines.
+## Rules Reference
+
+| Topic | Rule File |
+|-------|-----------|
+| Component patterns, TypeScript style, code conventions | `rules/code-quality.md` |
+| Import aliases and path resolution | `rules/imports.md` |
+| Quality gates, mandatory skills, escalation | `rules/required-processes.md` |
+| Implementation workflow, branching, staging | `rules/implementation-workflow.md` |
+| Test writing, assertion patterns, public contracts | `rules/test-writing.md` |
+| Test evaluation philosophy and coverage | `rules/test-evaluation.md` |
+| Tool selection, skills vs MCP hierarchy | `rules/tool-preferences.md` |
+| Binary tools principle (CLI over raw edits) | `rules/binary-tools.md` |
+| Research source tiers | `rules/research-sources.md` |
+| Versioning and changelog ownership | `rules/versioning.md` |
+| Problem solving and architectural fixes | `rules/problem-solving.md` |
+| Agent output format (BLUF, severity) | `rules/agent-output.md` |

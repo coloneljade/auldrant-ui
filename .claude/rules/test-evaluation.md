@@ -36,3 +36,5 @@ Write tests with implementation when:
 - Critical paths deserve thorough testing
 - Don't write tests for trivial code (getters, setters)
 - Edge cases and error paths need coverage
+- **Only test public contracts** — if the test would break from a refactor
+  that doesn't change behavior, the test is testing implementation details

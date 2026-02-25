@@ -11,6 +11,14 @@ export default defineConfig({
 			outDir: 'dist',
 		}),
 	],
+	resolve: {
+		alias: {
+			'@components': resolve(__dirname, 'src/components'),
+			'@scripts': resolve(__dirname, 'src/scripts'),
+			'@signals': resolve(__dirname, 'src/signals'),
+			'@styles': resolve(__dirname, 'src/styles'),
+		},
+	},
 	build: {
 		lib: {
 			entry: resolve(__dirname, 'src/index.ts'),
@@ -19,12 +27,6 @@ export default defineConfig({
 		},
 		rollupOptions: {
 			external: ['preact', 'preact/hooks', 'preact/jsx-runtime', '@preact/signals'],
-		},
-	},
-	resolve: {
-		alias: {
-			'@components': resolve(__dirname, 'src/components'),
-			'@styles': resolve(__dirname, 'src/styles'),
 		},
 	},
 });

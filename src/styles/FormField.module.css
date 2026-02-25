@@ -1,0 +1,14 @@
+.field {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	align-items: start;
+	gap: 0.5em;
+}
+
+.label {
+	padding-top: 0.25em;
+}
+
+.required {
+	color: var(--aui-color-error);
+}

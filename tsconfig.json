@@ -12,10 +12,6 @@
 		"allowImportingTsExtensions": true,
 		"moduleDetection": "force",
 		"baseUrl": ".",
-		"paths": {
-			"@components/*": ["./src/components/*"],
-			"@styles/*": ["./src/styles/*"]
-		},
 
 		"noEmit": true,
 		"isolatedModules": true,
@@ -30,14 +26,20 @@
 		"allowUnreachableCode": false,
 		"exactOptionalPropertyTypes": true,
 		"noImplicitReturns": true,
-		"noPropertyAccessFromIndexSignature": true,
 
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
 		"forceConsistentCasingInFileNames": true,
 		"verbatimModuleSyntax": true,
 
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"types": ["vite/client"],
+		"paths": {
+			"@components/*": ["./src/components/*"],
+			"@scripts/*": ["./src/scripts/*"],
+			"@signals/*": ["./src/signals/*"],
+			"@styles/*": ["./src/styles/*"]
+		}
 	},
 	"include": ["src"],
 	"exclude": ["node_modules", "dist"]

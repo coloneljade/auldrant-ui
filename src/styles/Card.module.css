@@ -1,0 +1,8 @@
+.card {
+	display: grid;
+	gap: 0.5em;
+	padding: 1em;
+	border: 1px solid var(--aui-color-border);
+	border-radius: 0.25em;
+	background: var(--aui-color-surface);
+}

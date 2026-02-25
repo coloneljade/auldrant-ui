@@ -44,6 +44,18 @@ These skills are MANDATORY for their workflows. Do NOT perform these actions man
 **Do NOT** start implementing non-trivial changes without `/research`.
 **Do NOT** rewrite history manually — use `/rewrite` for safety and sign-off preservation.
 
+## Deferred Work
+
+When a design enhancement, improvement, or non-blocking issue is identified but is out
+of scope for the current task:
+
+1. **Create a GitHub issue** with `gh issue create` — include summary, proposal, and context
+2. **Label it** appropriately (`enhancement`, `bug`, `design`, etc.)
+3. **Reference the issue** in your response so the user has the link
+4. **Do NOT** silently defer — always surface what was deferred and why
+
+This ensures good ideas aren't lost and the backlog stays visible.
+
 ## Escalation
 
 ### Escalate to User When
