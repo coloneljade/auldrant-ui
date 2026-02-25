@@ -6,23 +6,43 @@ Always use `@<directory>` aliases for cross-directory imports. No `../` relative
 
 ## Configured Aliases
 
-| Alias | Resolves To |
-|-------|-------------|
-| `@components/*` | `src/components/*` |
-| `@styles/*` | `src/styles/*` |
+| Alias | Resolves To | Contains |
+|-------|-------------|----------|
+| `@components/*` | `src/components/*` | Component `.tsx` files (flat) |
+| `@scripts/*` | `src/scripts/*` | Shared types and utilities |
+| `@signals/*` | `src/signals/*` | Preact signal stores |
+| `@styles/*` | `src/styles/*` | All CSS — layout, tokens, component modules |
 
 Aliases are defined in both `tsconfig.json` (paths) and `vite.config.ts` (resolve.alias).
 
+## Examples
+
+```ts
+// Component importing another component
+import FormField from '@components/FormField';
+
+// Component importing styles
+import styles from '@styles/Button.module.css';
+
+// Component importing shared types
+import type { IBaseProps } from '@scripts/types';
+
+// Component importing utilities
+import { cx } from '@scripts/utils';
+
+// Test importing a component
+import Button from '@components/Button';
+```
+
 ## Allowed
 
-- `'./'` for same-directory siblings (e.g., `'./Button.module.css'` from `Button.tsx`)
 - External packages (e.g., `'preact'`, `'preact/hooks'`)
-- `@<directory>/...` aliases for cross-directory imports
+- `@<directory>/...` aliases for all cross-directory imports
 
 ## Forbidden
 
-- `'../styles/...'` or any `../` traversal — use `@styles/...` instead
-- `'../../components/...'` — use `@components/...` instead
+- `'../'` traversal of any kind — always use aliases
+- `'./'` relative imports — components, styles, and scripts are in separate directories
 
 ## Adding New Directories
 
