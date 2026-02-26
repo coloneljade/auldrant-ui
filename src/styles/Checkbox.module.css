@@ -8,3 +8,8 @@
 .input {
 	composes: check-input focus-ring disabled from "@styles/shared.css";
 }
+
+.error {
+	composes: field-error from "@styles/shared.css";
+	grid-column: 2;
+}

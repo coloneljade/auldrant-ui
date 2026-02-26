@@ -35,3 +35,25 @@
 export function cx(...classes: (string | false | undefined)[]): string {
 	return classes.filter(Boolean).join(' ');
 }
+
+/**
+ * Compose `aria-describedby` from a list of element IDs, filtering falsy values.
+ *
+ * Returns `undefined` when no truthy IDs remain — this keeps the attribute off the
+ * element entirely rather than rendering an empty string.
+ *
+ * @example
+ * // Single description
+ * describeBy(error && errorId)              // "field-error" | undefined
+ *
+ * @example
+ * // Multiple descriptions
+ * describeBy(error && errorId, counterId)   // "field-error counter" | undefined
+ *
+ * @param ids - IDs to compose. `false` and `undefined` values are filtered out.
+ * @returns Space-separated ID string, or `undefined` if empty.
+ */
+export function describeBy(...ids: (string | false | undefined)[]): string | undefined {
+	const result = ids.filter(Boolean).join(' ');
+	return result || undefined;
+}

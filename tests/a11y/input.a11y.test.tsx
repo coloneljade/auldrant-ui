@@ -48,6 +48,41 @@ describe('Input a11y', () => {
 			// Assert
 			expect((input as HTMLInputElement).readOnly).toBe(true);
 		});
+
+		it('marks the input as invalid with error (SC 3.3.1)', () => {
+			// Arrange
+			const error = 'Username is required';
+
+			// Act
+			const { getByRole } = render(<Input label={label} name={name} error={error} />);
+			const input = getByRole('textbox', { name: /Username/ });
+
+			// Assert
+			expect(input.getAttribute('aria-invalid')).toBe('true');
+		});
+
+		it('describes the input with the error message (SC 3.3.1)', () => {
+			// Arrange
+			const error = 'Username is required';
+
+			// Act
+			const { getByRole, getByText } = render(<Input label={label} name={name} error={error} />);
+			const input = getByRole('textbox', { name: /Username/ });
+			const errorElement = getByText(error);
+
+			// Assert
+			expect(input.getAttribute('aria-describedby')).toBe(errorElement.id);
+		});
+
+		it('announces the error message via role="alert" (SC 3.3.1)', () => {
+			// Act
+			const { getByRole } = render(
+				<Input label={label} name={name} error="Username is required" />
+			);
+
+			// Assert
+			getByRole('alert');
+		});
 	});
 
 	// https://www.w3.org/TR/WCAG22/#input-purposes

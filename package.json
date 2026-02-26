@@ -1,12 +1,24 @@
 {
   "name": "@auldrant/ui",
-  "version": "0.0.0",
+  "version": "0.5.0",
   "type": "module",
   "description": "Accessible Preact component library with design tokens and CSS modules",
   "author": "Colonel Jade",
   "license": "MIT",
-  "keywords": ["preact", "components", "ui", "component-library", "accessibility", "a11y", "css-modules", "design-tokens", "typescript"],
-  "publishConfig": { "access": "public" },
+  "keywords": [
+    "preact",
+    "components",
+    "ui",
+    "component-library",
+    "accessibility",
+    "a11y",
+    "css-modules",
+    "design-tokens",
+    "typescript"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "module": "./dist/auldrant-ui.js",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -19,8 +31,7 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE",
-    "CHANGELOG.md"
+    "LICENSE"
   ],
   "sideEffects": [
     "**/*.css"
