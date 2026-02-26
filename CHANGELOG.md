@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.2] - 2026-02-26
+
+### Fixed
+
+- Add `homepage` and `bugs` fields to `package.json` ([#31](https://github.com/coloneljade/auldrant-ui/pull/31))
+- npm renders these as links on the public package page ([#31](https://github.com/coloneljade/auldrant-ui/pull/31))
+
 ## [0.5.1] - 2026-02-26
 
 ### Fixed
