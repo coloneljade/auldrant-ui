@@ -24,6 +24,7 @@ export default defineConfig({
 			entry: resolve(__dirname, 'src/index.ts'),
 			formats: ['es'],
 			fileName: 'auldrant-ui',
+			cssFileName: 'auldrant-ui',
 		},
 		rollupOptions: {
 			external: ['preact', 'preact/hooks', 'preact/jsx-runtime', '@preact/signals'],
