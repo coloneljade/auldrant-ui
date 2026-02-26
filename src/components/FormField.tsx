@@ -11,6 +11,10 @@ interface IFormFieldProps extends IBaseProps {
 	for: string;
 	/** Whether the field shows a required indicator. Accepts `undefined` for prop forwarding. */
 	required?: boolean | undefined;
+	/** Error message to display below the input. Accepts `undefined` for prop forwarding. */
+	error?: string | undefined;
+	/** ID for the error message element (used for aria-describedby on the input). Accepts `undefined` for prop forwarding. */
+	errorId?: string | undefined;
 	/** Field input element(s). */
 	children: ComponentChildren;
 }
@@ -20,7 +24,7 @@ interface IFormFieldProps extends IBaseProps {
  * Renders a CSS Grid row with label (colon suffix) and input.
  */
 const FormField: FunctionComponent<IFormFieldProps> = (props) => {
-	const { for: htmlFor, label, required, children, class: className } = props;
+	const { for: htmlFor, label, required, error, errorId, children, class: className } = props;
 	return (
 		<div class={cx(styles.field, className)}>
 			<label class={styles.label} for={htmlFor}>
@@ -33,6 +37,11 @@ const FormField: FunctionComponent<IFormFieldProps> = (props) => {
 				)}
 			</label>
 			{children}
+			{error && (
+				<p id={errorId} class={styles.error} role="alert">
+					{error}
+				</p>
+			)}
 		</div>
 	);
 };

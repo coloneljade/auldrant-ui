@@ -52,5 +52,42 @@ describe('NumberInput a11y', () => {
 			expect(input.max).toBe('100');
 			expect(input.step).toBe('5');
 		});
+
+		it('marks the input as invalid with error (SC 3.3.1)', () => {
+			// Arrange
+			const error = 'Quantity must be positive';
+
+			// Act
+			const { getByRole } = render(<NumberInput label={label} name={name} error={error} />);
+			const input = getByRole('spinbutton', { name: /Quantity/ });
+
+			// Assert
+			expect(input.getAttribute('aria-invalid')).toBe('true');
+		});
+
+		it('describes the input with the error message (SC 3.3.1)', () => {
+			// Arrange
+			const error = 'Quantity must be positive';
+
+			// Act
+			const { getByRole, getByText } = render(
+				<NumberInput label={label} name={name} error={error} />
+			);
+			const input = getByRole('spinbutton', { name: /Quantity/ });
+			const errorElement = getByText(error);
+
+			// Assert
+			expect(input.getAttribute('aria-describedby')).toBe(errorElement.id);
+		});
+
+		it('announces the error message via role="alert" (SC 3.3.1)', () => {
+			// Act
+			const { getByRole } = render(
+				<NumberInput label={label} name={name} error="Quantity must be positive" />
+			);
+
+			// Assert
+			getByRole('alert');
+		});
 	});
 });

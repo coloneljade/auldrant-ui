@@ -14,4 +14,6 @@ export interface IFieldProps extends IBaseProps {
 	required?: boolean;
 	/** Whether the field is disabled. */
 	disabled?: boolean;
+	/** Error message. When set, renders an error message and marks the field as invalid. */
+	error?: string;
 }

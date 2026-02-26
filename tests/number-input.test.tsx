@@ -7,31 +7,25 @@ describe('NumberInput', () => {
 	const name = 'quantity';
 
 	it('always renders type="number"', () => {
-		const { container } = render(<NumberInput label={label} name={name} />);
-		expect(container.querySelector('input')?.type).toBe('number');
-	});
+		// Act
+		const { getByRole } = render(<NumberInput label={label} name={name} />);
+		const input = getByRole('spinbutton', { name: /Quantity/ }) as HTMLInputElement;
 
-	it('sets min attribute', () => {
-		const { container } = render(<NumberInput label={label} name={name} min={0} />);
-		expect(container.querySelector('input')?.getAttribute('min')).toBe('0');
-	});
-
-	it('sets max attribute', () => {
-		const { container } = render(<NumberInput label={label} name={name} max={100} />);
-		expect(container.querySelector('input')?.getAttribute('max')).toBe('100');
-	});
-
-	it('sets step attribute', () => {
-		const { container } = render(<NumberInput label={label} name={name} step={5} />);
-		expect(container.querySelector('input')?.getAttribute('step')).toBe('5');
+		// Assert
+		expect(input.type).toBe('number');
 	});
 
 	it('calls onInput with a numeric value', () => {
+		// Arrange
 		const handleInput = mock(() => {});
-		const { container } = render(<NumberInput label={label} name={name} onInput={handleInput} />);
-		fireEvent.input(container.querySelector('input') as HTMLInputElement, {
+		const { getByRole } = render(<NumberInput label={label} name={name} onInput={handleInput} />);
+
+		// Act
+		fireEvent.input(getByRole('spinbutton', { name: /Quantity/ }), {
 			target: { value: '42', valueAsNumber: 42 },
 		});
+
+		// Assert
 		expect(handleInput).toHaveBeenCalledWith(42);
 	});
 });

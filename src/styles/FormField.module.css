@@ -12,3 +12,8 @@
 .required {
 	color: var(--aui-color-error);
 }
+
+.error {
+	composes: field-error from "@styles/shared.css";
+	grid-column: 2;
+}

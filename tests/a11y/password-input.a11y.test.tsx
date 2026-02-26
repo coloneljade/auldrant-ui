@@ -67,6 +67,45 @@ describe('PasswordInput a11y', () => {
 			// Assert
 			expect((input as HTMLInputElement).required).toBe(true);
 		});
+
+		it('marks the input as invalid with error (SC 3.3.1)', () => {
+			// Arrange
+			const error = 'Password is required';
+
+			// Act
+			const { getByLabelText } = render(
+				<PasswordInput label={label} name={name} purpose="current" error={error} />
+			);
+			const input = getByLabelText(/Password/);
+
+			// Assert
+			expect(input.getAttribute('aria-invalid')).toBe('true');
+		});
+
+		it('describes the input with the error message (SC 3.3.1)', () => {
+			// Arrange
+			const error = 'Password is required';
+
+			// Act
+			const { getByLabelText, getByText } = render(
+				<PasswordInput label={label} name={name} purpose="current" error={error} />
+			);
+			const input = getByLabelText(/Password/);
+			const errorElement = getByText(error);
+
+			// Assert
+			expect(input.getAttribute('aria-describedby')).toBe(errorElement.id);
+		});
+
+		it('announces the error message via role="alert" (SC 3.3.1)', () => {
+			// Act
+			const { getByRole } = render(
+				<PasswordInput label={label} name={name} purpose="current" error="Password is required" />
+			);
+
+			// Assert
+			getByRole('alert');
+		});
 	});
 
 	// https://www.w3.org/TR/WCAG22/#input-purposes

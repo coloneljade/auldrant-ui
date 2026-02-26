@@ -3,6 +3,12 @@
 	border-collapse: collapse;
 }
 
+.caption {
+	text-align: left;
+	padding: 0.5em 0;
+	font-weight: bold;
+}
+
 .table th,
 .table td {
 	padding: 0.5em;

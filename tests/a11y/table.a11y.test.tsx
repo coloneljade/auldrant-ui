@@ -4,6 +4,7 @@ import { render } from '@testing-library/preact';
 import { renderAndCheckA11y } from './setup';
 
 describe('Table a11y', () => {
+	const caption = 'Team Members';
 	const headers = ['Name', 'Age', 'Role'];
 	const data = [
 		['Alice', '30', 'Engineer'],
@@ -12,22 +13,22 @@ describe('Table a11y', () => {
 
 	it('has no axe violations', async () => {
 		// Act & Assert
-		await renderAndCheckA11y(<Table headers={headers} data={data} />);
+		await renderAndCheckA11y(<Table caption={caption} headers={headers} data={data} />);
 	});
 
 	// https://www.w3.org/TR/WCAG22/#adaptable
 	describe('WCAG A', () => {
-		it('exposes a table role (SC 1.3.1)', () => {
+		it('has an accessible name from caption (SC 1.3.1)', () => {
 			// Act
-			const { getByRole } = render(<Table headers={headers} data={data} />);
+			const { getByRole } = render(<Table caption={caption} headers={headers} data={data} />);
 
 			// Assert
-			getByRole('table');
+			getByRole('table', { name: caption });
 		});
 
 		it('exposes column headers (SC 1.3.1)', () => {
 			// Act
-			const { getByRole } = render(<Table headers={headers} data={data} />);
+			const { getByRole } = render(<Table caption={caption} headers={headers} data={data} />);
 
 			// Assert
 			for (const header of headers) {

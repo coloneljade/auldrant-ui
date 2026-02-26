@@ -85,5 +85,44 @@ describe('RadioGroup a11y', () => {
 				expect((radio as HTMLInputElement).required).toBe(true);
 			}
 		});
+
+		it('marks the fieldset as invalid with error (SC 3.3.1)', () => {
+			// Arrange
+			const error = 'Please select a size';
+
+			// Act
+			const { getByRole } = render(
+				<RadioGroup legend={legend} name={name} options={options} error={error} />
+			);
+			const group = getByRole('group', { name: legend });
+
+			// Assert
+			expect(group.getAttribute('aria-invalid')).toBe('true');
+		});
+
+		it('describes the fieldset with the error message (SC 3.3.1)', () => {
+			// Arrange
+			const error = 'Please select a size';
+
+			// Act
+			const { getByRole, getByText } = render(
+				<RadioGroup legend={legend} name={name} options={options} error={error} />
+			);
+			const group = getByRole('group', { name: legend });
+			const errorElement = getByText(error);
+
+			// Assert
+			expect(group.getAttribute('aria-describedby')).toBe(errorElement.id);
+		});
+
+		it('announces the error message via role="alert" (SC 3.3.1)', () => {
+			// Act
+			const { getByRole } = render(
+				<RadioGroup legend={legend} name={name} options={options} error="Please select a size" />
+			);
+
+			// Assert
+			getByRole('alert');
+		});
 	});
 });

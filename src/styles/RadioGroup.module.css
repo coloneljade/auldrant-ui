@@ -19,3 +19,7 @@
 .input {
 	composes: check-input focus-ring from "@styles/shared.css";
 }
+
+.error {
+	composes: field-error from "@styles/shared.css";
+}
