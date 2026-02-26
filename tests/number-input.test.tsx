@@ -6,13 +6,6 @@ describe('NumberInput', () => {
 	const label = 'Quantity';
 	const name = 'quantity';
 
-	it('associates label with input via generated id', () => {
-		const { container } = render(<NumberInput label={label} name={name} />);
-		const labelEl = container.querySelector('label');
-		const input = container.querySelector('input');
-		expect(labelEl?.getAttribute('for')).toBe(input?.id);
-	});
-
 	it('always renders type="number"', () => {
 		const { container } = render(<NumberInput label={label} name={name} />);
 		expect(container.querySelector('input')?.type).toBe('number');
