@@ -5,6 +5,8 @@ import type { ComponentChildren, FunctionComponent } from 'preact';
 
 /** Props for {@link Table}. */
 interface ITableProps extends IBaseProps {
+	/** Accessible table name. Rendered as a `<caption>` element. */
+	caption: string;
 	/** Column header labels. */
 	headers: string[];
 	/** Row data as a 2D array of renderable content. */
@@ -16,9 +18,10 @@ interface ITableProps extends IBaseProps {
  * Headers render as `<th scope="col">`, data auto-formats into `<tbody>`/`<td>`.
  */
 const Table: FunctionComponent<ITableProps> = (props) => {
-	const { headers, data, class: className } = props;
+	const { caption, headers, data, class: className } = props;
 	return (
 		<table class={cx(styles.table, className)}>
+			<caption class={styles.caption}>{caption}</caption>
 			<thead>
 				<tr>
 					{headers.map((header, i) => (

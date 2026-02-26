@@ -1,5 +1,5 @@
 import type { IBaseProps } from '@scripts/types';
-import { cx } from '@scripts/utils';
+import { cx, describeBy } from '@scripts/utils';
 import styles from '@styles/RadioGroup.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
@@ -26,17 +26,34 @@ interface IRadioGroupProps extends IBaseProps {
 	required?: boolean;
 	/** Whether the group is disabled. */
 	disabled?: boolean;
+	/** Error message. When set, renders an error message and marks the fieldset as invalid. */
+	error?: string;
 	/** Called with the selected value on change. */
 	onChange?: (value: string) => void;
 }
 
 /** Radio button group inside a fieldset with legend. */
 const RadioGroup: FunctionComponent<IRadioGroupProps> = (props) => {
-	const { legend, name, options, value, required, disabled, onChange, class: className } = props;
+	const {
+		legend,
+		name,
+		options,
+		value,
+		required,
+		disabled,
+		error,
+		onChange,
+		class: className,
+	} = props;
 	const groupId = useId();
+	const errorId = `${groupId}-error`;
 
 	return (
-		<fieldset class={cx(styles.fieldset, className)}>
+		<fieldset
+			class={cx(styles.fieldset, className)}
+			aria-invalid={!!error || undefined}
+			aria-describedby={describeBy(error && errorId)}
+		>
 			<legend class={styles.legend}>{legend}</legend>
 			{options.map((option) => {
 				const optionId = `${groupId}-${option.value}`;
@@ -57,6 +74,11 @@ const RadioGroup: FunctionComponent<IRadioGroupProps> = (props) => {
 					</div>
 				);
 			})}
+			{error && (
+				<p id={errorId} class={styles.error} role="alert">
+					{error}
+				</p>
+			)}
 		</fieldset>
 	);
 };

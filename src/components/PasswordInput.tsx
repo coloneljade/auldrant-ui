@@ -1,6 +1,7 @@
 import FormField from '@components/FormField';
 import { useSignal } from '@preact/signals';
 import type { IFieldProps } from '@scripts/types';
+import { describeBy } from '@scripts/utils';
 import styles from '@styles/PasswordInput.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
@@ -33,14 +34,23 @@ const PasswordInput: FunctionComponent<IPasswordInputProps> = (props) => {
 		placeholder,
 		required,
 		disabled,
+		error,
 		onInput,
 		class: className,
 	} = props;
 	const id = useId();
+	const errorId = `${id}-error`;
 	const visible = useSignal(false);
 
 	return (
-		<FormField label={label} for={id} required={required} class={className}>
+		<FormField
+			label={label}
+			for={id}
+			required={required}
+			error={error}
+			errorId={errorId}
+			class={className}
+		>
 			<div class={styles.wrapper}>
 				<input
 					id={id}
@@ -52,6 +62,8 @@ const PasswordInput: FunctionComponent<IPasswordInputProps> = (props) => {
 					autoComplete={autocompleteMap[purpose]}
 					required={required}
 					disabled={disabled}
+					aria-invalid={!!error || undefined}
+					aria-describedby={describeBy(error && errorId)}
 					onInput={onInput && ((e) => onInput((e.target as HTMLInputElement).value))}
 				/>
 				<button

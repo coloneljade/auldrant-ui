@@ -9,3 +9,9 @@
 	justify-content: start;
 	gap: 0.5em;
 }
+
+.status {
+	margin: 0;
+	font-size: 0.875em;
+	color: var(--aui-color-text-muted);
+}

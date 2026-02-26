@@ -33,6 +33,12 @@
 	accent-color: var(--aui-color-primary);
 }
 
+.field-error {
+	margin: 0;
+	font-size: 0.875em;
+	color: var(--aui-color-error);
+}
+
 .visually-hidden {
 	position: absolute;
 	width: 1px;

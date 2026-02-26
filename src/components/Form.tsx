@@ -12,13 +12,22 @@ interface IFormProps extends IBaseProps {
 	submitLabel?: string;
 	/** Label for the optional reset button. Omit to hide. */
 	resetLabel?: string;
+	/** Status message displayed after submission (e.g., success/failure feedback). */
+	status?: string;
 	/** Form field children. */
 	children: ComponentChildren;
 }
 
 /** Form with submit/reset buttons. Prevents default and provides FormData. */
 const Form: FunctionComponent<IFormProps> = (props) => {
-	const { onSubmit, submitLabel = 'Submit', resetLabel, children, class: className } = props;
+	const {
+		onSubmit,
+		submitLabel = 'Submit',
+		resetLabel,
+		status,
+		children,
+		class: className,
+	} = props;
 
 	return (
 		<form
@@ -34,6 +43,7 @@ const Form: FunctionComponent<IFormProps> = (props) => {
 				<Button type="submit" label={submitLabel} />
 				{resetLabel && <Button type="reset" label={resetLabel} />}
 			</div>
+			{status && <output class={styles.status}>{status}</output>}
 		</form>
 	);
 };

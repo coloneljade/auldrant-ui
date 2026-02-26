@@ -1,5 +1,6 @@
 import FormField from '@components/FormField';
 import type { IFieldProps } from '@scripts/types';
+import { describeBy } from '@scripts/utils';
 import styles from '@styles/Input.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
@@ -48,13 +49,22 @@ const Input: FunctionComponent<IInputProps> = (props) => {
 		pattern,
 		required,
 		disabled,
+		error,
 		onInput,
 		class: className,
 	} = props;
 	const id = useId();
+	const errorId = `${id}-error`;
 
 	return (
-		<FormField label={label} for={id} required={required} class={className}>
+		<FormField
+			label={label}
+			for={id}
+			required={required}
+			error={error}
+			errorId={errorId}
+			class={className}
+		>
 			<input
 				id={id}
 				class={styles.input}
@@ -68,6 +78,8 @@ const Input: FunctionComponent<IInputProps> = (props) => {
 				pattern={pattern}
 				required={required}
 				disabled={disabled}
+				aria-invalid={!!error || undefined}
+				aria-describedby={describeBy(error && errorId)}
 				onInput={onInput && ((e) => onInput((e.target as HTMLInputElement).value))}
 			/>
 		</FormField>

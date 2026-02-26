@@ -1,5 +1,5 @@
 import type { IFieldProps } from '@scripts/types';
-import { cx } from '@scripts/utils';
+import { cx, describeBy } from '@scripts/utils';
 import styles from '@styles/Checkbox.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
@@ -14,8 +14,9 @@ interface ICheckboxProps extends IFieldProps {
 
 /** Checkbox with label. Layout: input before label, no colon suffix. */
 const Checkbox: FunctionComponent<ICheckboxProps> = (props) => {
-	const { label, name, checked, required, disabled, onChange, class: className } = props;
+	const { label, name, checked, required, disabled, error, onChange, class: className } = props;
 	const id = useId();
+	const errorId = `${id}-error`;
 
 	return (
 		<div class={cx(styles.field, className)}>
@@ -27,9 +28,16 @@ const Checkbox: FunctionComponent<ICheckboxProps> = (props) => {
 				checked={checked}
 				required={required}
 				disabled={disabled}
+				aria-invalid={!!error || undefined}
+				aria-describedby={describeBy(error && errorId)}
 				onChange={onChange && ((e) => onChange((e.target as HTMLInputElement).checked))}
 			/>
 			<label for={id}>{label}</label>
+			{error && (
+				<p id={errorId} class={styles.error} role="alert">
+					{error}
+				</p>
+			)}
 		</div>
 	);
 };
