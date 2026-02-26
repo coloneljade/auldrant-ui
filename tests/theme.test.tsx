@@ -18,4 +18,19 @@ describe('Theme', () => {
 		// Assert
 		expect(wrapper.className).toContain(themeClass);
 	});
+
+	it('renders children without a consumer class', () => {
+		// Arrange
+		const content = 'Themed content';
+
+		// Act
+		const { getByText } = render(
+			<Theme>
+				<p>{content}</p>
+			</Theme>
+		);
+
+		// Assert
+		getByText(content);
+	});
 });
