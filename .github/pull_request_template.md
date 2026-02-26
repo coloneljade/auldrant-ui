@@ -1,19 +1,18 @@
-## Summary
+## Description
 
 <\!-- What does this PR do? Why is it needed? -->
 
+## Changes
+
+<\!-- Bulleted list of what changed -->
+
 -
 
-## Fixes
-
-<\!-- Link related issues. Use \"Fixes #N\" for auto-close. Remove section if none. -->
-
-## Test Plan
+## Testing
 
 - [ ] `bun run check` passes
 - [ ] `bun run typecheck` passes
 - [ ] `bun run test` passes
 - [ ] `bun run build` succeeds
 - [ ] Storybook stories added/updated (if applicable)
-
-> CHANGELOG entries and version bumps are handled automatically on merge.
+- [ ] CHANGELOG.md updated (if user-facing)
