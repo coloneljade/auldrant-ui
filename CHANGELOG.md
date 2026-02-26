@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.0] - 2026-02-26
+
+### Added
+
+- Add `error` prop to all form field components with `aria-invalid`, `aria-describedby`, and `role="alert"` error messages ([#28](https://github.com/coloneljade/auldrant-ui/pull/28))
+- Add required `caption` prop to Table for accessible name via `<caption>` ([#28](https://github.com/coloneljade/auldrant-ui/pull/28))
+- Add `status` prop to Form rendered as `<output>` for submission feedback ([#28](https://github.com/coloneljade/auldrant-ui/pull/28))
+- Add `aria-live` character limit announcements to Textarea at threshold breakpoints ([#28](https://github.com/coloneljade/auldrant-ui/pull/28))
+- Add `describeBy()` utility and shared `field-error` CSS class ([#28](https://github.com/coloneljade/auldrant-ui/pull/28))
+- Remove 11 duplicate behavioral tests already covered by a11y tests with better query patterns ([#28](https://github.com/coloneljade/auldrant-ui/pull/28))
+- Replace `querySelector` calls with accessible queries (`getByRole`, `getByLabelText`) in behavioral tests ([#28](https://github.com/coloneljade/auldrant-ui/pull/28))
+- Add AAA section comments (`// Arrange`, `// Act`, `// Assert`) to all behavioral tests ([#28](https://github.com/coloneljade/auldrant-ui/pull/28))
+- Configure coverage to exclude test infrastructure (`coverageSkipTestFiles`, `coveragePathIgnorePatterns`) ([#28](https://github.com/coloneljade/auldrant-ui/pull/28))
+- Fix publishing config: correct CHANGELOG format, remove CHANGELOG from package files ([#28](https://github.com/coloneljade/auldrant-ui/pull/28))
+
 ## [0.4.0] - 2026-02-26
 
 ### Added
