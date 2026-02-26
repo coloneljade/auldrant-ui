@@ -22,7 +22,7 @@ import '@auldrant/ui/styles';
 
 function App() {
   return (
-    <Theme class="my-theme">
+    <Theme>
       <Form onSubmit={(data) => console.log(data)}>
         <Button label="Submit" type="submit" />
       </Form>
@@ -54,7 +54,7 @@ function App() {
 | `Card` | Visual surface container | `children` |
 | `Section` | Semantic `<section>` with configurable heading level | `title`, `level?`, `children` |
 | `Table` | Accessible data table with required headers | `headers`, `data` |
-| `Theme` | Scopes `--aui-*` custom properties to its subtree | `children` |
+| `Theme` | Scopes `--aui-base-*` overrides to its subtree | `children` |
 | `VisuallyHidden` | Screen-reader-only content | `children` |
 
 ### Navigation
@@ -71,42 +71,106 @@ All components extend `IBaseProps` which includes `class?` and `id?`. Form contr
 
 ## Theming
 
-Wrap your app in `<Theme>` and define `--aui-*` custom properties in your CSS:
+The library ships with a built-in contrast system that derives all color tokens from a small set of base values. No theme class is required — the defaults work out of the box with WCAG AAA (7:1) text contrast.
+
+### Zero-config (defaults)
+
+```tsx
+<Theme>
+  <App />
+</Theme>
+```
+
+### Custom primary color
+
+Provide a single `--aui-base-primary` token. The library derives all other tokens automatically:
 
 ```css
-.my-theme {
-  --aui-color-text: #1a1a1a;
-  --aui-color-text-muted: #6b7280;
-  --aui-color-background: #ffffff;
-  --aui-color-surface: #f9fafb;
-  --aui-color-border: #d1d5db;
-  --aui-color-primary: #2563eb;
-  --aui-color-primary-hover: #1d4ed8;
-  --aui-color-focus-ring: #3b82f6;
-  --aui-color-error: #dc2626;
+.brand {
+  --aui-base-primary: oklch(0.78 0.20 280);
 }
 ```
 
 ```tsx
-<Theme class="my-theme">
+<Theme class="brand">
   <App />
 </Theme>
 ```
+
+### Full override
+
+Override primary, white, and black for complete control:
+
+```css
+.custom {
+  --aui-base-primary: oklch(0.78 0.19 150);
+  --aui-base-white: #fafafa;
+  --aui-base-black: #111111;
+}
+```
+
+### Base tokens (consumer-provided)
+
+| Token | Default | Description |
+|-------|---------|-------------|
+| `--aui-base-primary` | `oklch(0.78 0.18 260)` | Brand accent color (blue) |
+| `--aui-base-white` | `#f5f5f5` | Light endpoint (light-mode background, dark-mode text) |
+| `--aui-base-black` | `#1a1a1a` | Dark endpoint (dark-mode background, light-mode text) |
+| `--aui-base-error` | `oklch(0.78 0.22 27)` | Error/danger semantic color |
+| `--aui-base-success` | `oklch(0.78 0.18 145)` | Success semantic color |
+
+### Derived tokens (library-managed)
+
+These are computed via `color-mix(in oklch, ...)` — do not set them manually.
 
 | Token | Purpose |
 |-------|---------|
 | `--aui-color-text` | Body text |
 | `--aui-color-text-muted` | Placeholder text, secondary content |
-| `--aui-color-background` | Input and page backgrounds |
+| `--aui-color-background` | Page and input backgrounds |
 | `--aui-color-background-hover` | Hover state for interactive backgrounds |
 | `--aui-color-surface` | Card and container backgrounds |
 | `--aui-color-border` | Borders on inputs, cards, tables |
 | `--aui-color-primary` | Buttons, links, accents |
 | `--aui-color-primary-hover` | Hover state for buttons and links |
 | `--aui-color-focus-ring` | Focus indicator outline |
-| `--aui-color-error` | Validation error text |
+| `--aui-color-error` | Validation error text and indicators |
+| `--aui-color-success` | Success text and indicators |
 
-Themes are nestable for sub-themes (e.g. dark mode sections).
+### Dark-first design
+
+The library defaults to dark mode. In light mode (`prefers-color-scheme: light`), the direction tokens swap and primary/semantic colors are automatically darkened for contrast on light backgrounds.
+
+You provide ONE primary color optimized for dark backgrounds (oklch lightness ~0.75–0.80). The library handles light mode automatically.
+
+### Contrast guarantees
+
+With the recommended `--aui-base-white` / `--aui-base-black` pair (`#f5f5f5` / `#1a1a1a`):
+
+- Text tokens meet **WCAG AAA (7:1)** in both dark and light modes
+- Border and focus-ring meet **3:1** per WCAG 1.4.11 (non-text contrast)
+- Primary, error, and success meet **AAA (7:1)** for text use
+
+Custom white/black pairs with lower inherent contrast (e.g. `#e8e8e8` / `#2a2a2a`) may reduce guarantees to AA (4.5:1). Verify with a contrast checker when using non-default endpoints.
+
+### Primary color guidance
+
+Use oklch lightness **0.75–0.80** and chroma **0.15–0.22** for the primary color. Most hue families (blue, purple, teal, green, red) work well at these ranges.
+
+Yellows and oranges (hue 60–110) are harder to guarantee at AAA because oklch lightness maps non-linearly to WCAG luminance for warm hues. Test these with a [contrast checker](https://webaim.org/resources/contrastchecker/).
+
+### Nestable themes
+
+`<Theme>` is nestable for sub-themes. Inner overrides re-derive all tokens:
+
+```tsx
+<Theme>
+  <App />
+  <Theme class="accent-section">
+    <Sidebar />
+  </Theme>
+</Theme>
+```
 
 ## Routing & Signals
 
@@ -164,6 +228,7 @@ bun install
 
 | Command | Description |
 |---------|-------------|
+| `bun run dev` | Start dev server with test page |
 | `bun run build` | Build the library |
 | `bun run check` | Lint and format check (Biome) |
 | `bun run check:fix` | Auto-fix lint and format issues |
