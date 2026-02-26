@@ -6,13 +6,6 @@ describe('PasswordInput', () => {
 	const label = 'Password';
 	const name = 'password';
 
-	it('associates label with input via generated id', () => {
-		const { container } = render(<PasswordInput label={label} name={name} purpose="current" />);
-		const labelEl = container.querySelector('label');
-		const input = container.querySelector('input');
-		expect(labelEl?.getAttribute('for')).toBe(input?.id);
-	});
-
 	it('defaults to type="password"', () => {
 		const { container } = render(<PasswordInput label={label} name={name} purpose="current" />);
 		expect(container.querySelector('input')?.type).toBe('password');

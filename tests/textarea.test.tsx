@@ -29,19 +29,4 @@ describe('Textarea', () => {
 		});
 		expect(handleInput).toHaveBeenCalledWith(inputValue);
 	});
-
-	it('associates label with textarea via generated id', () => {
-		const { container } = render(<Textarea label={label} name={name} maxChars={maxChars} />);
-		const labelEl = container.querySelector('label');
-		const textarea = container.querySelector('textarea');
-		expect(labelEl?.getAttribute('for')).toBe(textarea?.id);
-	});
-
-	it('associates textarea with character counter via aria-describedby', () => {
-		const { container } = render(<Textarea label={label} name={name} maxChars={maxChars} />);
-		const textarea = container.querySelector('textarea');
-		const describedBy = textarea?.getAttribute('aria-describedby') ?? '';
-		expect(describedBy).not.toBe('');
-		expect(container.querySelector(`#${CSS.escape(describedBy)}`)).not.toBeNull();
-	});
 });

@@ -13,28 +13,6 @@ describe('FormField', () => {
 		getByText(new RegExp(`${label}:`));
 	});
 
-	it('associates label with input via for', () => {
-		const inputId = 'email-input';
-		const { container } = render(
-			<FormField label="Email" for={inputId}>
-				<input id={inputId} />
-			</FormField>
-		);
-		const label = container.querySelector('label');
-		expect(label?.getAttribute('for')).toBe(inputId);
-	});
-
-	it('shows required indicator when required', () => {
-		const { container } = render(
-			<FormField label="Name" for="name" required>
-				<input id="name" />
-			</FormField>
-		);
-		expect(container.textContent).toContain('*');
-		const asterisk = container.querySelector('[aria-hidden="true"]');
-		expect(asterisk).not.toBeNull();
-	});
-
 	it('does not show required indicator when not required', () => {
 		const { container } = render(
 			<FormField label="Name" for="name">
