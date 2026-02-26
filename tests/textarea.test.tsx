@@ -8,25 +8,39 @@ describe('Textarea', () => {
 	const maxChars = 200;
 
 	it('shows character counter', () => {
+		// Act
 		const { getByText } = render(<Textarea label={label} name={name} maxChars={maxChars} />);
+
+		// Assert
 		getByText(new RegExp(`/ ${maxChars}`));
 	});
 
 	it('sets maxLength on the textarea element', () => {
+		// Arrange
 		const limit = 150;
-		const { container } = render(<Textarea label={label} name={name} maxChars={limit} />);
-		expect(container.querySelector('textarea')?.maxLength).toBe(limit);
+
+		// Act
+		const { getByRole } = render(<Textarea label={label} name={name} maxChars={limit} />);
+		const textarea = getByRole('textbox', { name: /Bio/ }) as HTMLTextAreaElement;
+
+		// Assert
+		expect(textarea.maxLength).toBe(limit);
 	});
 
 	it('calls onInput with the value', () => {
+		// Arrange
 		const handleInput = mock(() => {});
-		const { container } = render(
+		const { getByRole } = render(
 			<Textarea label={label} name={name} maxChars={maxChars} onInput={handleInput} />
 		);
 		const inputValue = 'Hello';
-		fireEvent.input(container.querySelector('textarea') as HTMLTextAreaElement, {
+
+		// Act
+		fireEvent.input(getByRole('textbox', { name: /Bio/ }), {
 			target: { value: inputValue },
 		});
+
+		// Assert
 		expect(handleInput).toHaveBeenCalledWith(inputValue);
 	});
 });

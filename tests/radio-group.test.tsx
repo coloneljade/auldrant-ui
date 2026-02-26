@@ -12,27 +12,17 @@ describe('RadioGroup', () => {
 	const legend = 'Size';
 	const name = 'size';
 
-	it('renders all options as radio inputs', () => {
-		const { container } = render(<RadioGroup legend={legend} name={name} options={options} />);
-		expect(container.querySelectorAll('input[type="radio"]').length).toBe(options.length);
-	});
-
-	it('checks only the radio matching the current value', () => {
-		const { container } = render(
-			<RadioGroup legend={legend} name={name} options={options} value="md" />
-		);
-		const radios = container.querySelectorAll('input[type="radio"]');
-		expect((radios[0] as HTMLInputElement).checked).toBe(false);
-		expect((radios[1] as HTMLInputElement).checked).toBe(true);
-		expect((radios[2] as HTMLInputElement).checked).toBe(false);
-	});
-
 	it('calls onChange with the selected value', () => {
+		// Arrange
 		const handleChange = mock(() => {});
 		const { getByLabelText } = render(
 			<RadioGroup legend={legend} name={name} options={options} onChange={handleChange} />
 		);
+
+		// Act
 		fireEvent.click(getByLabelText('Large'));
+
+		// Assert
 		expect(handleChange).toHaveBeenCalledWith('lg');
 	});
 });

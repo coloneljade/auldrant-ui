@@ -1,4 +1,4 @@
-import { describe, it } from 'bun:test';
+import { describe, expect, it } from 'bun:test';
 import Form from '@components/Form';
 import { render } from '@testing-library/preact';
 import { renderAndCheckA11y } from './setup';
@@ -45,6 +45,25 @@ describe('Form a11y', () => {
 
 			// Assert
 			getByRole('button', { name: resetLabel });
+		});
+	});
+
+	// https://www.w3.org/TR/WCAG22/#status-messages
+	describe('WCAG AA', () => {
+		it('exposes status messages via role="status" (SC 4.1.3)', () => {
+			// Arrange
+			const statusMessage = 'Form submitted successfully';
+
+			// Act
+			const { getByRole } = render(
+				<Form onSubmit={noop} status={statusMessage}>
+					<p>Fields</p>
+				</Form>
+			);
+			const status = getByRole('status');
+
+			// Assert
+			expect(status.textContent).toBe(statusMessage);
 		});
 	});
 });

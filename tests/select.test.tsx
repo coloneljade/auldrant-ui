@@ -11,27 +11,38 @@ describe('Select', () => {
 	];
 
 	it('renders placeholder as disabled first option', () => {
+		// Arrange
 		const placeholder = 'Pick one';
+
+		// Act
 		const { container } = render(
 			<Select label={label} name={name} options={options} placeholder={placeholder} />
 		);
 		const firstOption = container.querySelector('option') as HTMLOptionElement;
+
+		// Assert
 		expect(firstOption.textContent).toBe(placeholder);
 		expect(firstOption.disabled).toBe(true);
 	});
 
 	it('calls onChange with selected value', () => {
+		// Arrange
 		const handleChange = mock(() => {});
-		const { container } = render(
+		const { getByLabelText } = render(
 			<Select label={label} name={name} options={options} onChange={handleChange} />
 		);
-		fireEvent.change(container.querySelector('select') as HTMLSelectElement, {
+
+		// Act
+		fireEvent.change(getByLabelText(new RegExp(label)), {
 			target: { value: 'blue' },
 		});
+
+		// Assert
 		expect(handleChange).toHaveBeenCalledWith('blue');
 	});
 
 	it('renders grouped options with optgroup', () => {
+		// Arrange
 		const grouped = [
 			{
 				label: 'Warm',
@@ -45,8 +56,12 @@ describe('Select', () => {
 				options: [{ label: 'Blue', value: 'blue' }],
 			},
 		];
+
+		// Act
 		const { container, getByText } = render(<Select label={label} name={name} options={grouped} />);
 		const optgroups = container.querySelectorAll('optgroup');
+
+		// Assert
 		expect(optgroups).toHaveLength(2);
 		expect(optgroups[0]?.getAttribute('label')).toBe('Warm');
 		expect(optgroups[1]?.getAttribute('label')).toBe('Cool');
@@ -56,6 +71,7 @@ describe('Select', () => {
 	});
 
 	it('renders mixed flat and grouped options', () => {
+		// Arrange
 		const mixed = [
 			{ label: 'None', value: '' },
 			{
@@ -63,7 +79,11 @@ describe('Select', () => {
 				options: [{ label: 'Red', value: 'red' }],
 			},
 		];
+
+		// Act
 		const { container, getByText } = render(<Select label={label} name={name} options={mixed} />);
+
+		// Assert
 		getByText('None');
 		getByText('Red');
 		expect(container.querySelectorAll('optgroup')).toHaveLength(1);

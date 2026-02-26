@@ -40,5 +40,23 @@ describe('FormField a11y', () => {
 			expect(asterisk).not.toBeNull();
 			expect(asterisk?.textContent).toContain('*');
 		});
+
+		it('renders error message with role="alert" (SC 3.3.1)', () => {
+			// Arrange
+			const error = 'Name is required';
+			const errorId = 'name-error';
+
+			// Act
+			const { getByRole } = render(
+				<FormField label="Name" for="name" error={error} errorId={errorId}>
+					<input id="name" aria-invalid="true" aria-describedby={errorId} />
+				</FormField>
+			);
+			const alert = getByRole('alert');
+
+			// Assert
+			expect(alert.textContent).toBe(error);
+			expect(alert.id).toBe(errorId);
+		});
 	});
 });

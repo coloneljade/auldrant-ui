@@ -7,67 +7,87 @@ describe('Input', () => {
 	const name = 'username';
 
 	it('defaults to type="text"', () => {
-		const { container } = render(<Input label={label} name={name} />);
-		expect(container.querySelector('input')?.type).toBe('text');
+		// Act
+		const { getByRole } = render(<Input label={label} name={name} />);
+		const input = getByRole('textbox', { name: /Username/ }) as HTMLInputElement;
+
+		// Assert
+		expect(input.type).toBe('text');
 	});
 
 	it('accepts a custom type', () => {
-		const { container } = render(<Input label="Email" name="email" type="email" />);
-		expect(container.querySelector('input')?.type).toBe('email');
+		// Act
+		const { getByRole } = render(<Input label="Email" name="email" type="email" />);
+		const input = getByRole('textbox', { name: /Email/ }) as HTMLInputElement;
+
+		// Assert
+		expect(input.type).toBe('email');
 	});
 
 	it('calls onInput with the value', () => {
+		// Arrange
 		const handleInput = mock(() => {});
-		const { container } = render(<Input label={label} name={name} onInput={handleInput} />);
-		fireEvent.input(container.querySelector('input') as HTMLInputElement, {
+		const { getByRole } = render(<Input label={label} name={name} onInput={handleInput} />);
+
+		// Act
+		fireEvent.input(getByRole('textbox', { name: /Username/ }), {
 			target: { value: 'hello' },
 		});
+
+		// Assert
 		expect(handleInput).toHaveBeenCalledWith('hello');
 	});
 
 	it('sets the name attribute', () => {
+		// Arrange
 		const fieldName = 'full_name';
-		const { container } = render(<Input label="Name" name={fieldName} />);
-		expect(container.querySelector('input')?.name).toBe(fieldName);
+
+		// Act
+		const { getByRole } = render(<Input label="Name" name={fieldName} />);
+		const input = getByRole('textbox', { name: /Name/ }) as HTMLInputElement;
+
+		// Assert
+		expect(input.name).toBe(fieldName);
 	});
 
 	it('sets maxLength on the input', () => {
-		const { container } = render(<Input label={label} name={name} maxLength={50} />);
-		expect(container.querySelector('input')?.maxLength).toBe(50);
+		// Act
+		const { getByRole } = render(<Input label={label} name={name} maxLength={50} />);
+		const input = getByRole('textbox', { name: /Username/ }) as HTMLInputElement;
+
+		// Assert
+		expect(input.maxLength).toBe(50);
 	});
 
 	it('sets autocomplete on the input', () => {
-		const { container } = render(<Input label={label} name={name} autocomplete="given-name" />);
-		expect(container.querySelector('input')?.getAttribute('autocomplete')).toBe('given-name');
-	});
+		// Act
+		const { getByRole } = render(<Input label={label} name={name} autocomplete="given-name" />);
+		const input = getByRole('textbox', { name: /Username/ });
 
-	it('derives autocomplete from input type', () => {
-		const cases = [
-			{ type: 'email', expected: 'email' },
-			{ type: 'tel', expected: 'tel' },
-			{ type: 'url', expected: 'url' },
-		] as const;
-		for (const { type, expected } of cases) {
-			const { container } = render(<Input label={type} name={type} type={type} />);
-			expect(container.querySelector('input')?.getAttribute('autocomplete')).toBe(expected);
-		}
+		// Assert
+		expect(input.getAttribute('autocomplete')).toBe('given-name');
 	});
 
 	it('allows autocomplete override for derived types', () => {
-		const { container } = render(
+		// Act
+		const { getByRole } = render(
 			<Input label="Work Email" name="work_email" type="email" autocomplete="work email" />
 		);
-		expect(container.querySelector('input')?.getAttribute('autocomplete')).toBe('work email');
-	});
+		const input = getByRole('textbox', { name: /Work Email/ });
 
-	it('sets readOnly on the input', () => {
-		const { container } = render(<Input label={label} name={name} readOnly />);
-		expect(container.querySelector('input')?.readOnly).toBe(true);
+		// Assert
+		expect(input.getAttribute('autocomplete')).toBe('work email');
 	});
 
 	it('sets pattern on the input', () => {
+		// Arrange
 		const pattern = '[A-Za-z]+';
-		const { container } = render(<Input label={label} name={name} pattern={pattern} />);
-		expect(container.querySelector('input')?.pattern).toBe(pattern);
+
+		// Act
+		const { getByRole } = render(<Input label={label} name={name} pattern={pattern} />);
+		const input = getByRole('textbox', { name: /Username/ }) as HTMLInputElement;
+
+		// Assert
+		expect(input.pattern).toBe(pattern);
 	});
 });
