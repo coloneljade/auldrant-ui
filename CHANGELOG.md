@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.5.1] - 2026-02-26
+
+### Fixed
+
+- Add `repository` field to `package.json` with the GitHub repo URL ([#30](https://github.com/coloneljade/auldrant-ui/pull/30))
+- Required by Sigstore provenance verification during `npm publish --provenance` ([#30](https://github.com/coloneljade/auldrant-ui/pull/30))
+- Without it, publish fails with E422: `repository.url is "", expected to match` ([#30](https://github.com/coloneljade/auldrant-ui/pull/30))
+
 ## [0.5.0] - 2026-02-26
 
 ### Added
