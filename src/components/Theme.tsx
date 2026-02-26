@@ -10,27 +10,34 @@ interface IThemeProps extends IBaseProps {
 }
 
 /**
- * Theme wrapper that scopes `--aui-*` custom properties to its subtree.
+ * Theme wrapper that scopes `--aui-base-*` overrides to its subtree.
  *
- * The consumer defines the custom properties in their own CSS class:
+ * The library provides sensible defaults — no theme class is required for
+ * the default dark/light appearance. Override the base primary to brand:
  *
  * ```css
- * .my-theme {
- *   --aui-color-text: #1a1a1a;
- *   --aui-color-background: #ffffff;
- *   --aui-color-primary: #2563eb;
+ * .brand {
+ *   --aui-base-primary: oklch(0.65 0.20 280);
  * }
  * ```
  *
- * Then wrap your app:
- *
  * ```tsx
- * <Theme class="my-theme">
+ * <Theme class="brand">
  *   <App />
  * </Theme>
  * ```
  *
- * Nestable for sub-themes (e.g. dark mode sections).
+ * Full override (primary + white/black):
+ *
+ * ```css
+ * .custom {
+ *   --aui-base-primary: oklch(0.62 0.19 150);
+ *   --aui-base-white: #fafafa;
+ *   --aui-base-black: #111111;
+ * }
+ * ```
+ *
+ * Nestable for sub-themes (e.g. accent sections within a page).
  */
 const Theme: FunctionComponent<IThemeProps> = (props) => {
 	const { children, class: className } = props;

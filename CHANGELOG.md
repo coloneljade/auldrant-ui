@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.6.0] - 2026-02-26
+
+### Changed
+
+- feat(a11y): theme contrast system with color-mix() derivation ([#34](https://github.com/coloneljade/auldrant-ui/pull/34))
+- test: automated WCAG contrast validation ([#34](https://github.com/coloneljade/auldrant-ui/pull/34))
+- feat: dev test page for visual testing (#19) ([#34](https://github.com/coloneljade/auldrant-ui/pull/34))
+- docs: rewrite theming section with contrast guidance ([#34](https://github.com/coloneljade/auldrant-ui/pull/34))
+- chore: align PR template with /pr skill format ([#34](https://github.com/coloneljade/auldrant-ui/pull/34))
+- docs: rewrite CONTRIBUTING.md with DCO, dev test page, and merge bot workflow ([#34](https://github.com/coloneljade/auldrant-ui/pull/34))
+
 ## [0.5.2] - 2026-02-26
 
 ### Fixed
