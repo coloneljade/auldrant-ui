@@ -213,16 +213,7 @@ cx(styles.card, props.class);             // handles undefined class prop
 
 ## Development
 
-### Prerequisites
-
-- [Bun](https://bun.sh/) >= 1.0.0
-- Or use the included DevContainer
-
-### Setup
-
-```bash
-bun install
-```
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, code style, dev test page, and PR workflow.
 
 ### Commands
 
