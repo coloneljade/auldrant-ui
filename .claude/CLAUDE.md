@@ -75,8 +75,7 @@ src/
   scripts/              # Shared types and utilities
     types.ts            # IBaseProps, IFieldProps
     utils.ts            # cx()
-  styles/               # All CSS — layout, tokens, and component modules
-    layout.css          # Base layout reset
+  styles/               # All CSS — tokens and component modules
     shared.css          # Shared interactive element styles (composed)
     Button.module.css   # Component-scoped CSS modules
     ...
