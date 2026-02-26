@@ -55,4 +55,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Create VSCode tasks for all project scripts (test, build, check, typecheck, storybook) ([#6](https://github.com/coloneljade/auldrant-ui/pull/6))
 - Add component base types (BaseProps, FieldProps) and cx() class utility ([#6](https://github.com/coloneljade/auldrant-ui/pull/6))
 
-## [Unreleased]
+## [0.0.0]
