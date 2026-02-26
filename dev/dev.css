@@ -1,0 +1,74 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: system-ui, -apple-system, sans-serif;
+	line-height: 1.5;
+	color: var(--aui-color-text);
+	background: var(--aui-color-background);
+}
+
+.dev-page {
+	max-width: 64em;
+	margin: 0 auto;
+	padding: 2em;
+}
+
+.dev-page h1 {
+	font-size: 1.5em;
+	margin-bottom: 1.5em;
+	border-bottom: 1px solid var(--aui-color-border);
+	padding-bottom: 0.5em;
+}
+
+.dev-section {
+	margin-bottom: 3em;
+}
+
+.dev-section h2 {
+	font-size: 1.125em;
+	margin-bottom: 1em;
+	color: var(--aui-color-primary);
+}
+
+.dev-row {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
+	gap: 1em;
+	margin-bottom: 1em;
+}
+
+.dev-stack {
+	display: grid;
+	gap: 1em;
+	margin-bottom: 1em;
+}
+
+.dev-swatch-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+	gap: 0.75em;
+}
+
+.dev-swatch {
+	padding: 1em;
+	border-radius: 0.375em;
+	font-size: 0.875em;
+	text-align: center;
+}
+
+.dev-swatch-label {
+	font-size: 0.75em;
+	opacity: 0.8;
+	margin-top: 0.25em;
+}
+
+/* Nested theme demo */
+.green-theme {
+	--aui-base-primary: oklch(0.78 0.18 150);
+}
