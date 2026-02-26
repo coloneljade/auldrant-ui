@@ -40,7 +40,7 @@ export function Button({ children }) {
 }
 ```
 
-Global styles (colors.css, layout.css) are NOT modules — they define custom properties and resets.
+Global styles (e.g. shared.css) are NOT modules — they define custom properties and resets.
 
 ## Grid-Only Layout
 
@@ -117,7 +117,7 @@ Keep colors in dedicated files, separate from layout styles:
 ```
 styles/
   colors.css      # Color definitions only
-  layout.css      # Structure and spacing
+  shared.css      # Shared interactive element styles
 ```
 
 **colors.css example:**
