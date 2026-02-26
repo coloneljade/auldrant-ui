@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.0] - 2026-02-26
+
+### Added
+
+- **feat(test)**: add axe-core a11y test suite (19 files, setup helpers, 18 test files) ([#20](https://github.com/coloneljade/auldrant-ui/pull/20))
+- **refactor(test)**: migrate a11y assertions out of behavioral tests (cleanup + deletions) ([#20](https://github.com/coloneljade/auldrant-ui/pull/20))
+- **docs(rules)**: mandate AAA comments and WCAG SC references in tests ([#20](https://github.com/coloneljade/auldrant-ui/pull/20))
+
 ## [0.3.0] - 2026-02-25
 
 ### Added
