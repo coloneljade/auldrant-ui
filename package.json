@@ -5,6 +5,10 @@
   "description": "Accessible Preact component library with design tokens and CSS modules",
   "author": "Colonel Jade",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coloneljade/auldrant-ui"
+  },
   "keywords": [
     "preact",
     "components",
