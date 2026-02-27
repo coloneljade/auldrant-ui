@@ -9,3 +9,7 @@ pre-commit:
       run: bun run typecheck
       env:
         PATH: $HOME/.bun/bin:$PATH
+    licenses:
+      run: bun run licenses
+      env:
+        PATH: $HOME/.bun/bin:$PATH

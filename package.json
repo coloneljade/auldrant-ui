@@ -53,6 +53,8 @@
     "test": "bun test",
     "test:a11y": "bun test tests/a11y/",
     "test:watch": "bun test --watch",
+    "licenses": "bun run scripts/check-licenses.ts",
+    "licenses:fix": "bun run scripts/check-licenses.ts --fix",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "bun run build",
     "dev": "vite --host",
