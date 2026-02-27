@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.8.0] - 2026-02-27
+
+### Added
+
+- feat(deps): add lucide-preact icon library ([#44](https://github.com/coloneljade/auldrant-ui/pull/44))
+- feat(password-input): replace text toggle with icon overlay ([#44](https://github.com/coloneljade/auldrant-ui/pull/44))
+- chore(dev): add missing error variants to test page ([#44](https://github.com/coloneljade/auldrant-ui/pull/44))
+
 ## [0.7.0] - 2026-02-27
 
 ### Added
