@@ -69,6 +69,6 @@ body {
 }
 
 /* Nested theme demo */
-.green-theme {
-	--aui-base-primary: oklch(0.78 0.18 150);
+.blue-theme {
+	--aui-base-primary: oklch(0.78 0.18 260);
 }
