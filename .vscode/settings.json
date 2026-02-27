@@ -48,5 +48,6 @@
 		"**/dist": true,
 		"bun.lock": true,
 		"storybook-static": true
-	}
+	},
+	"chat.disableAIFeatures": true
 }
