@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.7.0] - 2026-02-27
+
+### Added
+
+- Change default primary from blue to green (hue 160) ([#40](https://github.com/coloneljade/auldrant-ui/pull/40))
+- Ship 6 AAA-verified preset CSS classes (aui-blue, aui-purple, aui-teal, aui-red, aui-orange, aui-yellow) ([#40](https://github.com/coloneljade/auldrant-ui/pull/40))
+- Expand contrast test coverage to all hues × all recommended pairs × both modes × raw + hover states ([#40](https://github.com/coloneljade/auldrant-ui/pull/40))
+- Update README with green default and pre-built palette reference ([#40](https://github.com/coloneljade/auldrant-ui/pull/40))
+
 ## [0.6.0] - 2026-02-26
 
 ### Changed

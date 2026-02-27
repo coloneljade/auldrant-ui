@@ -52,7 +52,7 @@ const NON_TEXT = 3;
 
 /** Default base tokens matching tokens.css (L=0.78). */
 const DEFAULTS = {
-	primary: 'oklch(0.78 0.18 260)',
+	primary: 'oklch(0.78 0.18 160)',
 	error: 'oklch(0.78 0.22 27)',
 	success: 'oklch(0.78 0.18 145)',
 };
@@ -79,12 +79,15 @@ const EDGE_PAIR = {
 	black: '#2a2a2a',
 };
 
-/** Primary hues to test (typical brand colors at L=0.78). */
+/** Primary hues to test — all AAA-verified preset palettes. */
 const HUES = [
+	{ name: 'green', color: 'oklch(0.78 0.18 160)' },
 	{ name: 'blue', color: 'oklch(0.78 0.18 260)' },
 	{ name: 'purple', color: 'oklch(0.78 0.18 300)' },
 	{ name: 'teal', color: 'oklch(0.78 0.15 195)' },
-	{ name: 'green', color: 'oklch(0.78 0.18 160)' },
+	{ name: 'red', color: 'oklch(0.78 0.22 27)' },
+	{ name: 'orange', color: 'oklch(0.78 0.18 55)' },
+	{ name: 'yellow', color: 'oklch(0.78 0.18 95)' },
 ];
 
 /*
@@ -265,34 +268,51 @@ describe('contrast: light mode (AA — edge pair)', () => {
 	testLightMode(EDGE_PAIR, AA);
 });
 
-describe('contrast: primary hue coverage', () => {
-	const defaultPair = RECOMMENDED_PAIRS[0];
-	if (!defaultPair) {
-		throw new Error('Missing default pair');
+describe('contrast: primary hue coverage (all presets × all pairs)', () => {
+	for (const pair of RECOMMENDED_PAIRS) {
+		describe(pair.name, () => {
+			describe('dark mode', () => {
+				for (const hue of HUES) {
+					it(`${hue.name} meets AAA against dark background`, () => {
+						// Act
+						const ratio = contrast(hue.color, pair.black);
+
+						// Assert
+						expect(ratio).toBeGreaterThanOrEqual(AAA);
+					});
+
+					it(`${hue.name} hover (${BLEND.primaryHoverDark}%) meets AAA against dark background`, () => {
+						// Act
+						const hover = colorMix(hue.color, pair.white, BLEND.primaryHoverDark);
+						const ratio = contrastMixed(hover, pair.black);
+
+						// Assert
+						expect(ratio).toBeGreaterThanOrEqual(AAA);
+					});
+				}
+			});
+
+			describe('light mode', () => {
+				for (const hue of HUES) {
+					it(`${hue.name} (${BLEND.primaryLight}% base) meets AAA against light background`, () => {
+						// Act
+						const primary = colorMix(hue.color, pair.black, BLEND.primaryLight);
+						const ratio = contrastMixed(primary, pair.white);
+
+						// Assert
+						expect(ratio).toBeGreaterThanOrEqual(AAA);
+					});
+
+					it(`${hue.name} hover (${BLEND.primaryHoverLight}%) meets AAA against light background`, () => {
+						// Act
+						const hover = colorMix(hue.color, pair.black, BLEND.primaryHoverLight);
+						const ratio = contrastMixed(hover, pair.white);
+
+						// Assert
+						expect(ratio).toBeGreaterThanOrEqual(AAA);
+					});
+				}
+			});
+		});
 	}
-
-	describe('dark mode', () => {
-		for (const hue of HUES) {
-			it(`${hue.name} meets AAA against dark background`, () => {
-				// Act
-				const ratio = contrast(hue.color, defaultPair.black);
-
-				// Assert
-				expect(ratio).toBeGreaterThanOrEqual(AAA);
-			});
-		}
-	});
-
-	describe('light mode', () => {
-		for (const hue of HUES) {
-			it(`${hue.name} (${BLEND.primaryLight}% base) meets AAA against light background`, () => {
-				// Act
-				const primary = colorMix(hue.color, defaultPair.black, BLEND.primaryLight);
-				const ratio = contrastMixed(primary, defaultPair.white);
-
-				// Assert
-				expect(ratio).toBeGreaterThanOrEqual(AAA);
-			});
-		}
-	});
 });
