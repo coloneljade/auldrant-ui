@@ -88,7 +88,7 @@ tests/
 
 - `package.json`, `tsconfig.json`, `vite.config.ts`
 - `biome.json`, `.editorconfig`, `lefthook.yml`
-- `.gitignore`, `.gitattributes`, `LICENSE`
+- `.gitignore`, `.gitattributes`, `LICENSE`, `NOTICES`
 
 ## Search Exclusions
 
@@ -110,3 +110,4 @@ Never read/search: `node_modules/`, `dist/`, `bun.lock`, `storybook-static/`
 | Versioning and changelog ownership | `rules/versioning.md` |
 | Problem solving and architectural fixes | `rules/problem-solving.md` |
 | Agent output format (BLUF, severity) | `rules/agent-output.md` |
+| **Third-party license attribution (CRITICAL)** | `rules/third-party-licenses.md` |
