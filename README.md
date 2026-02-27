@@ -113,7 +113,7 @@ Override primary, white, and black for complete control:
 
 | Token | Default | Description |
 |-------|---------|-------------|
-| `--aui-base-primary` | `oklch(0.78 0.18 260)` | Brand accent color (blue) |
+| `--aui-base-primary` | `oklch(0.78 0.18 160)` | Brand accent color (green) |
 | `--aui-base-white` | `#f5f5f5` | Light endpoint (light-mode background, dark-mode text) |
 | `--aui-base-black` | `#1a1a1a` | Dark endpoint (dark-mode background, light-mode text) |
 | `--aui-base-error` | `oklch(0.78 0.22 27)` | Error/danger semantic color |
@@ -155,9 +155,31 @@ Custom white/black pairs with lower inherent contrast (e.g. `#e8e8e8` / `#2a2a2a
 
 ### Primary color guidance
 
-Use oklch lightness **0.75–0.80** and chroma **0.15–0.22** for the primary color. Most hue families (blue, purple, teal, green, red) work well at these ranges.
+Use oklch lightness **0.75–0.80** and chroma **0.15–0.22** for the primary color. All verified hue families are available as pre-built palettes (see below). Custom hues at these ranges generally pass AAA — verify with a [contrast checker](https://webaim.org/resources/contrastchecker/) if using untested values.
 
-Yellows and oranges (hue 60–110) are harder to guarantee at AAA because oklch lightness maps non-linearly to WCAG luminance for warm hues. Test these with a [contrast checker](https://webaim.org/resources/contrastchecker/).
+### Pre-built palettes
+
+AAA-verified preset classes — apply directly on `<Theme>`:
+
+| Class | Value | Notes |
+|-------|-------|-------|
+| *(default)* | `oklch(0.78 0.18 160)` | Green — no class needed |
+| `aui-blue` | `oklch(0.78 0.18 260)` | |
+| `aui-purple` | `oklch(0.78 0.18 300)` | |
+| `aui-teal` | `oklch(0.78 0.15 195)` | Lower chroma for teal gamut |
+| `aui-red` | `oklch(0.78 0.22 27)` | Higher chroma for red vibrancy |
+| `aui-orange` | `oklch(0.78 0.18 55)` | |
+| `aui-yellow` | `oklch(0.78 0.18 95)` | Light mode shifts toward olive/amber (expected) |
+
+```tsx
+<Theme class="aui-blue">   {/* override default green with blue */}
+  <App />
+</Theme>
+
+<Theme>                     {/* green — the default, no class needed */}
+  <App />
+</Theme>
+```
 
 ### Nestable themes
 
