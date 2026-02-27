@@ -78,5 +78,8 @@
   "peerDependencies": {
     "@preact/signals": "^2.8.1",
     "preact": "^10.28.4"
+  },
+  "dependencies": {
+    "lucide-preact": "^0.575.0"
   }
 }
