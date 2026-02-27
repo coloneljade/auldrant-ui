@@ -112,6 +112,43 @@ The axe scan stays outside level blocks (it covers multiple SCs across levels).
 - **CSS classes** — don't assert internal class names (CSS modules make these opaque anyway)
 - **Internal state** — don't reach into component internals
 
+**Anti-patterns:**
+
+```typescript
+// Bad: querySelector counting ties test to DOM structure
+const rows = container.querySelector('tbody')?.querySelectorAll('tr');
+expect(rows?.length).toBe(2);
+
+// Good: role query validates the same contract without assuming DOM structure
+const rows = getAllByRole('row');
+expect(rows.length).toBe(data.length + 1); // header + data rows
+
+// Bad: asserting CSS class names
+expect(wrapper.className).toContain('my-class');
+
+// Bad: querySelector for ARIA roles (misses implicit roles)
+expect(container.querySelector('[role="heading"]')).toBeNull();
+// <h2> has implicit role="heading" but no explicit attribute — this always returns null
+
+// Good: Testing Library resolves both implicit and explicit ARIA roles
+expect(queryByRole('heading')).toBeNull();
+```
+
+### Visual Conventions vs Behavior
+
+A visual convention (punctuation, decoration, layout text) is not a behavioral contract
+unless it affects accessibility or user interaction. Don't write tests for formatting
+choices like colon suffixes, trailing punctuation, or text decoration — these are styling
+decisions that may change without affecting behavior.
+
+```typescript
+// Bad: testing a cosmetic convention
+getByText(new RegExp(`${label}:`)); // colon is a visual convention, not a contract
+
+// Good: testing that the label creates a programmatic association
+getByRole('textbox', { name: /Username/ }); // this IS the behavioral contract
+```
+
 ### String Constants
 
 Extract shared values to constants when the same string appears in both the render call
@@ -134,6 +171,24 @@ expect(getByText('Submit')).toBeDefined(); // string duplicated, toBeDefined is 
   Do NOT wrap in `expect(...).toBeDefined()` (tautological).
 - `querySelector` returns `null` when not found. Use `not.toBeNull()` or `toBeTruthy()`,
   never `toBeDefined()` (null is defined).
+
+### Role Queries
+
+Never use `querySelector('[role="..."]')` to check ARIA roles. CSS attribute selectors
+only match **explicit** `role` attributes in the HTML — they miss the implicit roles
+that native elements carry (e.g., `<h2>` is implicitly `role="heading"`, `<button>` is
+implicitly `role="button"`).
+
+Use Testing Library's `getByRole()` / `queryByRole()` instead — they correctly resolve
+both implicit and explicit ARIA roles.
+
+```typescript
+// Wrong — always returns null for <h2> (no explicit role attribute)
+expect(container.querySelector('[role="heading"]')).toBeNull();
+
+// Correct — queryByRole resolves <h2>'s implicit heading role
+expect(queryByRole('heading')).toBeNull();
+```
 
 ## Component Testing
 

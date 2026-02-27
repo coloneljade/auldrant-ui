@@ -10,13 +10,13 @@ describe('Table', () => {
 		['Bob', '25', 'Designer'],
 	];
 
-	it('renders data rows', () => {
+	it('renders one row per data entry', () => {
 		// Act
-		const { container } = render(<Table caption={caption} headers={headers} data={data} />);
-		const rows = container.querySelector('tbody')?.querySelectorAll('tr');
+		const { getAllByRole } = render(<Table caption={caption} headers={headers} data={data} />);
+		const rows = getAllByRole('row');
 
-		// Assert
-		expect(rows?.length).toBe(data.length);
+		// Assert — header row + data rows
+		expect(rows.length).toBe(data.length + 1);
 	});
 
 	it('renders cell content from data prop', () => {
