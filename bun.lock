@@ -4,6 +4,9 @@
   "workspaces": {
     "": {
       "name": "auldrant-ui",
+      "dependencies": {
+        "lucide-preact": "^0.575.0",
+      },
       "devDependencies": {
         "@biomejs/biome": "^2.4.4",
         "@happy-dom/global-registrator": "^20.7.0",
@@ -561,6 +564,8 @@
     "loupe": ["loupe@3.2.1", "", {}, "sha512-CdzqowRJCeLU72bHvWqwRBBlLcMEtIvGrlvef74kMnV2AolS9Y8xUv1I0U/MNAWMhBlKIoyuEgoJ0t/bbwHbLQ=="],
 
     "lru-cache": ["lru-cache@5.1.1", "", { "dependencies": { "yallist": "^3.0.2" } }, "sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w=="],
+
+    "lucide-preact": ["lucide-preact@0.575.0", "", { "peerDependencies": { "preact": "^10.27.2" } }, "sha512-W8JZyQEkYv6DlbRrEgmZxVWFKL3zjoyEkFOOSxiX2VEU6Gou8cOqXZ5IAGmqAL4KiPx1tWgGT9awNjAH7MFknw=="],
 
     "lz-string": ["lz-string@1.5.0", "", { "bin": { "lz-string": "bin/bin.js" } }, "sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ=="],
 

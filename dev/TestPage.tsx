@@ -163,6 +163,12 @@ const PasswordInputSection: FunctionComponent = () => (
 			<PasswordInput label="Current password" name="pw-current" purpose="current" />
 			<PasswordInput label="New password" name="pw-new" purpose="new" />
 			<PasswordInput label="Disabled" name="pw-dis" purpose="current" disabled />
+			<PasswordInput
+				label="With error"
+				name="pw-err"
+				purpose="current"
+				error="Password is required"
+			/>
 		</div>
 	</div>
 );
@@ -217,6 +223,15 @@ const SelectSection: FunctionComponent = () => (
 				name="sel-dis"
 				disabled
 				options={[{ label: 'Only', value: 'only' }]}
+			/>
+			<Select
+				label="With error"
+				name="sel-err"
+				error="Selection is required"
+				options={[
+					{ label: 'Red', value: 'red' },
+					{ label: 'Green', value: 'green' },
+				]}
 			/>
 		</div>
 	</div>

@@ -6,21 +6,20 @@ describe('PasswordInput', () => {
 	const label = 'Password';
 	const name = 'password';
 
-	it('toggles input type and button text on click', () => {
+	it('toggles input type on click', () => {
 		// Arrange
-		const { getByLabelText, getByText } = render(
+		const { getByLabelText, getByRole } = render(
 			<PasswordInput label={label} name={name} purpose="current" />
 		);
 		const input = getByLabelText(/Password/) as HTMLInputElement;
+		const toggle = getByRole('button');
 
 		// Act & Assert
-		fireEvent.click(getByText('Show password'));
+		fireEvent.click(toggle);
 		expect(input.type).toBe('text');
-		getByText('Hide password');
 
-		fireEvent.click(getByText('Hide password'));
+		fireEvent.click(toggle);
 		expect(input.type).toBe('password');
-		getByText('Show password');
 	});
 
 	it('calls onInput with the value', () => {

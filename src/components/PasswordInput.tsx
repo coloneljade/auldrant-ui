@@ -3,6 +3,7 @@ import { useSignal } from '@preact/signals';
 import type { IFieldProps } from '@scripts/types';
 import { describeBy } from '@scripts/utils';
 import styles from '@styles/PasswordInput.module.css';
+import { Eye, EyeOff } from 'lucide-preact';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
@@ -70,11 +71,12 @@ const PasswordInput: FunctionComponent<IPasswordInputProps> = (props) => {
 					type="button"
 					class={styles.toggle}
 					disabled={disabled}
+					aria-label={visible.value ? 'Hide password' : 'Show password'}
 					onClick={() => {
 						visible.value = !visible.value;
 					}}
 				>
-					{visible.value ? 'Hide password' : 'Show password'}
+					{visible.value ? <EyeOff size="1em" /> : <Eye size="1em" />}
 				</button>
 			</div>
 		</FormField>
