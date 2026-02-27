@@ -114,7 +114,7 @@ describe('Textarea a11y', () => {
 			expect(liveRegion).not.toBeNull();
 		});
 
-		it('announces remaining characters at threshold (SC 4.1.3)', () => {
+		it('announces remaining characters at 75% threshold (SC 4.1.3)', () => {
 			// Arrange
 			const charLimit = 100;
 			const { container } = render(<Textarea label={label} name={name} maxChars={charLimit} />);
@@ -126,6 +126,67 @@ describe('Textarea a11y', () => {
 
 			// Assert
 			expect(liveRegion.textContent).toContain('25 characters remaining');
+		});
+
+		it('announces remaining characters at 90% threshold (SC 4.1.3)', () => {
+			// Arrange
+			const charLimit = 100;
+			const { container } = render(<Textarea label={label} name={name} maxChars={charLimit} />);
+			const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+			const liveRegion = container.querySelector('[aria-live="polite"]') as HTMLElement;
+
+			// Act
+			fireEvent.input(textarea, { target: { value: 'a'.repeat(90) } });
+
+			// Assert
+			expect(liveRegion.textContent).toContain('10 characters remaining');
+		});
+
+		it('announces remaining characters at 100% threshold (SC 4.1.3)', () => {
+			// Arrange
+			const charLimit = 100;
+			const { container } = render(<Textarea label={label} name={name} maxChars={charLimit} />);
+			const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+			const liveRegion = container.querySelector('[aria-live="polite"]') as HTMLElement;
+
+			// Act
+			fireEvent.input(textarea, { target: { value: 'a'.repeat(100) } });
+
+			// Assert
+			expect(liveRegion.textContent).toContain('0 characters remaining');
+		});
+
+		it('announces at absolute threshold even after percent threshold (SC 4.1.3)', () => {
+			// Arrange — charLimit=200 so 90% (180 chars) leaves 20 remaining,
+			// well above the absolute threshold (≤10). This separates the two triggers.
+			const charLimit = 200;
+			const { container } = render(<Textarea label={label} name={name} maxChars={charLimit} />);
+			const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+			const liveRegion = container.querySelector('[aria-live="polite"]') as HTMLElement;
+
+			// Act — cross 90% first (remaining=20, above absolute threshold)
+			fireEvent.input(textarea, { target: { value: 'a'.repeat(180) } });
+			expect(liveRegion.textContent).toContain('20 characters remaining');
+
+			// Act — then reach absolute threshold (≤10 remaining) without crossing 100%
+			fireEvent.input(textarea, { target: { value: 'a'.repeat(191) } });
+
+			// Assert — 9 remaining triggers absolute threshold announcement
+			expect(liveRegion.textContent).toContain('9 characters remaining');
+		});
+
+		it('does not announce below 75% threshold (SC 4.1.3)', () => {
+			// Arrange
+			const charLimit = 100;
+			const { container } = render(<Textarea label={label} name={name} maxChars={charLimit} />);
+			const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+			const liveRegion = container.querySelector('[aria-live="polite"]') as HTMLElement;
+
+			// Act
+			fireEvent.input(textarea, { target: { value: 'a'.repeat(50) } });
+
+			// Assert
+			expect(liveRegion.textContent).toBe('');
 		});
 	});
 });
