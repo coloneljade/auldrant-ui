@@ -55,6 +55,10 @@ Before `bun add`, ask:
 1. Can native APIs handle this?
 2. Is there a lighter alternative?
 3. Will this add significant bundle size?
+4. Is the license approved? (See `rules/third-party-licenses.md` — **CRITICAL**)
+
+After `bun add` to `dependencies`, you MUST update the `NOTICES` file with the
+package's full license text. No exceptions. See `rules/third-party-licenses.md`.
 
 ## Code Style
 

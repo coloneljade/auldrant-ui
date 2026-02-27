@@ -37,7 +37,9 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "NOTICES",
+    "CHANGELOG.md"
   ],
   "sideEffects": [
     "**/*.css"
