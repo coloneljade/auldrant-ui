@@ -41,7 +41,7 @@ describe('Select', () => {
 		expect(handleChange).toHaveBeenCalledWith('blue');
 	});
 
-	it('renders grouped options with optgroup', () => {
+	it('renders grouped options as accessible groups', () => {
 		// Arrange
 		const grouped = [
 			{
@@ -58,13 +58,11 @@ describe('Select', () => {
 		];
 
 		// Act
-		const { container, getByText } = render(<Select label={label} name={name} options={grouped} />);
-		const optgroups = container.querySelectorAll('optgroup');
+		const { getByRole, getByText } = render(<Select label={label} name={name} options={grouped} />);
 
 		// Assert
-		expect(optgroups).toHaveLength(2);
-		expect(optgroups[0]?.getAttribute('label')).toBe('Warm');
-		expect(optgroups[1]?.getAttribute('label')).toBe('Cool');
+		getByRole('group', { name: 'Warm' });
+		getByRole('group', { name: 'Cool' });
 		getByText('Red');
 		getByText('Orange');
 		getByText('Blue');
@@ -81,11 +79,11 @@ describe('Select', () => {
 		];
 
 		// Act
-		const { container, getByText } = render(<Select label={label} name={name} options={mixed} />);
+		const { getByRole, getByText } = render(<Select label={label} name={name} options={mixed} />);
 
 		// Assert
 		getByText('None');
 		getByText('Red');
-		expect(container.querySelectorAll('optgroup')).toHaveLength(1);
+		getByRole('group', { name: 'Warm' });
 	});
 });
