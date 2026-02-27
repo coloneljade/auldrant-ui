@@ -65,6 +65,31 @@
 			}
 		},
 		{
+			"label": "dev",
+			"type": "shell",
+			"command": "bun run dev",
+			"isBackground": true,
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			},
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "test:a11y",
+			"type": "shell",
+			"command": "bun run test:a11y",
+			"group": "test",
+			"presentation": {
+				"reveal": "always",
+				"panel": "shared"
+			}
+		},
+		{
 			"label": "storybook",
 			"type": "shell",
 			"command": "bun run storybook",

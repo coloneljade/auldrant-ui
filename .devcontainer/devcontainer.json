@@ -24,6 +24,17 @@
 			]
 		}
 	},
+	"forwardPorts": [5173, 6006],
+	"portsAttributes": {
+		"5173": {
+			"label": "Dev Test Page",
+			"onAutoForward": "openBrowser"
+		},
+		"6006": {
+			"label": "Storybook",
+			"onAutoForward": "openBrowser"
+		}
+	},
 	"postCreateCommand": "bun install",
 	"remoteUser": "bun"
 }
