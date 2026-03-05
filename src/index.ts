@@ -22,7 +22,7 @@ export { default as Select } from '@components/Select';
 export { default as SkipLink } from '@components/SkipLink';
 export { default as Table } from '@components/Table';
 export { default as Textarea } from '@components/Textarea';
-export { default as Theme } from '@components/Theme';
+export { default as Theme, Palette } from '@components/Theme';
 export { default as VisuallyHidden } from '@components/VisuallyHidden';
 
 // Utilities
