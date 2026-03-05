@@ -11,6 +11,14 @@ interface ITableProps extends IBaseProps {
 	headers: string[];
 	/** Row data as a 2D array of renderable content. */
 	data: ComponentChildren[][];
+	/** Render the first column as `<th scope="row">` for row identification. */
+	rowHeader?: boolean;
+	/** Apply alternating row backgrounds for improved scanability. */
+	striped?: boolean;
+	/** Reduce cell padding for data-dense displays. */
+	dense?: boolean;
+	/** Visually hide the caption while keeping it accessible to screen readers. */
+	captionHidden?: boolean;
 }
 
 /**
@@ -18,14 +26,23 @@ interface ITableProps extends IBaseProps {
  * Headers render as `<th scope="col">`, data auto-formats into `<tbody>`/`<td>`.
  */
 const Table: FunctionComponent<ITableProps> = (props) => {
-	const { caption, headers, data, class: className } = props;
+	const {
+		caption,
+		headers,
+		data,
+		rowHeader,
+		striped,
+		dense,
+		captionHidden,
+		class: className,
+	} = props;
 	return (
-		<table class={cx(styles.table, className)}>
-			<caption class={styles.caption}>{caption}</caption>
-			<thead>
+		<table class={cx(styles.table, striped && styles.striped, dense && styles.dense, className)}>
+			<caption class={cx(styles.caption, captionHidden && styles.captionHidden)}>{caption}</caption>
+			<thead class={styles.head}>
 				<tr>
 					{headers.map((header, i) => (
-						<th key={`${header}-${i}`} scope="col">
+						<th key={`${header}-${i}`} class={styles.headerCell} scope="col">
 							{header}
 						</th>
 					))}
@@ -33,10 +50,18 @@ const Table: FunctionComponent<ITableProps> = (props) => {
 			</thead>
 			<tbody>
 				{data.map((row, i) => (
-					<tr key={i}>
-						{row.map((cell, j) => (
-							<td key={`${headers[j]}-${i}-${j}`}>{cell}</td>
-						))}
+					<tr key={i} class={styles.row}>
+						{row.map((cell, j) =>
+							rowHeader && j === 0 ? (
+								<th key={`${headers[j]}-${i}-${j}`} class={styles.headerCell} scope="row">
+									{cell}
+								</th>
+							) : (
+								<td key={`${headers[j]}-${i}-${j}`} class={styles.cell}>
+									{cell}
+								</td>
+							)
+						)}
 					</tr>
 				))}
 			</tbody>
