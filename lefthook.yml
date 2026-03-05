@@ -2,7 +2,8 @@ pre-commit:
   parallel: true
   commands:
     check:
-      run: bun run check
+      glob: "*.{ts,tsx,css,json}"
+      run: bunx biome check {staged_files}
       env:
         PATH: $HOME/.bun/bin:$PATH
     typecheck:
