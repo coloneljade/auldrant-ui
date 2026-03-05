@@ -1,8 +1,24 @@
 ---
-description: Create or update a pull request with issue links. Use when ready to submit work for review.
+description: Create or update a pull request with issue links. Use when ready to submit work for review. Optionally merges, waits, and cleans up when user says "and merge", "ship it", or "land it".
 ---
 
 # Pull Request Workflow
+
+## Merge Mode Detection
+
+Merge mode activates when the user's message includes any of:
+
+- **"and merge"** / **"then merge"**
+- **"ship it"** / **"land it"**
+- **"merge it"** / **"merge this"**
+
+When merge mode is detected, run Steps 0–5 as normal, then continue to Steps 6–10.
+When merge mode is NOT detected, stop after Step 5 (default behavior).
+
+### Merge Flags
+
+Merge flags (`--minor`, `--patch`, `--no-bump`) can appear anywhere in the user's
+message. Extract them and pass through to the `/merge` comment in Step 7.
 
 ## Step 0 — GitHub CLI Prerequisite
 
@@ -131,8 +147,98 @@ EOF
 CHANGELOG entries are handled automatically by the merge bot when `/merge` is
 invoked on the PR. Do not manually create or modify CHANGELOG entries.
 
+---
+
+## Step 6 — Wait for CI (Merge Mode Only)
+
+Wait for CI checks to complete before posting the merge comment:
+
+```bash
+gh pr checks <number> --watch --fail-fast
+```
+
+- **All checks pass**: continue to Step 7
+- **Any check fails**: report the failure and stop — do not post `/merge`
+- If `gh pr checks --watch` is not available or errors, fall back to polling:
+  ```bash
+  gh pr checks <number> --json name,state,conclusion
+  ```
+  Wait 30 seconds before the first poll (code scanning takes time to start), then
+  poll every 10 seconds until all checks reach a terminal state.
+
+## Step 7 — Post Merge Comment (Merge Mode Only)
+
+Post the `/merge` command as a PR comment to trigger the merge bot:
+
+```bash
+gh pr comment <number> --body "/merge [flags]"
+```
+
+- `<number>` is the PR number from Step 4
+- `[flags]` are any merge flags extracted from the user's message (omit if none)
+- Examples: `/merge`, `/merge --minor`, `/merge --patch`, `/merge --no-bump`
+
+## Step 8 — Wait for Merge (Merge Mode Only)
+
+Poll the PR state until it merges or fails:
+
+```bash
+gh pr view <number> --json state,mergedAt
+```
+
+- Poll every 20 seconds
+- **Merged**: `state` is `"MERGED"` — continue to Step 9
+- **Timeout**: if not merged after 5 minutes, report the failure and stop
+- **Closed without merge**: if `state` is `"CLOSED"` and `mergedAt` is empty, the
+  merge bot rejected it — report the failure, suggest checking the PR for bot comments
+
+While waiting, give the user a brief status update after the first poll so they know
+you're watching.
+
+## Step 9 — Local Cleanup (Merge Mode Only)
+
+After successful merge, clean up local state:
+
+```bash
+# Remember current branch name for deletion
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# Switch to main and fast-forward to match remote
+git checkout main
+git pull --ff-only origin main
+
+# Delete the local feature branch
+git branch -d "$BRANCH"
+```
+
+If `git pull --ff-only` fails (local main has diverged), report the issue and
+suggest the user resolve it manually. Do not force-reset main.
+
+## Step 10 — Merge Mode Output
+
+Replace the Step 5 output with:
+
+```
+## PR Merged
+
+### Pull Request
+[PR URL] — merged
+
+### Issues
+[N issues linked and closed | No issues linked]
+
+### Local
+Branch `<type>/<description>` deleted
+Now on `main` at [short SHA]
+```
+
 ## Error Handling
 
 - **`gh pr create` fails**: report the full error output for debugging
 - **`gh pr edit` fails**: report the error with the existing PR URL
+- **CI checks fail**: report which check(s) failed with URLs — do not post `/merge`
+- **`gh pr comment` fails**: report the error — user can manually comment `/merge`
+- **Merge timeout**: report that the bot hasn't merged within 5 minutes, link to the PR
+  so the user can check bot status/comments
+- **Merge rejected**: report the bot's likely reason (CI failure, conflicts) and link to PR
 - **Any `gh` command fails unexpectedly**: report the full error output for debugging
