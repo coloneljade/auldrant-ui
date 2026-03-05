@@ -45,28 +45,53 @@ gh auth status
   Run `gh auth login` to authenticate with GitHub.
   ```
 
-## Step 1 — Pre-PR Checks
+## Step 1 — Resolve Feature Branch
+
+`/push` returns to `main` after pushing, so `/pr` may be called from either `main`
+or the feature branch. Resolve the target branch:
 
 ```bash
-git rev-parse --abbrev-ref --symbolic-full-name @{u}
+CURRENT=$(git rev-parse --abbrev-ref HEAD)
+```
+
+**If on a feature branch** (not `main`): use it directly.
+
+**If on `main`**: find the most recently pushed feature branch:
+
+```bash
+git for-each-ref --sort=-committerdate refs/heads/ \
+  --format='%(refname:short)' | grep -v '^main$' | head -1
+```
+
+Verify the resolved branch has a remote tracking ref:
+
+```bash
+git rev-parse --abbrev-ref --symbolic-full-name <branch>@{u}
+```
+
+If no suitable branch is found or it has no upstream, tell the user to run `/push` first.
+
+Store the resolved branch name as `$BRANCH` for all subsequent steps.
+
+## Step 2 — Pre-PR Checks
+
+```bash
 git status
 ```
 
-- [ ] Branch is pushed to remote (has upstream tracking)
 - [ ] Working tree is clean
+- [ ] `$BRANCH` has upstream tracking (verified in Step 1)
 
-If either fails, tell the user to run `/push` first.
-
-## Step 2 — Check for Existing PR
+## Step 3 — Check for Existing PR
 
 ```bash
-gh pr list --head <branch> --json number,url
+gh pr list --head $BRANCH --json number,url
 ```
 
 - If a PR exists → note the number for `gh pr edit` later
 - If no PR exists → will use `gh pr create`
 
-## Step 3 — Check for Related Issues
+## Step 4 — Check for Related Issues
 
 ```bash
 gh issue list --state open --json number,title,labels
@@ -75,11 +100,11 @@ gh issue list --state open --json number,title,labels
 - If open issues exist, present them to the user and ask which (if any) this PR fixes
 - If no open issues, skip this step
 
-## Step 4 — Build PR
+## Step 5 — Build PR
 
 ### PR Title
 
-Derive the title from the branch name. The branch was already named deliberately
+Derive the title from `$BRANCH`. The branch was already named deliberately
 during `/push` as `type/description` — convert it to `type: description` (or
 `type(scope): description` if scope is clear from context). Under 70 characters.
 
@@ -91,7 +116,7 @@ single source of truth. If the branch name is wrong, fix it before creating the 
 Build the body from commit history and issue links:
 
 ```bash
-git log --format="- %s" main..HEAD
+git log --format="- %s" main..$BRANCH
 ```
 
 Structure:
@@ -108,7 +133,7 @@ Fixes #M
 - [ ] Verified item
 ```
 
-The `## Fixes` section is only included when the user selected issues in Step 3.
+The `## Fixes` section is only included when the user selected issues in Step 4.
 Each issue gets its own `Fixes #N` line for GitHub auto-close. The keyword `Fixes`
 must be on the same line as the issue reference.
 
@@ -116,7 +141,7 @@ must be on the same line as the issue reference.
 
 **New PR:**
 ```bash
-gh pr create --base main --title "<title>" --body "$(cat <<'EOF'
+gh pr create --head $BRANCH --base main --title "<title>" --body "$(cat <<'EOF'
 ...
 EOF
 )"
@@ -130,7 +155,7 @@ EOF
 )"
 ```
 
-## Step 5 — Output
+## Step 6 — Output
 
 ```
 ## PR Complete
@@ -149,7 +174,7 @@ invoked on the PR. Do not manually create or modify CHANGELOG entries.
 
 ---
 
-## Step 6 — Wait for CI (Merge Mode Only)
+## Step 7 — Wait for CI (Merge Mode Only)
 
 Wait for CI checks to complete before posting the merge comment:
 
@@ -157,7 +182,7 @@ Wait for CI checks to complete before posting the merge comment:
 gh pr checks <number> --watch --fail-fast
 ```
 
-- **All checks pass**: continue to Step 7
+- **All checks pass**: continue to Step 8
 - **Any check fails**: report the failure and stop — do not post `/merge`
 - If `gh pr checks --watch` is not available or errors, fall back to polling:
   ```bash
@@ -166,7 +191,7 @@ gh pr checks <number> --watch --fail-fast
   Wait 30 seconds before the first poll (code scanning takes time to start), then
   poll every 10 seconds until all checks reach a terminal state.
 
-## Step 7 — Post Merge Comment (Merge Mode Only)
+## Step 8 — Post Merge Comment (Merge Mode Only)
 
 Post the `/merge` command as a PR comment to trigger the merge bot:
 
@@ -174,11 +199,11 @@ Post the `/merge` command as a PR comment to trigger the merge bot:
 gh pr comment <number> --body "/merge [flags]"
 ```
 
-- `<number>` is the PR number from Step 4
+- `<number>` is the PR number from Step 5
 - `[flags]` are any merge flags extracted from the user's message (omit if none)
 - Examples: `/merge`, `/merge --minor`, `/merge --patch`, `/merge --no-bump`
 
-## Step 8 — Wait for Merge (Merge Mode Only)
+## Step 9 — Wait for Merge (Merge Mode Only)
 
 Poll the PR state until it merges or fails:
 
@@ -187,7 +212,7 @@ gh pr view <number> --json state,mergedAt
 ```
 
 - Poll every 20 seconds
-- **Merged**: `state` is `"MERGED"` — continue to Step 9
+- **Merged**: `state` is `"MERGED"` — continue to Step 10
 - **Timeout**: if not merged after 5 minutes, report the failure and stop
 - **Closed without merge**: if `state` is `"CLOSED"` and `mergedAt` is empty, the
   merge bot rejected it — report the failure, suggest checking the PR for bot comments
@@ -195,16 +220,13 @@ gh pr view <number> --json state,mergedAt
 While waiting, give the user a brief status update after the first poll so they know
 you're watching.
 
-## Step 9 — Local Cleanup (Merge Mode Only)
+## Step 10 — Local Cleanup (Merge Mode Only)
 
-After successful merge, clean up local state:
+After successful merge, clean up local state. Since `/push` already returned to
+`main`, we just need to fast-forward and delete the feature branch:
 
 ```bash
-# Remember current branch name for deletion
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
-
-# Switch to main and fast-forward to match remote
-git checkout main
+# Fast-forward main to include the merge
 git pull --ff-only origin main
 
 # Delete the local feature branch
@@ -214,9 +236,12 @@ git branch -d "$BRANCH"
 If `git pull --ff-only` fails (local main has diverged), report the issue and
 suggest the user resolve it manually. Do not force-reset main.
 
-## Step 10 — Merge Mode Output
+If not currently on `main` (edge case — `/pr` was called from the feature branch),
+check out `main` first before the fast-forward.
 
-Replace the Step 5 output with:
+## Step 11 — Merge Mode Output
+
+Replace the Step 6 output with:
 
 ```
 ## PR Merged
