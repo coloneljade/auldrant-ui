@@ -1,0 +1,91 @@
+.dialog {
+	border: none;
+	padding: 0;
+	background: transparent;
+	color: var(--aui-color-text);
+	max-width: min(90vw, 32em);
+	width: 100%;
+}
+
+.dialog::backdrop {
+	background: oklch(0 0 0 / 50%);
+}
+
+.panel {
+	display: grid;
+	gap: 1em;
+	padding: 1.5em;
+	border: 1px solid var(--aui-color-border);
+	border-radius: 0.5em;
+	background: var(--aui-color-surface);
+}
+
+.header {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.title {
+	margin: 0;
+	font-size: 1.25em;
+}
+
+.close {
+	composes: focus-ring from "@styles/shared.css";
+	padding: 0.25em 0.5em;
+	border: none;
+	background: none;
+	color: var(--aui-color-text-muted);
+	font: inherit;
+	font-size: 1.25em;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.close:hover {
+	color: var(--aui-color-text);
+}
+
+.body {
+	display: grid;
+	gap: 1em;
+}
+
+.message {
+	margin: 0;
+}
+
+.footer {
+	display: grid;
+	grid-auto-flow: column;
+	justify-content: end;
+	gap: 0.5em;
+}
+
+.action {
+	composes: focus-ring disabled from "@styles/shared.css";
+	padding: 0.5em 1em;
+	border: 1px solid var(--aui-color-border);
+	border-radius: 0.25em;
+	background: var(--aui-color-surface);
+	color: var(--aui-color-text);
+	font: inherit;
+	cursor: pointer;
+}
+
+.action:hover {
+	background: var(--aui-color-background-hover);
+}
+
+.primary {
+	background: var(--aui-color-primary);
+	color: var(--aui-color-background);
+	border-color: var(--aui-color-primary);
+}
+
+.primary:hover {
+	background: var(--aui-color-primary-hover);
+	border-color: var(--aui-color-primary-hover);
+}

@@ -1,10 +1,12 @@
 import Button from '@components/Button';
 import Card from '@components/Card';
 import Checkbox from '@components/Checkbox';
+import Dialog from '@components/Dialog';
 import DownloadLink from '@components/DownloadLink';
 import Form from '@components/Form';
 import Input from '@components/Input';
 import Link from '@components/Link';
+import Modal from '@components/Modal';
 import Nav from '@components/Nav';
 import NumberInput from '@components/NumberInput';
 import PasswordInput from '@components/PasswordInput';
@@ -15,6 +17,7 @@ import SkipLink from '@components/SkipLink';
 import Table from '@components/Table';
 import Textarea from '@components/Textarea';
 import Theme from '@components/Theme';
+import { useSignal } from '@preact/signals';
 import type { FunctionComponent } from 'preact';
 
 const ThemeSwatches: FunctionComponent = () => (
@@ -303,6 +306,69 @@ const CardSection: FunctionComponent = () => (
 	</div>
 );
 
+const DialogSection: FunctionComponent = () => {
+	const open = useSignal(false);
+
+	return (
+		<div class="dev-section">
+			<h2>Dialog</h2>
+			<Button label="Open Dialog" onClick={() => (open.value = true)} />
+			<Dialog
+				open={open.value}
+				title="Notification"
+				message="This is a dismissible dialog. Close it with Escape, the backdrop, or the X button."
+				onClose={() => (open.value = false)}
+				defaultAction={{
+					label: 'Got it',
+					description: 'Acknowledge and close',
+					onClick: () => (open.value = false),
+					shortcut: 'Enter',
+				}}
+			/>
+		</div>
+	);
+};
+
+const ModalSection: FunctionComponent = () => {
+	const confirmOpen = useSignal(false);
+	const destructiveOpen = useSignal(false);
+
+	return (
+		<div class="dev-section">
+			<h2>Modal</h2>
+			<div class="dev-row">
+				<Button label="Open Modal" onClick={() => (confirmOpen.value = true)} />
+				<Button label="Destructive Modal" onClick={() => (destructiveOpen.value = true)} />
+			</div>
+			<Modal
+				open={confirmOpen.value}
+				title="Confirm Action"
+				message="Are you sure you want to proceed? This action requires confirmation."
+				onCancel={() => (confirmOpen.value = false)}
+				defaultAction={{
+					label: 'Confirm',
+					description: 'Confirm this action',
+					onClick: () => (confirmOpen.value = false),
+					shortcut: 'Enter',
+				}}
+			/>
+			<Modal
+				open={destructiveOpen.value}
+				title="Delete Item"
+				message="This will permanently delete the item. This cannot be undone."
+				onCancel={() => (destructiveOpen.value = false)}
+				focusCancel
+				defaultAction={{
+					label: 'Delete',
+					description: 'Permanently delete this item',
+					onClick: () => (destructiveOpen.value = false),
+					shortcut: 'd',
+				}}
+			/>
+		</div>
+	);
+};
+
 const SectionDemo: FunctionComponent = () => (
 	<div class="dev-section">
 		<h2>Section (nested)</h2>
@@ -393,6 +459,8 @@ export const TestPage: FunctionComponent = () => (
 			<CheckboxRadioSection />
 			<TableSection />
 			<CardSection />
+			<DialogSection />
+			<ModalSection />
 			<SectionDemo />
 			<NavDemo />
 			<FormDemo />

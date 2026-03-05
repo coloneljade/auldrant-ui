@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.9.0] - 2026-03-05
+
+### Added
+
+- Add Dialog (dismissible) and Modal (action-required alertdialog) components with native `<dialog>` element ([#56](https://github.com/coloneljade/auldrant-ui/pull/56))
+- Export Palette constants for preset palette theme classes ([#56](https://github.com/coloneljade/auldrant-ui/pull/56))
+- Add Dialog and Modal demos to dev test page with dismissible, confirmation, and destructive variants ([#56](https://github.com/coloneljade/auldrant-ui/pull/56))
+- Update README with Overlay component category and `IDialogAction` type reference ([#56](https://github.com/coloneljade/auldrant-ui/pull/56))
+
 ## [0.8.0] - 2026-02-27
 
 ### Added
