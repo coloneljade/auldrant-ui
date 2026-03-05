@@ -27,4 +27,39 @@ describe('Table', () => {
 		getByText('Alice');
 		getByText('Designer');
 	});
+
+	describe('rowHeader', () => {
+		it('renders first column as row headers when enabled', () => {
+			// Act
+			const { getAllByRole } = render(
+				<Table caption={caption} headers={headers} data={data} rowHeader />
+			);
+
+			// Assert
+			const rowHeaders = getAllByRole('rowheader');
+			expect(rowHeaders.length).toBe(data.length);
+			expect(rowHeaders[0]?.textContent).toBe('Alice');
+			expect(rowHeaders[1]?.textContent).toBe('Bob');
+		});
+
+		it('renders no row headers by default', () => {
+			// Act
+			const { queryByRole } = render(<Table caption={caption} headers={headers} data={data} />);
+
+			// Assert
+			expect(queryByRole('rowheader')).toBeNull();
+		});
+	});
+
+	describe('captionHidden', () => {
+		it('keeps table accessible name when caption is visually hidden', () => {
+			// Act
+			const { getByRole } = render(
+				<Table caption={caption} headers={headers} data={data} captionHidden />
+			);
+
+			// Assert
+			getByRole('table', { name: caption });
+		});
+	});
 });
