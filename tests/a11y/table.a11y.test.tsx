@@ -16,6 +16,11 @@ describe('Table a11y', () => {
 		await renderAndCheckA11y(<Table caption={caption} headers={headers} data={data} />);
 	});
 
+	it('has no axe violations with row headers', async () => {
+		// Act & Assert
+		await renderAndCheckA11y(<Table caption={caption} headers={headers} data={data} rowHeader />);
+	});
+
 	// https://www.w3.org/TR/WCAG22/#adaptable
 	describe('WCAG A', () => {
 		it('has an accessible name from caption (SC 1.3.1)', () => {

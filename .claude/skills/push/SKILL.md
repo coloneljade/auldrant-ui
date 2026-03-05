@@ -74,6 +74,23 @@ the user to confirm.
 git push origin <type>/<description>
 ```
 
+## Return to Main
+
+After a successful push, switch back to `main` so the working tree is ready for
+the next task. The feature branch remains available locally if needed.
+
+```bash
+FEATURE_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+git checkout main
+git pull --ff-only origin main
+```
+
+If `git pull --ff-only` fails (local main has diverged from remote), report the
+issue but don't force-reset — let the user resolve it.
+
+The feature branch is NOT deleted here — it stays around for `/pr`, amendments,
+or review follow-ups. Cleanup happens in `/pr` merge mode after the PR merges.
+
 ## Output
 
 After pushing, report:
@@ -82,10 +99,10 @@ After pushing, report:
 ## Push Complete
 
 ### Branch
-<type>/<description>
+<type>/<description> (pushed) → returned to main
 
 ### Commits Pushed
-[git log --oneline main..HEAD]
+[git log --oneline main..<feature-branch>]
 
 ### Remote
 origin/<type>/<description>

@@ -94,6 +94,35 @@ Do not use CSS nesting for layout concerns. Keep selectors flat in module files:
 }
 ```
 
+## Class-Based Selectors Only
+
+In CSS modules, always use class selectors — never target raw HTML elements (e.g., `th`, `td`, `tr`, `thead`).
+Apply classes to elements in the component and select those classes in CSS:
+
+```css
+/* Good: class-based selectors */
+.headerCell {
+  font-weight: bold;
+}
+
+.row:hover {
+  background: var(--color-surface);
+}
+
+/* Bad: raw element selectors */
+.table th {
+  font-weight: bold;
+}
+
+.table tbody tr:hover {
+  background: var(--color-surface);
+}
+```
+
+This keeps CSS modules self-contained and avoids coupling styles to DOM structure.
+
+## Nesting
+
 Nesting is acceptable for state modifiers and pseudo-elements:
 
 ```css

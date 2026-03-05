@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.10.0] - 2026-03-05
+
+### Added
+
+- Add `rowHeader` prop to render first column as `<th scope="row">` for row identification ([#57](https://github.com/coloneljade/auldrant-ui/pull/57))
+- Add `striped` prop for alternating row backgrounds for improved scanability ([#57](https://github.com/coloneljade/auldrant-ui/pull/57))
+- Add `dense` prop to reduce cell padding for data-dense displays ([#57](https://github.com/coloneljade/auldrant-ui/pull/57))
+- Add `captionHidden` prop to visually hide caption while keeping it accessible ([#57](https://github.com/coloneljade/auldrant-ui/pull/57))
+- Refactor CSS to use class-based selectors (no raw element selectors) ([#57](https://github.com/coloneljade/auldrant-ui/pull/57))
+- Add tests for new props and axe-core a11y verification ([#57](https://github.com/coloneljade/auldrant-ui/pull/57))
+- Expand dev test page to showcase all Table variants ([#57](https://github.com/coloneljade/auldrant-ui/pull/57))
+- Add CSS class-selector rule to style guide ([#57](https://github.com/coloneljade/auldrant-ui/pull/57))
+- Update `/push` skill to return to main after pushing ([#57](https://github.com/coloneljade/auldrant-ui/pull/57))
+- Update `/pr` skill to resolve feature branch when called from main ([#57](https://github.com/coloneljade/auldrant-ui/pull/57))
+
 ## [0.9.0] - 2026-03-05
 
 ### Added

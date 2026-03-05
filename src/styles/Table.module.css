@@ -9,18 +9,48 @@
 	font-weight: bold;
 }
 
-.table th,
-.table td {
+.captionHidden {
+	composes: visually-hidden from "@styles/shared.css";
+}
+
+.headerCell,
+.cell {
 	padding: 0.5em;
 	text-align: left;
 	border-bottom: 1px solid var(--aui-color-border);
 }
 
-.table th {
+.head {
+	background: var(--aui-color-surface);
+	border-bottom: 2px solid var(--aui-color-border);
+}
+
+.head .headerCell {
+	border-bottom: none;
+}
+
+.headerCell {
 	font-weight: bold;
 	color: var(--aui-color-text);
 }
 
-.table td {
+.cell {
 	color: var(--aui-color-text);
+}
+
+.row:hover {
+	background: var(--aui-color-background-hover);
+}
+
+.striped .row:nth-child(even) {
+	background: var(--aui-color-surface);
+}
+
+.striped .row:hover {
+	background: var(--aui-color-background-hover);
+}
+
+.dense .headerCell,
+.dense .cell {
+	padding: 0.25em;
 }
