@@ -82,6 +82,25 @@ One coherent change that could be understood and reverted independently:
 Flag files that appear in multiple commit groups. These need intermediate states
 (see Step 4 execution details).
 
+### Foreign Changes
+
+**CRITICAL: Only stage files that belong to this task.** Other processes may have
+in-progress changes in the working tree — possibly actively being written to.
+During analysis:
+
+1. Compare the file list against what this task actually touched
+2. **Exclude** any files that were not part of this implementation
+3. If unsure whether a file belongs to this task, ask the user
+4. Never commit another process's work — it may be incomplete or unformatted
+
+**Wholly foreign files** — files this task never touched — simply skip them. Do not
+`git add` them, do not include them in the snapshot, do not touch them at all.
+
+**Mixed files** — files with changes from both this task AND another process — are
+dangerous to handle via `git add` because it captures everything, and modifying
+the working copy risks corrupting another process's active work. Use git plumbing
+to stage only our content without touching the file on disk (see Step 4).
+
 ## Step 3 — Propose
 
 Present the staging plan and proceed to execution. The user can interrupt if
@@ -115,9 +134,10 @@ If the grouping is obvious — even across many commits — just proceed.
 
 For each commit group, in order:
 
-### Exclusive Files
+### Exclusive Files (Clean)
 
-Files that appear only in this commit — working tree already has the correct state:
+Files that belong entirely to this task and appear only in this commit — the working
+tree already has the correct state:
 
 ```bash
 git add <file1> <file2>
@@ -135,6 +155,30 @@ written before staging:
 
 After this commit, the working tree retains the file's final state (later commits
 will stage the remaining changes).
+
+### Mixed Files (Foreign Changes Present)
+
+**Never modify the working copy** of a file that another process may be actively
+editing. Use git plumbing to stage content directly into the index:
+
+```bash
+# 1. Prepare the file content you want committed (e.g., merge-base + only our changes)
+#    Write it to a temp file or pipe — NOT to the actual working tree path
+echo '<desired content>' > /tmp/staged-version
+
+# 2. Write the content into git's object store, get back a blob hash
+BLOB=$(git hash-object -w /tmp/staged-version)
+
+# 3. Stage that blob at the file's path without touching the working tree
+git update-index --cacheinfo 100644,$BLOB,<path/to/file>
+```
+
+This writes directly to the git index. The file on disk is never touched — other
+processes can keep writing to it freely. After the commit, the index entry is
+consumed and the working tree file remains whatever the other process left it as.
+
+For new files that only this task created (no foreign changes possible), normal
+`git add` is fine.
 
 ### Binary Files
 
