@@ -5,10 +5,13 @@ import '@styles/tokens.css';
 export { default as Button } from '@components/Button';
 export { default as Card } from '@components/Card';
 export { default as Checkbox } from '@components/Checkbox';
+export { default as Dialog } from '@components/Dialog';
+export type { IDialogAction } from '@components/DialogBase';
 export { default as DownloadLink } from '@components/DownloadLink';
 export { default as Form } from '@components/Form';
 export { default as Input } from '@components/Input';
 export { default as Link } from '@components/Link';
+export { default as Modal } from '@components/Modal';
 export { default as Nav } from '@components/Nav';
 export { default as NumberInput } from '@components/NumberInput';
 export { default as PasswordInput } from '@components/PasswordInput';
@@ -22,7 +25,7 @@ export { default as Select } from '@components/Select';
 export { default as SkipLink } from '@components/SkipLink';
 export { default as Table } from '@components/Table';
 export { default as Textarea } from '@components/Textarea';
-export { default as Theme } from '@components/Theme';
+export { default as Theme, Palette } from '@components/Theme';
 export { default as VisuallyHidden } from '@components/VisuallyHidden';
 
 // Utilities

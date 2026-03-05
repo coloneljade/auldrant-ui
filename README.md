@@ -47,6 +47,13 @@ function App() {
 | `Select` | Select dropdown with label | `options`, `value?`, `onChange?` |
 | `Textarea` | Textarea with character counter | `maxChars`, `value?`, `onInput?` |
 
+### Overlay
+
+| Component | Description | Key Props |
+|-----------|-------------|-----------|
+| `Dialog` | Dismissible dialog (Escape, backdrop, X button) | `open`, `title`, `onClose`, `message?`, `defaultAction?` |
+| `Modal` | Action-required modal (`role="alertdialog"`) | `open`, `title`, `onCancel`, `defaultAction`, `focusCancel?` |
+
 ### Layout
 
 | Component | Description | Key Props |
@@ -67,7 +74,7 @@ function App() {
 | `Route` | Renders children when location matches path | `path`, `children` |
 | `SkipLink` | Skip navigation link, hidden until focused | `target?`, `label?` |
 
-All components extend `IBaseProps` which includes `class?` and `id?`. Form controls extend `IFieldProps` which adds `label`, `name?`, `required?`, and `disabled?`. Full prop types are available in the `.d.ts` files.
+All components extend `IBaseProps` which includes `class?` and `id?`. Form controls extend `IFieldProps` which adds `label`, `name?`, `required?`, and `disabled?`. Dialog and Modal actions use the exported `IDialogAction` type (`label`, `description`, `onClick`, `shortcut`). Full prop types are available in the `.d.ts` files.
 
 ## Theming
 
