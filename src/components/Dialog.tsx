@@ -17,6 +17,8 @@ interface IDialogProps extends IBaseProps {
 	defaultAction?: IDialogAction;
 	/** Additional action buttons. */
 	actions?: IDialogAction[];
+	/** Whether the dialog can be dragged by its header. Defaults to true. */
+	draggable?: boolean;
 	/** Rich body content. Renders below message if both provided. */
 	children?: ComponentChildren;
 }
@@ -33,6 +35,7 @@ const Dialog: FunctionComponent<IDialogProps> = (props) => {
 		message,
 		defaultAction,
 		actions,
+		draggable = true,
 		children,
 		class: className,
 	} = props;
@@ -41,6 +44,7 @@ const Dialog: FunctionComponent<IDialogProps> = (props) => {
 		<DialogBase
 			open={open}
 			title={title}
+			draggable={draggable}
 			onDismiss={onClose}
 			onBackdropClick={onClose}
 			message={message}

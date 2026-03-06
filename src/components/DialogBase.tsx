@@ -1,4 +1,5 @@
 import type { IBaseProps } from '@scripts/types';
+import useDraggable from '@scripts/useDraggable';
 import { cx } from '@scripts/utils';
 import styles from '@styles/Dialog.module.css';
 import type { ComponentChildren, FunctionComponent } from 'preact';
@@ -26,6 +27,8 @@ interface IDialogBaseProps extends IBaseProps {
 	title: string;
 	/** Whether this is an alert dialog (role="alertdialog"). */
 	alert?: boolean;
+	/** Whether the dialog can be dragged by its header. */
+	draggable?: boolean;
 	/** Called when the dialog is dismissed via Escape. */
 	onDismiss: () => void;
 	/** Called when the backdrop is clicked. Only Dialog wires this. */
@@ -81,6 +84,7 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 		open,
 		title,
 		alert,
+		draggable,
 		onDismiss,
 		onBackdropClick,
 		message,
@@ -94,9 +98,12 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 	} = props;
 
 	const dialogRef = useRef<HTMLDialogElement>(null);
+	const headerRef = useRef<HTMLElement>(null);
 	const defaultButtonRef = useRef<HTMLButtonElement>(null);
 	const cancelButtonRef = useRef<HTMLButtonElement>(null);
 	const headingId = useId();
+
+	const { isDragging, reset } = useDraggable(headerRef, dialogRef, open && !!draggable);
 
 	// Sync open state with native dialog
 	useEffect(() => {
@@ -114,8 +121,9 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 			}
 		} else if (!open && dialog.open) {
 			dialog.close();
+			reset();
 		}
-	}, [open, focusCancel]);
+	}, [open, focusCancel, reset]);
 
 	// Handle native cancel event (Escape key)
 	useEffect(() => {
@@ -193,7 +201,10 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 			role={alert ? 'alertdialog' : undefined}
 		>
 			<div class={styles.panel}>
-				<header class={styles.header}>
+				<header
+					ref={headerRef}
+					class={cx(styles.header, draggable && styles.draggable, isDragging && styles.dragging)}
+				>
 					<h2 id={headingId} class={styles.title}>
 						{title}
 					</h2>

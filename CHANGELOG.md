@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.11.0] - 2026-03-06
+
+### Added
+
+- Fix dialog/modal centering with position: fixed + inset: 0 + margin: auto ([#60](https://github.com/coloneljade/auldrant-ui/pull/60))
+- Improve close button: larger glyph (2em), grid alignment with header ([#60](https://github.com/coloneljade/auldrant-ui/pull/60))
+- Add draggable support for Dialog (default), Modal stays fixed ([#60](https://github.com/coloneljade/auldrant-ui/pull/60))
+- Use Pointer Events with viewport clamping for smooth drag-to-move ([#60](https://github.com/coloneljade/auldrant-ui/pull/60))
+- Reset position on dialog close via CSS custom property removal ([#60](https://github.com/coloneljade/auldrant-ui/pull/60))
+
 ## [0.10.0] - 2026-03-05
 
 ### Added
