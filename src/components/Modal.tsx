@@ -22,6 +22,8 @@ interface IModalProps extends IBaseProps {
 	/** Focus the Cancel button on open instead of defaultAction.
 	 *  Use for destructive/dangerous actions to prevent accidental confirmation. */
 	focusCancel?: boolean;
+	/** Whether the modal can be dragged by its header. Defaults to false. */
+	draggable?: boolean;
 	/** Rich body content. Renders below message if both provided. */
 	children?: ComponentChildren;
 }
@@ -40,6 +42,7 @@ const Modal: FunctionComponent<IModalProps> = (props) => {
 		defaultAction,
 		actions,
 		focusCancel,
+		draggable = false,
 		children,
 		class: className,
 	} = props;
@@ -49,6 +52,7 @@ const Modal: FunctionComponent<IModalProps> = (props) => {
 			open={open}
 			title={title}
 			alert
+			draggable={draggable}
 			onDismiss={onCancel}
 			onCancel={onCancel}
 			cancelLabel={cancelLabel}
