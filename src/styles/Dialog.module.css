@@ -1,10 +1,17 @@
 .dialog {
+	--drag-x: 0px;
+	--drag-y: 0px;
+	position: fixed;
+	inset: 0;
+	margin: auto;
 	border: none;
 	padding: 0;
 	background: transparent;
 	color: var(--aui-color-text);
 	max-width: min(90vw, 32em);
 	width: 100%;
+	height: fit-content;
+	transform: translate(var(--drag-x), var(--drag-y));
 }
 
 .dialog::backdrop {
@@ -23,23 +30,22 @@
 .header {
 	display: grid;
 	grid-template-columns: 1fr auto;
-	align-items: center;
+	align-items: start;
 	gap: 0.5em;
 }
 
-.title {
+.title.title {
 	margin: 0;
 	font-size: 1.25em;
 }
 
 .close {
 	composes: focus-ring from "@styles/shared.css";
-	padding: 0.25em 0.5em;
 	border: none;
+	border-radius: 0.25em;
 	background: none;
 	color: var(--aui-color-text-muted);
-	font: inherit;
-	font-size: 1.25em;
+	font-size: 2em;
 	line-height: 1;
 	cursor: pointer;
 }
@@ -88,4 +94,14 @@
 .primary:hover {
 	background: var(--aui-color-primary-hover);
 	border-color: var(--aui-color-primary-hover);
+}
+
+.draggable {
+	cursor: grab;
+	user-select: none;
+	touch-action: none;
+}
+
+.dragging {
+	cursor: grabbing;
 }
