@@ -127,7 +127,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Comprehensive test coverage (114 tests) ([#7](https://github.com/coloneljade/auldrant-ui/pull/7))
 - Pit of success design principle for component APIs ([#7](https://github.com/coloneljade/auldrant-ui/pull/7))
 - Binary tools principle (Biome fixes, not manual edits) ([#7](https://github.com/coloneljade/auldrant-ui/pull/7))
-- Mandatory skills workflow (staging, pushing, PRs) ([#7](https://github.com/coloneljade/auldrant-ui/pull/7))
 - Import aliases (`@components`, `@scripts`, `@signals`, `@styles`) ([#7](https://github.com/coloneljade/auldrant-ui/pull/7))
 - **Head component** — meta/document head management (issue #18) ([#7](https://github.com/coloneljade/auldrant-ui/pull/7))
 - **Form data typing** — generic type parameter for typed onSubmit (issue #8) ([#7](https://github.com/coloneljade/auldrant-ui/pull/7))
