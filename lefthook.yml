@@ -3,6 +3,7 @@ pre-commit:
   commands:
     check:
       glob: "*.{ts,tsx,css,json}"
+      exclude: ".claude/**"
       run: bunx biome check {staged_files}
       env:
         PATH: $HOME/.bun/bin:$PATH
