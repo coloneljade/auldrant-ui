@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.11.1] - 2026-03-07
+
+### Fixed
+
+- Use Lucide X SVG icon for pixel-perfect centering (replacing × text glyph) ([#61](https://github.com/coloneljade/auldrant-ui/pull/61))
+- Apply rem-based min-width/min-height to guarantee 44px touch target regardless of inherited font-size ([#61](https://github.com/coloneljade/auldrant-ui/pull/61))
+
 ## [0.11.0] - 2026-03-06
 
 ### Added
