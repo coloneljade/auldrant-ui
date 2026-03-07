@@ -48,18 +48,26 @@ jobs:
       - name: Publish to npm
         id: publish
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: npm publish --provenance
+        run: |
+          VERSION=$(jq -r .version package.json)
+          if npm view "@auldrant/ui@$VERSION" version 2>/dev/null | grep -q "$VERSION"; then
+            echo "Version $VERSION already published, skipping."
+            echo "published=false" >> $GITHUB_OUTPUT
+          else
+            npm publish --provenance
+            echo "published=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Generate App token
         id: app-token
-        if: steps.publish.outcome == 'success'
+        if: steps.publish.outputs.published == 'true'
         uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ secrets.MERGE_APP_ID }}
           private-key: ${{ secrets.MERGE_APP_PRIVATE_KEY }}
 
       - name: Post publish comment
-        if: steps.publish.outcome == 'success'
+        if: steps.publish.outputs.published == 'true'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |

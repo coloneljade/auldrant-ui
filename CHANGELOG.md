@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.11.2] - 2026-03-07
+
+### Fixed
+
+- Skip npm publish step when the package version is already published to avoid failed CI runs ([#63](https://github.com/coloneljade/auldrant-ui/pull/63))
+- Use npm view to check if version exists before attempting publish ([#63](https://github.com/coloneljade/auldrant-ui/pull/63))
+- Gate merge bot notification on successful publish, not just publish attempt ([#63](https://github.com/coloneljade/auldrant-ui/pull/63))
+
 ## [0.11.1] - 2026-03-07
 
 ### Fixed
