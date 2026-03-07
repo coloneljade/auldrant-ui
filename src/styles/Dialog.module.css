@@ -30,7 +30,7 @@
 .header {
 	display: grid;
 	grid-template-columns: 1fr auto;
-	align-items: start;
+	align-items: center;
 	gap: 0.5em;
 }
 
@@ -41,12 +41,16 @@
 
 .close {
 	composes: focus-ring from "@styles/shared.css";
+	display: inline-grid;
+	place-items: center;
+	/* rem ensures 44px touch target (WCAG 2.5.5) regardless of inherited font-size */
+	min-width: 2.75rem;
+	min-height: 2.75rem;
 	border: none;
 	border-radius: 0.25em;
+	padding: 0;
 	background: none;
 	color: var(--aui-color-text-muted);
-	font-size: 2em;
-	line-height: 1;
 	cursor: pointer;
 }
 
