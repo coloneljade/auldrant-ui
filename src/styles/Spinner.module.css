@@ -1,0 +1,33 @@
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.spinner {
+	display: inline-block;
+	width: 1.5em;
+	height: 1.5em;
+	border: 0.2em solid var(--aui-color-border);
+	border-top-color: var(--aui-color-primary);
+	border-radius: 50%;
+	animation: spin 0.75s linear infinite;
+	vertical-align: middle;
+}
+
+.sm {
+	width: 1em;
+	height: 1em;
+}
+
+.lg {
+	width: 2.5em;
+	height: 2.5em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.spinner {
+		animation: none;
+		opacity: 0.6;
+	}
+}
