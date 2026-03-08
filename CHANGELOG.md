@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.12.2] - 2026-03-08
+
+### Fixed
+
+- fix(ci): add workflow_dispatch trigger and update publish condition ([#71](https://github.com/coloneljade/auldrant-ui/pull/71))
+
 ## [0.12.1] - 2026-03-08
 
 ### Fixed
