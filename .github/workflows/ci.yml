@@ -50,7 +50,8 @@ jobs:
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           VERSION=$(jq -r .version package.json)
-          if npm view "@auldrant/ui@$VERSION" version 2>/dev/null | grep -q "$VERSION"; then
+          PUBLISHED=$(npm view "@auldrant/ui@${VERSION}" version 2>/dev/null)
+          if [ "$PUBLISHED" = "$VERSION" ]; then
             echo "Version $VERSION already published, skipping."
             echo "published=false" >> $GITHUB_OUTPUT
           else
