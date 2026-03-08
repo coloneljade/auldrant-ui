@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.12.1] - 2026-03-08
+
+### Fixed
+
+- fix(ci): remove setup-node to unblock OIDC npm publish ([#70](https://github.com/coloneljade/auldrant-ui/pull/70))
+
 ## [0.12.0] - 2026-03-08
 
 ### Changed
