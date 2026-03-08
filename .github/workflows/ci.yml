@@ -50,8 +50,7 @@ jobs:
         if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         run: |
           VERSION=$(jq -r .version package.json)
-          PUBLISHED=$(npm view "@auldrant/ui@${VERSION}" version 2>/dev/null)
-          if [ "$PUBLISHED" = "$VERSION" ]; then
+          if npm view "@auldrant/ui@${VERSION}" version --json 2>/dev/null | grep -qF "\"${VERSION}\""; then
             echo "Version $VERSION already published, skipping."
             echo "published=false" >> $GITHUB_OUTPUT
           else
