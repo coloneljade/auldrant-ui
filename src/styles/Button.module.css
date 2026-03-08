@@ -12,3 +12,11 @@
 .button:hover {
 	background: var(--aui-color-primary-hover);
 }
+
+.iconButton {
+	padding: 0.5em;
+	min-width: 2.75rem;
+	min-height: 2.75rem;
+	display: inline-grid;
+	place-items: center;
+}

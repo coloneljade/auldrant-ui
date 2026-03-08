@@ -1,3 +1,4 @@
+import Badge from '@components/Badge';
 import Button from '@components/Button';
 import Card from '@components/Card';
 import Checkbox from '@components/Checkbox';
@@ -14,10 +15,12 @@ import RadioGroup from '@components/RadioGroup';
 import Section from '@components/Section';
 import Select from '@components/Select';
 import SkipLink from '@components/SkipLink';
+import Spinner from '@components/Spinner';
 import Table from '@components/Table';
 import Textarea from '@components/Textarea';
 import Theme from '@components/Theme';
 import { useSignal } from '@preact/signals';
+import { Search, Trash2, X } from 'lucide-preact';
 import type { FunctionComponent } from 'preact';
 
 const ThemeSwatches: FunctionComponent = () => (
@@ -113,6 +116,12 @@ const ButtonSection: FunctionComponent = () => (
 			<Button label="Submit" type="submit" />
 			<Button label="Reset" type="reset" />
 			<Button label="Disabled" disabled />
+		</div>
+		<div class="dev-row" style="margin-top: 0.75em; align-items: center;">
+			<span style="color: var(--aui-color-text-muted); font-size: 0.875em;">Icon-only:</span>
+			<Button icon={<Search size="1.25em" aria-hidden="true" />} aria-label="Search" />
+			<Button icon={<X size="1.25em" aria-hidden="true" />} aria-label="Close" />
+			<Button icon={<Trash2 size="1.25em" aria-hidden="true" />} aria-label="Delete" disabled />
 		</div>
 	</div>
 );
@@ -321,6 +330,32 @@ const TableSection: FunctionComponent = () => (
 	</div>
 );
 
+const SpinnerSection: FunctionComponent = () => (
+	<div class="dev-section">
+		<h2>Spinner</h2>
+		<div class="dev-row" style="align-items: center;">
+			<Spinner size="sm" />
+			<Spinner />
+			<Spinner size="lg" />
+			<Spinner label="Saving…" />
+		</div>
+	</div>
+);
+
+const BadgeSection: FunctionComponent = () => (
+	<div class="dev-section">
+		<h2>Badge</h2>
+		<div class="dev-row" style="align-items: center; flex-wrap: wrap; gap: 0.5em;">
+			<Badge>Neutral</Badge>
+			<Badge variant="success">Active</Badge>
+			<Badge variant="warning">Pending</Badge>
+			<Badge variant="error">Failed</Badge>
+			<Badge>42</Badge>
+			<Badge variant="success">✓ Verified</Badge>
+		</div>
+	</div>
+);
+
 const CardSection: FunctionComponent = () => (
 	<div class="dev-section">
 		<h2>Card</h2>
@@ -484,6 +519,8 @@ export const TestPage: FunctionComponent = () => (
 			<h1>Auldrant UI — Dev Test Page</h1>
 			<ThemeSwatches />
 			<ButtonSection />
+			<SpinnerSection />
+			<BadgeSection />
 			<LinkSection />
 			<InputSection />
 			<NumberInputSection />

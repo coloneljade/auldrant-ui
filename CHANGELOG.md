@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.12.0] - 2026-03-08
+
+### Changed
+
+- fix(table): narrow data cell type from `ComponentChildren` to `ComponentChild` ([#68](https://github.com/coloneljade/auldrant-ui/pull/68))
+- test(theme): add behavioral tests for Theme component ([#68](https://github.com/coloneljade/auldrant-ui/pull/68))
+- feat(button): add icon-only variant with enforced aria-label and aria-hidden ([#68](https://github.com/coloneljade/auldrant-ui/pull/68))
+- feat(spinner): add Spinner loading indicator component ([#68](https://github.com/coloneljade/auldrant-ui/pull/68))
+- feat(badge): add Badge status/count indicator component ([#68](https://github.com/coloneljade/auldrant-ui/pull/68))
+- feat(head): extend head signals with meta/OG tags and add Head component ([#68](https://github.com/coloneljade/auldrant-ui/pull/68))
+- chore(dev): add Spinner, Badge, and icon Button to TestPage ([#68](https://github.com/coloneljade/auldrant-ui/pull/68))
+- fix(ci): use exact string comparison for npm version check in publish step ([#68](https://github.com/coloneljade/auldrant-ui/pull/68))
+
 ## [0.11.2] - 2026-03-07
 
 ### Fixed
