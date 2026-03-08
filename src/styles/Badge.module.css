@@ -1,0 +1,27 @@
+.badge {
+	display: inline-block;
+	padding: 0.125em 0.5em;
+	border-radius: 9999em;
+	background: var(--aui-color-border);
+	color: var(--aui-color-text);
+	font-size: 0.75em;
+	font-weight: 600;
+	line-height: 1.5;
+	white-space: nowrap;
+}
+
+.success {
+	background: var(--aui-color-success);
+	color: var(--aui-color-background);
+}
+
+/* oklch(0.78 0.18 80) — yellow-orange, same lightness/chroma as success/error */
+.warning {
+	background: oklch(0.78 0.18 80);
+	color: var(--aui-color-background);
+}
+
+.error {
+	background: var(--aui-color-error);
+	color: var(--aui-color-background);
+}
