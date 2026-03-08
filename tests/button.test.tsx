@@ -1,6 +1,10 @@
 import { describe, expect, it, mock } from 'bun:test';
 import Button from '@components/Button';
 import { fireEvent, render } from '@testing-library/preact';
+import type { VNode } from 'preact';
+
+// Intentionally no aria-hidden — the Button component is responsible for injecting it.
+const icon: VNode = <svg width="16" height="16" />;
 
 describe('Button', () => {
 	it('defaults to type="button"', () => {
@@ -51,5 +55,51 @@ describe('Button', () => {
 
 		// Assert
 		expect(handleClick).not.toHaveBeenCalled();
+	});
+});
+
+describe('Button (icon-only)', () => {
+	it('renders with the accessible label', () => {
+		// Act
+		const { getByRole } = render(<Button icon={icon} aria-label="Close" />);
+
+		// Assert
+		getByRole('button', { name: 'Close' });
+	});
+
+	it('defaults to type="button"', () => {
+		// Act
+		const { getByRole } = render(<Button icon={icon} aria-label="Close" />);
+
+		// Assert
+		expect((getByRole('button') as HTMLButtonElement).type).toBe('button');
+	});
+
+	it('calls onClick when clicked', () => {
+		// Arrange
+		const handleClick = mock(() => {});
+		const { getByRole } = render(<Button icon={icon} aria-label="Close" onClick={handleClick} />);
+
+		// Act
+		fireEvent.click(getByRole('button'));
+
+		// Assert
+		expect(handleClick).toHaveBeenCalledTimes(1);
+	});
+
+	it('is disabled when disabled prop is set', () => {
+		// Act
+		const { getByRole } = render(<Button icon={icon} aria-label="Close" disabled />);
+
+		// Assert
+		expect((getByRole('button') as HTMLButtonElement).disabled).toBe(true);
+	});
+
+	it('enforces aria-hidden on the icon so AT reads only the aria-label', () => {
+		// Act
+		const { container } = render(<Button icon={icon} aria-label="Close" />);
+
+		// Assert — icon is hidden from AT regardless of what the consumer passed
+		expect(container.querySelector('svg')?.getAttribute('aria-hidden')).toBe('true');
 	});
 });
