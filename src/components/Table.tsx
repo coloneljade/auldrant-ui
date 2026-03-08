@@ -1,7 +1,7 @@
 import type { IBaseProps } from '@scripts/types';
 import { cx } from '@scripts/utils';
 import styles from '@styles/Table.module.css';
-import type { ComponentChildren, FunctionComponent } from 'preact';
+import type { ComponentChild, FunctionComponent } from 'preact';
 
 /** Props for {@link Table}. */
 interface ITableProps extends IBaseProps {
@@ -10,7 +10,7 @@ interface ITableProps extends IBaseProps {
 	/** Column header labels. */
 	headers: string[];
 	/** Row data as a 2D array of renderable content. */
-	data: ComponentChildren[][];
+	data: ComponentChild[][];
 	/** Render the first column as `<th scope="row">` for row identification. */
 	rowHeader?: boolean;
 	/** Apply alternating row backgrounds for improved scanability. */
