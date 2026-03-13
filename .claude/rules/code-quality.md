@@ -58,6 +58,22 @@ This includes:
 
 If a lint rule conflicts with project settings, escalate the conflict to the user rather than suppressing either side.
 
+## Null Checks
+
+**Use truthy checks (`if (value)`) — never `!== undefined` or `!== null`.**
+
+Optional string and value props must be guarded with a plain truthy check. Explicit
+null/undefined comparisons are forbidden for this pattern.
+
+```ts
+// Correct
+if (value) sig.value = value;
+
+// Wrong — never use these
+if (value !== undefined) sig.value = value;
+if (value != null) sig.value = value;
+```
+
 ## Minimal Dependencies
 
 Only add a package when:
