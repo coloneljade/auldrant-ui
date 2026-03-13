@@ -91,6 +91,22 @@ Defined in `biome.json` and `.editorconfig`. Key conventions:
 - Destructure props in the function body, never in the parameter list.
 - Dot notation for property access (`styles.theme`), bracket notation only for dynamic keys.
 
+### Prefer natural TypeScript over utility-type aliases
+
+Use the language's native syntax instead of verbose utility-type shorthands — it's more
+readable and keeps type reasoning local. Example: `{ [key in MyEnum]: V }` over
+`Record<MyEnum, V>`. Apply this principle broadly: if the native form is clear, prefer it.
+
+### Enums
+
+Prefer `enum` over string unions for any named set of values — enables find-all-references,
+autocomplete, and exhaustive checks that raw strings cannot provide.
+
+- **Name**: `PascalCase` type, `camelCase` members — e.g. `AlertVariant.info`.
+- **Values**: match the member name — `info = 'info'`.
+- **No `const enum`**: `isolatedModules: true` + esbuild make it unsafe for a published library.
+- **Exhaustive maps**: `{ [key in MyEnum]: V }` — TypeScript errors on missing keys.
+
 ## Component Conventions
 
 ### Declaration
