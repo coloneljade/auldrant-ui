@@ -58,6 +58,9 @@
 
 .accordion-panel-inner {
 	overflow: hidden;
+}
+
+.open .accordion-panel-inner {
 	padding: 0 1em 0.75em;
 }
 
