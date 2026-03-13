@@ -7,6 +7,7 @@ export { default as Badge } from '@components/Badge';
 export { default as Button } from '@components/Button';
 export { default as Card } from '@components/Card';
 export { default as Checkbox } from '@components/Checkbox';
+export { ChipVariant, default as Chip } from '@components/Chip';
 export { default as Dialog } from '@components/Dialog';
 export type { IDialogAction } from '@components/DialogBase';
 export { default as DownloadLink } from '@components/DownloadLink';

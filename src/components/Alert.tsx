@@ -3,7 +3,7 @@ import type { IBaseProps } from '@scripts/types';
 import { cx } from '@scripts/utils';
 import styles from '@styles/Alert.module.css';
 import type { FunctionComponent } from 'preact';
-import { useEffect } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 
 /** Severity variants for {@link Alert}. Controls ARIA live region role and color. */
 export enum AlertVariant {
@@ -44,6 +44,13 @@ interface IAlertProps extends IBaseProps {
 	duration?: number;
 }
 
+const variantClass: { [key in AlertVariant]: string | undefined } = {
+	[AlertVariant.info]: styles.info,
+	[AlertVariant.success]: styles.success,
+	[AlertVariant.warning]: styles.warning,
+	[AlertVariant.error]: styles.error,
+};
+
 const roleByVariant: { [key in AlertVariant]: 'alert' | 'status' } = {
 	[AlertVariant.error]: 'alert',
 	[AlertVariant.warning]: 'alert',
@@ -71,17 +78,26 @@ const Alert: FunctionComponent<IAlertProps> = (props) => {
 	} = props;
 
 	const role = roleByVariant[variant];
+	const [dismissing, setDismissing] = useState(false);
 
 	useEffect(() => {
 		if (!duration || !onDismiss) {
 			return;
 		}
-		const t = setTimeout(onDismiss, duration);
+		const t = setTimeout(() => setDismissing(true), duration);
 		return () => clearTimeout(t);
 	}, [duration, onDismiss]);
 
 	return (
-		<div role={role} class={cx(styles.alert, styles[variant], className)}>
+		<div
+			role={role}
+			class={cx(styles.alert, variantClass[variant], dismissing && styles.dismissing, className)}
+			onAnimationEnd={(e) => {
+				if (dismissing && e.target === e.currentTarget) {
+					onDismiss?.();
+				}
+			}}
+		>
 			<div class={styles.alertBody}>
 				{title && <p class={styles.alertTitle}>{title}</p>}
 				<p class={styles.alertMessage}>{message}</p>
@@ -97,7 +113,7 @@ const Alert: FunctionComponent<IAlertProps> = (props) => {
 				)}
 			</div>
 			{onDismiss && (
-				<button type="button" class={styles.alertDismiss} onClick={onDismiss}>
+				<button type="button" class={styles.alertDismiss} onClick={() => setDismissing(true)}>
 					{dismissLabel}
 				</button>
 			)}
