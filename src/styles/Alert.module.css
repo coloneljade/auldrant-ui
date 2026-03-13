@@ -1,0 +1,72 @@
+.alert {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: 0.75em;
+	align-items: start;
+	padding: 0.75em 1em;
+	border-left: 0.25em solid;
+	border-radius: 0.25em;
+}
+
+.body {
+	display: grid;
+	gap: 0.25em;
+}
+
+.title {
+	margin: 0;
+	font-weight: 600;
+}
+
+.message {
+	margin: 0;
+}
+
+.action {
+	composes: focus-ring from "@styles/shared.css";
+	display: inline-block;
+	margin-top: 0.25em;
+	font: inherit;
+	cursor: pointer;
+}
+
+.dismiss {
+	composes: focus-ring from "@styles/shared.css";
+	align-self: start;
+	padding: 0.125em 0.5em;
+	border: 1px solid currentColor;
+	border-radius: 0.25em;
+	background: transparent;
+	color: inherit;
+	font: inherit;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+/* Variant: info */
+.info {
+	border-color: var(--aui-color-info);
+	background: color-mix(in oklch, var(--aui-color-info) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}
+
+/* Variant: success */
+.success {
+	border-color: var(--aui-color-success);
+	background: color-mix(in oklch, var(--aui-color-success) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}
+
+/* Variant: warning */
+.warning {
+	border-color: var(--aui-color-warning);
+	background: color-mix(in oklch, var(--aui-color-warning) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}
+
+/* Variant: error */
+.error {
+	border-color: var(--aui-color-error);
+	background: color-mix(in oklch, var(--aui-color-error) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}

@@ -2,6 +2,7 @@
 import '@styles/tokens.css';
 
 // Components
+export { AlertVariant, default as Alert } from '@components/Alert';
 export { default as Badge } from '@components/Badge';
 export { default as Button } from '@components/Button';
 export { default as Card } from '@components/Card';
@@ -17,8 +18,8 @@ export { default as Modal } from '@components/Modal';
 export { default as Nav } from '@components/Nav';
 export { default as NumberInput } from '@components/NumberInput';
 export { default as PasswordInput } from '@components/PasswordInput';
-// Types
 export type { IRadioOption } from '@components/RadioGroup';
+// Types
 export { default as RadioGroup } from '@components/RadioGroup';
 export { default as Route } from '@components/Route';
 export { default as Section } from '@components/Section';
