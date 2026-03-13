@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.13.0] - 2026-03-13
+
+### Added
+
+- Add \`--aui-color-warning\` and \`--aui-color-info\` color tokens (dark + light mode) ([#73](https://github.com/coloneljade/auldrant-ui/pull/73))
+- Add \`Alert\` component with ARIA live region roles (\`role="alert"\` / \`role="status"\` by variant), optional title, action (link or button), dismiss button, and auto-dismiss via \`duration\` ([#73](https://github.com/coloneljade/auldrant-ui/pull/73))
+- Add \`AlertVariant\` enum exported from the library public API ([#73](https://github.com/coloneljade/auldrant-ui/pull/73))
+- Add behavioral tests (17 cases) and a11y tests (axe baseline + WCAG SC assertions) ([#73](https://github.com/coloneljade/auldrant-ui/pull/73))
+- Add Alert section to dev test page with static and interactive demos ([#73](https://github.com/coloneljade/auldrant-ui/pull/73))
+- Add library component and content API guidance to code-quality rules ([#73](https://github.com/coloneljade/auldrant-ui/pull/73))
+- Enable \`localsConvention: 'camelCaseOnly'\` in Vite CSS modules config; rename all CSS module classes to kebab-case source with component-prefixed sub-element names (e.g. \`.alert-body\`, \`.dialog-title\`) ([#73](https://github.com/coloneljade/auldrant-ui/pull/73))
+
 ## [0.12.1] - 2026-03-08
 
 ### Fixed
