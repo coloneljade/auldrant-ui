@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.14.0] - 2026-03-13
+
+### Added
+
+- feat(Chip): add dismissible tag component with neutral/success/warning/error variants, optional X icon remove button (lucide-preact), and Backspace/Delete keyboard support ([#76](https://github.com/coloneljade/auldrant-ui/pull/76))
+- docs(test-page): add Chip section covering static variants, dismissible chips, and interactive signal-driven tag list ([#76](https://github.com/coloneljade/auldrant-ui/pull/76))
+- chore(test-page): split all test page sections into `dev/sections/` — one file per component, TestPage.tsx becomes a thin orchestrator ([#76](https://github.com/coloneljade/auldrant-ui/pull/76))
+- fix(Alert): fade-in on mount, fade-out on dismiss before unmount; respects `prefers-reduced-motion`; fixes `styles[variant]` to exhaustive map ([#76](https://github.com/coloneljade/auldrant-ui/pull/76))
+- fix(Chip): X button pinned to right edge via explicit `grid-template-columns`; remove button meets WCAG 2.5.8 24×24px touch target minimum ([#76](https://github.com/coloneljade/auldrant-ui/pull/76))
+
 ## [0.13.0] - 2026-03-13
 
 ### Added
