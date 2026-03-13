@@ -26,6 +26,12 @@ interface IHeadProps {
  * <Head title="My Page" description="Page description" canonical="https://example.com/page" />
  * ```
  */
+function syncProp(sig: { value: string }, value: string | undefined): void {
+	if (value) {
+		sig.value = value;
+	}
+}
+
 const Head: FunctionComponent<IHeadProps> = (props) => {
 	const {
 		title: titleProp,
@@ -36,41 +42,12 @@ const Head: FunctionComponent<IHeadProps> = (props) => {
 		ogImage: ogImageProp,
 	} = props;
 
-	useEffect(() => {
-		if (titleProp !== undefined) {
-			title.value = titleProp;
-		}
-	}, [titleProp]);
-
-	useEffect(() => {
-		if (descProp !== undefined) {
-			description.value = descProp;
-		}
-	}, [descProp]);
-
-	useEffect(() => {
-		if (canonicalProp !== undefined) {
-			canonical.value = canonicalProp;
-		}
-	}, [canonicalProp]);
-
-	useEffect(() => {
-		if (ogTitleProp !== undefined) {
-			ogTitle.value = ogTitleProp;
-		}
-	}, [ogTitleProp]);
-
-	useEffect(() => {
-		if (ogDescProp !== undefined) {
-			ogDescription.value = ogDescProp;
-		}
-	}, [ogDescProp]);
-
-	useEffect(() => {
-		if (ogImageProp !== undefined) {
-			ogImage.value = ogImageProp;
-		}
-	}, [ogImageProp]);
+	useEffect(() => syncProp(title, titleProp), [titleProp]);
+	useEffect(() => syncProp(description, descProp), [descProp]);
+	useEffect(() => syncProp(canonical, canonicalProp), [canonicalProp]);
+	useEffect(() => syncProp(ogTitle, ogTitleProp), [ogTitleProp]);
+	useEffect(() => syncProp(ogDescription, ogDescProp), [ogDescProp]);
+	useEffect(() => syncProp(ogImage, ogImageProp), [ogImageProp]);
 
 	return null;
 };
