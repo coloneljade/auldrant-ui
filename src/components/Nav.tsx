@@ -22,7 +22,7 @@ const Nav: FunctionComponent<INavProps> = (props) => {
 	return (
 		<nav class={cx(styles.nav, className)} aria-labelledby={title ? headingId : undefined}>
 			{title && (
-				<h2 id={headingId} class={styles.title}>
+				<h2 id={headingId} class={styles.navTitle}>
 					{title}
 				</h2>
 			)}

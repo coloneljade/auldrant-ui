@@ -3,7 +3,7 @@
 	gap: 1em;
 }
 
-.actions {
+.form-actions {
 	display: grid;
 	grid-auto-flow: column;
 	justify-content: start;

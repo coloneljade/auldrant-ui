@@ -205,6 +205,27 @@ bugs — stale state, mismatched DOM, broken animations.
 {users.map((user) => <li key={user.role}>{user.name}</li>)}
 ```
 
+### CSS Module Class Naming
+
+Vite is configured with `localsConvention: 'camelCaseOnly'`. This means:
+
+- **CSS source** uses kebab-case: `.alert-body`, `.dialog-title`, `.icon-button`
+- **TSX access** uses camelCase: `styles.alertBody`, `styles.dialogTitle`, `styles.iconButton`
+- The bundler converts automatically — never write camelCase in CSS source
+
+**Sub-element names must be prefixed with the component name** for searchability:
+
+| Good | Bad |
+|------|-----|
+| `.alert-body` | `.body` |
+| `.dialog-title` | `.title` |
+| `.password-input-wrapper` | `.wrapper` |
+
+**Variant/modifier names** (e.g. `.success`, `.error`, `.warning`) are semantically
+self-contained and don't need prefixing — they describe a state, not a sub-element.
+
+**Root class** matches the component name in kebab-case: `.alert`, `.dialog`, `.nav`.
+
 ### File Structure
 
 - No barrel files (`index.ts`) — import components directly

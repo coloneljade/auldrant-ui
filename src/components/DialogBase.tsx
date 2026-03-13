@@ -206,13 +206,13 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 					ref={headerRef}
 					class={cx(styles.header, draggable && styles.draggable, isDragging && styles.dragging)}
 				>
-					<h2 id={headingId} class={styles.title}>
+					<h2 id={headingId} class={styles.dialogTitle}>
 						{title}
 					</h2>
 					{!alert && (
 						<button
 							type="button"
-							class={styles.close}
+							class={styles.dialogClose}
 							title={defaults.closeDescription}
 							onClick={onDismiss}
 						>
@@ -220,8 +220,8 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 						</button>
 					)}
 				</header>
-				<div class={styles.body}>
-					{message && <p class={styles.message}>{message}</p>}
+				<div class={styles.dialogBody}>
+					{message && <p class={styles.dialogMessage}>{message}</p>}
 					{children}
 				</div>
 				{hasFooter && (
@@ -230,7 +230,7 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 							<button
 								key={action.label}
 								type="button"
-								class={styles.action}
+								class={styles.dialogAction}
 								title={action.description}
 								onClick={action.onClick}
 							>
@@ -241,7 +241,7 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 							<button
 								ref={defaultButtonRef}
 								type="button"
-								class={cx(styles.action, styles.primary)}
+								class={cx(styles.dialogAction, styles.primary)}
 								title={defaultAction.description}
 								onClick={defaultAction.onClick}
 							>
@@ -252,7 +252,7 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 							<button
 								ref={cancelButtonRef}
 								type="button"
-								class={styles.action}
+								class={styles.dialogAction}
 								title={defaults.cancelDescription}
 								onClick={onCancel}
 							>

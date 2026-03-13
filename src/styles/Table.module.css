@@ -9,11 +9,11 @@
 	font-weight: bold;
 }
 
-.captionHidden {
+.caption-hidden {
 	composes: visually-hidden from "@styles/shared.css";
 }
 
-.headerCell,
+.header-cell,
 .cell {
 	padding: 0.5em;
 	text-align: left;
@@ -25,11 +25,11 @@
 	border-bottom: 2px solid var(--aui-color-border);
 }
 
-.head .headerCell {
+.head .header-cell {
 	border-bottom: none;
 }
 
-.headerCell {
+.header-cell {
 	font-weight: bold;
 	color: var(--aui-color-text);
 }
@@ -50,7 +50,7 @@
 	background: var(--aui-color-background-hover);
 }
 
-.dense .headerCell,
+.dense .header-cell,
 .dense .cell {
 	padding: 0.25em;
 }

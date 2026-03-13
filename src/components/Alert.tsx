@@ -82,22 +82,22 @@ const Alert: FunctionComponent<IAlertProps> = (props) => {
 
 	return (
 		<div role={role} class={cx(styles.alert, styles[variant], className)}>
-			<div class={styles.body}>
-				{title && <p class={styles.title}>{title}</p>}
-				<p class={styles.message}>{message}</p>
+			<div class={styles.alertBody}>
+				{title && <p class={styles.alertTitle}>{title}</p>}
+				<p class={styles.alertMessage}>{message}</p>
 				{actionLabel && actionHref && (
-					<Link href={actionHref} class={styles.action}>
+					<Link href={actionHref} class={styles.alertAction}>
 						{actionLabel}
 					</Link>
 				)}
 				{actionLabel && onAction && (
-					<button type="button" class={styles.action} onClick={onAction}>
+					<button type="button" class={styles.alertAction} onClick={onAction}>
 						{actionLabel}
 					</button>
 				)}
 			</div>
 			{onDismiss && (
-				<button type="button" class={styles.dismiss} onClick={onDismiss}>
+				<button type="button" class={styles.alertDismiss} onClick={onDismiss}>
 					{dismissLabel}
 				</button>
 			)}

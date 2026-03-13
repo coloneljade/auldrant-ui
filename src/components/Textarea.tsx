@@ -67,7 +67,7 @@ const Textarea: FunctionComponent<ITextareaProps> = (props) => {
 			errorId={errorId}
 			class={className}
 		>
-			<div class={styles.wrapper}>
+			<div class={styles.textareaWrapper}>
 				<textarea
 					id={id}
 					class={styles.textarea}

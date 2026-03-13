@@ -52,7 +52,7 @@ const PasswordInput: FunctionComponent<IPasswordInputProps> = (props) => {
 			errorId={errorId}
 			class={className}
 		>
-			<div class={styles.wrapper}>
+			<div class={styles.passwordInputWrapper}>
 				<input
 					id={id}
 					class={styles.input}

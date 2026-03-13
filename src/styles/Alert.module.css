@@ -8,21 +8,21 @@
 	border-radius: 0.25em;
 }
 
-.body {
+.alert-body {
 	display: grid;
 	gap: 0.25em;
 }
 
-.title {
+.alert-title {
 	margin: 0;
 	font-weight: 600;
 }
 
-.message {
+.alert-message {
 	margin: 0;
 }
 
-.action {
+.alert-action {
 	composes: focus-ring from "@styles/shared.css";
 	display: inline-block;
 	margin-top: 0.25em;
@@ -30,7 +30,7 @@
 	cursor: pointer;
 }
 
-.dismiss {
+.alert-dismiss {
 	composes: focus-ring from "@styles/shared.css";
 	align-self: start;
 	padding: 0.125em 0.5em;
