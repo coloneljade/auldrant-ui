@@ -33,6 +33,12 @@ function App() {
 
 ## Components
 
+### Disclosure
+
+| Component | Description | Key Props |
+|-----------|-------------|-----------|
+| `Accordion` | Collapsible disclosure sections with ARIA state and smooth animation | `items`, `exclusive?` |
+
 ### Feedback
 
 | Component | Description | Key Props |

@@ -1,5 +1,6 @@
 import Theme from '@components/Theme';
 import type { FunctionComponent } from 'preact';
+import { AccordionSection } from './sections/AccordionSection';
 import { AlertSection } from './sections/AlertSection';
 import { BadgeSection } from './sections/BadgeSection';
 import { ButtonSection } from './sections/ButtonSection';
@@ -27,6 +28,7 @@ export const TestPage: FunctionComponent = () => (
 		<div class="dev-page" id="main">
 			<h1>Auldrant UI — Dev Test Page</h1>
 			<ThemeSwatches />
+			<AccordionSection />
 			<AlertSection />
 			<ButtonSection />
 			<SpinnerSection />
