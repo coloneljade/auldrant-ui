@@ -3,7 +3,7 @@ import Checkbox from '@components/Checkbox';
 import Form from '@components/Form';
 import Input from '@components/Input';
 import NumberInput from '@components/NumberInput';
-import PasswordInput from '@components/PasswordInput';
+import PasswordInput, { PasswordPurpose } from '@components/PasswordInput';
 import Select from '@components/Select';
 import Textarea from '@components/Textarea';
 import type { FunctionComponent } from 'preact';
@@ -21,7 +21,7 @@ export const FormDemo: FunctionComponent = () => (
 			>
 				<Input label="Full name" name="fullname" required />
 				<Input label="Email" name="email" type="email" required />
-				<PasswordInput label="Password" name="password" purpose="new" required />
+				<PasswordInput label="Password" name="password" purpose={PasswordPurpose.new} required />
 				<NumberInput label="Age" name="age" min={0} max={150} />
 				<Select
 					label="Country"

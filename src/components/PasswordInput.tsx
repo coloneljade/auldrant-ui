@@ -7,10 +7,16 @@ import { Eye, EyeOff } from 'lucide-preact';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
+/** Whether the password field is for the current or a new password. */
+export enum PasswordPurpose {
+	current = 'current',
+	new = 'new',
+}
+
 /** Props for {@link PasswordInput}. */
 interface IPasswordInputProps extends IFieldProps {
 	/** Whether this is for the current password or a new one. Drives `autocomplete` automatically. */
-	purpose: 'current' | 'new';
+	purpose: PasswordPurpose;
 	/** Current input value. */
 	value?: string;
 	/** Placeholder text. */
@@ -20,10 +26,10 @@ interface IPasswordInputProps extends IFieldProps {
 }
 
 /** Autocomplete values for each purpose. */
-const autocompleteMap = {
-	current: 'current-password',
-	new: 'new-password',
-} as const;
+const autocompleteMap: { [key in PasswordPurpose]: string } = {
+	[PasswordPurpose.current]: 'current-password',
+	[PasswordPurpose.new]: 'new-password',
+};
 
 /** Password input with show/hide toggle, wrapped in FormField for layout. */
 const PasswordInput: FunctionComponent<IPasswordInputProps> = (props) => {
