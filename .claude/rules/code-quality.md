@@ -10,6 +10,20 @@
 - Use native HTML semantics before ARIA — a `<button>` with descriptive text beats `aria-label` + `aria-pressed`
 - Lean on native validation, input types, and browser behavior before building custom logic
 
+## Use Library Components
+
+When building a new component that needs navigation or linking, always use the library's
+`Link` component — never a raw `<a>`. Before reaching for any raw HTML element, check
+`src/index.ts` to see if the library already has a component for that purpose.
+
+| Need | Use | Not |
+|------|-----|-----|
+| Navigation / linking | `<Link href="...">` | `<a href="...">` |
+| Dismiss / action button | `<button type="button">` | raw `<a>` or `<div onClick>` |
+
+Note: `<button>` is always appropriate for actions — the `Button` component is for
+primary/secondary styled buttons, not every button in a component.
+
 ## Non-Negotiable Settings
 
 ### tsconfig.json
@@ -106,6 +120,22 @@ export default Button;
 - **Exported data types**: `I` prefix, exported (e.g., `export interface IRadioOption`)
 - **Component files**: `ComponentName.tsx` in flat `src/components/` directory
 - **CSS modules**: `ComponentName.module.css` in `src/styles/`
+
+### Content API: children vs. typed props
+
+Choose based on whether the content has a fixed semantic role:
+
+- **Explicit typed prop** (`message: string`, `label: string`) — when the content is a
+  specific, named piece of data with predictable structure. Gives consistent rendering,
+  type safety, and prevents consumers from injecting arbitrary markup into semantic regions
+  (e.g., ARIA live regions, button labels).
+
+- **`children: ComponentChildren`** — only when arbitrary composition is genuinely the
+  intent: layout containers (Card, Section), dialog bodies, any component that is
+  explicitly a slot for consumer content.
+
+Rule of thumb: if you can name what the content *is* ("a message", "a label", "a heading"),
+it should be a typed prop. If the component is a structural wrapper, use children.
 
 ### Props
 
