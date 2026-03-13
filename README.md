@@ -38,6 +38,8 @@ function App() {
 | Component | Description | Key Props |
 |-----------|-------------|-----------|
 | `Alert` | Status message with live region role for screen readers | `message`, `variant?`, `title?`, `actionLabel?`, `actionHref?`, `onAction?`, `onDismiss?`, `dismissLabel?`, `duration?` |
+| `Badge` | Read-only inline status or count indicator pill | `children`, `variant?` |
+| `Chip` | Interactive dismissible tag for filters and selections | `label`, `variant?`, `onRemove?`, `removeLabel?`, `disabled?` |
 
 ### Form Controls
 
