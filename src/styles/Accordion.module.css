@@ -1,0 +1,75 @@
+.accordion {
+	display: grid;
+	gap: 0;
+	border: 1px solid var(--aui-color-border);
+	border-radius: 0.25em;
+	overflow: hidden;
+}
+
+.accordion-item {
+	border-top: 1px solid var(--aui-color-border);
+}
+
+.accordion-item:first-child {
+	border-top: none;
+}
+
+.accordion-heading {
+	margin: 0;
+}
+
+.accordion-trigger {
+	composes: focus-ring from "@styles/shared.css";
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	width: 100%;
+	padding: 0.75em 1em;
+	border: none;
+	background: transparent;
+	color: var(--aui-color-text);
+	font: inherit;
+	font-weight: 600;
+	text-align: start;
+	cursor: pointer;
+}
+
+.accordion-trigger:hover {
+	background: var(--aui-color-background-hover);
+}
+
+.accordion-trigger-icon {
+	display: inline-grid;
+	place-items: center;
+}
+
+.open .accordion-trigger-icon {
+	rotate: 180deg;
+}
+
+.accordion-panel {
+	display: grid;
+	grid-template-rows: 0fr;
+}
+
+.open .accordion-panel {
+	grid-template-rows: 1fr;
+}
+
+.accordion-panel-inner {
+	overflow: hidden;
+}
+
+.open .accordion-panel-inner {
+	padding: 0 1em 0.75em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.accordion-panel {
+		transition: grid-template-rows 0.2s ease;
+	}
+
+	.accordion-trigger-icon {
+		transition: rotate 0.2s ease;
+	}
+}

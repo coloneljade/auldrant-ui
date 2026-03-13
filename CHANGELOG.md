@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.15.0] - 2026-03-13
+
+### Added
+
+- Add `Accordion` component with ARIA state, keyboard navigation (Arrow keys, Home/End with wrapping), and smooth CSS animation ([#80](https://github.com/coloneljade/auldrant-ui/pull/80))
+- Support multi-expand (default) and exclusive (single-open) modes via `exclusive` prop ([#80](https://github.com/coloneljade/auldrant-ui/pull/80))
+- Add `headingLevel` prop using new `HeadingLevel` enum for configurable heading levels ([#80](https://github.com/coloneljade/auldrant-ui/pull/80))
+- Add ID format validation (letters, digits, underscores, hyphens only) alongside duplicate check ([#80](https://github.com/coloneljade/auldrant-ui/pull/80))
+- Migrate `Section` heading level prop from inline union type to shared `HeadingLevel` enum ([#80](https://github.com/coloneljade/auldrant-ui/pull/80))
+- Fix collapsed panels incorrectly reserving bottom padding space ([#80](https://github.com/coloneljade/auldrant-ui/pull/80))
+
 ## [0.14.0] - 2026-03-13
 
 ### Added
