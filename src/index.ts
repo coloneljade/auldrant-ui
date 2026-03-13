@@ -2,6 +2,8 @@
 import '@styles/tokens.css';
 
 // Components
+export type { IAccordionItem } from '@components/Accordion';
+export { default as Accordion } from '@components/Accordion';
 export { AlertVariant, default as Alert } from '@components/Alert';
 export { BadgeVariant, default as Badge } from '@components/Badge';
 export { default as Button } from '@components/Button';
@@ -32,7 +34,7 @@ export { default as Table } from '@components/Table';
 export { default as Textarea } from '@components/Textarea';
 export { default as Theme, Palette } from '@components/Theme';
 export { default as VisuallyHidden } from '@components/VisuallyHidden';
-
+export { HeadingLevel } from '@scripts/types';
 // Utilities
 export { cx } from '@scripts/utils';
 

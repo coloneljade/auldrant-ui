@@ -1,3 +1,12 @@
+/** Heading level for components that render a semantic heading. */
+export enum HeadingLevel {
+	h2 = 2,
+	h3 = 3,
+	h4 = 4,
+	h5 = 5,
+	h6 = 6,
+}
+
 /** Base props shared by all components. */
 export interface IBaseProps {
 	/** CSS class name for custom styling. Accepts `undefined` for prop forwarding. */

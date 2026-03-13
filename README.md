@@ -33,6 +33,14 @@ function App() {
 
 ## Components
 
+### Disclosure
+
+| Component | Description | Key Props |
+|-----------|-------------|-----------|
+| `Accordion` | Collapsible disclosure sections with ARIA state and smooth animation | `items`, `exclusive?`, `headingLevel?` |
+
+> **Note:** In multi-expand mode (`exclusive=false`), each open panel renders `role="region"`. Many simultaneously open panels can proliferate landmarks and degrade screen reader navigation — consider limiting item count or using `exclusive` mode in those cases.
+
 ### Feedback
 
 | Component | Description | Key Props |
