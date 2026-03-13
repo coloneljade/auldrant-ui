@@ -5,11 +5,7 @@
       "Read(node_modules/**)",
       "Read(dist/**)",
       "Read(bun.lock)",
-      "Read(storybook-static/**)",
-      "Edit(.editorconfig)",
-      "Edit(biome.json)",
-      "Edit(tsconfig.json)",
-      "Edit(vite.config.ts)"
+      "Edit(.editorconfig)"
     ]
   }
 }

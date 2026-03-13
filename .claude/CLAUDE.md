@@ -60,7 +60,7 @@ tests/
 
 ## Search Exclusions
 
-Never read/search: `node_modules/`, `dist/`, `bun.lock`, `storybook-static/`
+Never read/search: `node_modules/`, `dist/`, `bun.lock`
 
 ## Local Rules
 

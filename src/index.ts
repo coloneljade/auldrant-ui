@@ -3,7 +3,7 @@ import '@styles/tokens.css';
 
 // Components
 export { AlertVariant, default as Alert } from '@components/Alert';
-export { default as Badge } from '@components/Badge';
+export { BadgeVariant, default as Badge } from '@components/Badge';
 export { default as Button } from '@components/Button';
 export { default as Card } from '@components/Card';
 export { default as Checkbox } from '@components/Checkbox';
@@ -18,7 +18,7 @@ export { default as Link } from '@components/Link';
 export { default as Modal } from '@components/Modal';
 export { default as Nav } from '@components/Nav';
 export { default as NumberInput } from '@components/NumberInput';
-export { default as PasswordInput } from '@components/PasswordInput';
+export { default as PasswordInput, PasswordPurpose } from '@components/PasswordInput';
 export type { IRadioOption } from '@components/RadioGroup';
 // Types
 export { default as RadioGroup } from '@components/RadioGroup';

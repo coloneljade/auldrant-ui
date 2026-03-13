@@ -39,15 +39,14 @@
 	"files.insertFinalNewline": true,
 	"files.trimTrailingWhitespace": true,
 	"cSpell.ignorePaths": ["devcontainer.json", "biome.json", "bun.lock"],
-	"cSpell.words": ["Auldrant", "biomejs", "preact", "lefthook", "storybook", "vite"],
+	"cSpell.words": ["Auldrant", "biomejs", "preact", "lefthook", "vite"],
 	"github.gitProtocol": "ssh",
 	"css.customData": [".vscode/css_custom_data.json"],
 	"search.exclude": {
 		"**/.git": true,
 		"**/node_modules": true,
 		"**/dist": true,
-		"bun.lock": true,
-		"storybook-static": true
+		"bun.lock": true
 	},
 	"chat.disableAIFeatures": true
 }

@@ -84,6 +84,38 @@ function App() {
 
 All components extend `IBaseProps` which includes `class?` and `id?`. Form controls extend `IFieldProps` which adds `label`, `name?`, `required?`, and `disabled?`. Dialog and Modal actions use the exported `IDialogAction` type (`label`, `description`, `onClick`, `shortcut`). Full prop types are available in the `.d.ts` files.
 
+### Dialog actions
+
+```tsx
+import type { IDialogAction } from '@auldrant/ui';
+
+const saveAction: IDialogAction = {
+  label: 'Save',
+  description: 'Save changes and close',
+  onClick: () => handleSave(),
+  shortcut: 'Enter',
+};
+
+<Dialog open={open} title="Edit record" onClose={() => setOpen(false)} defaultAction={saveAction} />
+```
+
+### Form field errors
+
+Wire field-level errors by passing them directly to each field via the `error` prop:
+
+```tsx
+const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+<Form onSubmit={(data) => {
+  const name = data.get('name') as string;
+  if (!name) { setErrors({ name: 'Name is required' }); return; }
+  setErrors({});
+  // handle submit...
+}}>
+  <Input label="Name" name="name" error={errors['name']} />
+</Form>
+```
+
 ## Theming
 
 The library ships with a built-in contrast system that derives all color tokens from a small set of base values. No theme class is required — the defaults work out of the box with WCAG AAA (7:1) text contrast.
@@ -227,9 +259,14 @@ navigate('/login', { replace: true });
 // Set document title reactively
 title.value = 'My Page';
 
-// Declarative routing
+// Declarative routing — exact match
 <Route path="/about">
   <AboutPage />
+</Route>
+
+// Wildcard — matches /users, /users/123, /users/settings
+<Route path="/users/*">
+  <UsersSection />
 </Route>
 
 <Link href="/about">About</Link>
@@ -263,8 +300,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, code style, dev test page, and
 | `bun run typecheck` | TypeScript type checking |
 | `bun run test` | Run tests |
 | `bun run test:watch` | Run tests in watch mode |
-| `bun run storybook` | Start Storybook dev server |
-| `bun run build-storybook` | Build static Storybook |
 
 ## License
 
