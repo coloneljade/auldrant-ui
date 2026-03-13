@@ -1,6 +1,6 @@
 import { describe, expect, it, mock } from 'bun:test';
 import Alert, { AlertVariant } from '@components/Alert';
-import { fireEvent, render } from '@testing-library/preact';
+import { act, fireEvent, render } from '@testing-library/preact';
 
 describe('Alert', () => {
 	describe('ARIA role', () => {
@@ -93,10 +93,13 @@ describe('Alert', () => {
 		it('calls onDismiss when the dismiss button is clicked', () => {
 			// Arrange
 			const onDismiss = mock(() => {});
-			const { getByRole } = render(<Alert message="Dismissible" onDismiss={onDismiss} />);
+			const { getByRole, container } = render(
+				<Alert message="Dismissible" onDismiss={onDismiss} />
+			);
 
-			// Act
+			// Act — click starts the fade-out animation; animationend fires onDismiss
 			fireEvent.click(getByRole('button', { name: 'Dismiss' }));
+			fireEvent.animationEnd(container.firstElementChild as HTMLElement);
 
 			// Assert
 			expect(onDismiss).toHaveBeenCalledTimes(1);
@@ -156,11 +159,16 @@ describe('Alert', () => {
 			}) as unknown as typeof setTimeout;
 
 			const onDismiss = mock(() => {});
-			render(<Alert message="Auto-dismiss" duration={3000} onDismiss={onDismiss} />);
+			const { container } = render(
+				<Alert message="Auto-dismiss" duration={3000} onDismiss={onDismiss} />
+			);
 
-			// Act — fire the captured callback
+			// Act — timer fires (starts fade-out); animationend fires onDismiss
 			expect(capturedDelay).toBe(3000);
-			capturedCallback?.();
+			act(() => {
+				capturedCallback?.();
+			});
+			fireEvent.animationEnd(container.firstElementChild as HTMLElement);
 
 			// Assert
 			expect(onDismiss).toHaveBeenCalledTimes(1);

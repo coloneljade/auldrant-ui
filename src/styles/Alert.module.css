@@ -6,6 +6,33 @@
 	padding: 0.75em 1em;
 	border-left: 0.25em solid;
 	border-radius: 0.25em;
+	animation: aui-alert-fade-in 0.2s ease;
+}
+
+.dismissing {
+	animation: aui-alert-fade-out 0.25s ease forwards;
+	pointer-events: none;
+}
+
+@keyframes aui-alert-fade-in {
+	from {
+		opacity: 0;
+		translate: 0 -0.25em;
+	}
+}
+
+@keyframes aui-alert-fade-out {
+	to {
+		opacity: 0;
+		translate: 0 -0.25em;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.alert,
+	.dismissing {
+		animation-duration: 0.001ms;
+	}
 }
 
 .alert-body {

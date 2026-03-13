@@ -1,7 +1,5 @@
 .chip {
 	display: inline-grid;
-	grid-auto-flow: column;
-	gap: 0.25em;
 	align-items: center;
 	padding: 0.125em 0.5em;
 	border-radius: 9999em;
@@ -13,11 +11,19 @@
 	white-space: nowrap;
 }
 
+/* Two-column layout: label auto-sizes, button takes exactly what it needs */
+.chip-dismissible {
+	grid-template-columns: auto max-content;
+	gap: 0.25em;
+}
+
 .chip-remove {
 	composes: focus-ring disabled from "@styles/shared.css";
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	min-width: 1.5rem;
+	min-height: 1.5rem;
 	padding: 0;
 	border: none;
 	background: transparent;

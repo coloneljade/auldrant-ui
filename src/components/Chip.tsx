@@ -48,7 +48,9 @@ const Chip: FunctionComponent<IChipProps> = (props) => {
 	} = props;
 
 	return (
-		<span class={cx(styles.chip, variantClass[variant], className)}>
+		<span
+			class={cx(styles.chip, variantClass[variant], onRemove && styles.chipDismissible, className)}
+		>
 			{label}
 			{onRemove && (
 				<button
