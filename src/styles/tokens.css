@@ -27,6 +27,8 @@
 	--aui-base-black: #1a1a1a;
 	--aui-base-error: oklch(0.78 0.22 27);
 	--aui-base-success: oklch(0.78 0.18 145);
+	--aui-base-warning: oklch(0.78 0.18 80);
+	--aui-base-info: oklch(0.78 0.15 260);
 
 	/* --- Direction tokens (internal — swapped by color-scheme) --- */
 	--_aui-fg: var(--aui-base-white);
@@ -44,6 +46,8 @@
 	--aui-color-focus-ring: var(--aui-base-primary);
 	--aui-color-error: var(--aui-base-error);
 	--aui-color-success: var(--aui-base-success);
+	--aui-color-warning: var(--aui-base-warning);
+	--aui-color-info: var(--aui-base-info);
 }
 
 @media (prefers-color-scheme: light) {
@@ -55,6 +59,8 @@
 		--aui-color-focus-ring: color-mix(in oklch, var(--aui-base-primary) 33%, var(--_aui-fg));
 		--aui-color-error: color-mix(in oklch, var(--aui-base-error) 33%, var(--_aui-fg));
 		--aui-color-success: color-mix(in oklch, var(--aui-base-success) 33%, var(--_aui-fg));
+		--aui-color-warning: color-mix(in oklch, var(--aui-base-warning) 33%, var(--_aui-fg));
+		--aui-color-info: color-mix(in oklch, var(--aui-base-info) 33%, var(--_aui-fg));
 	}
 }
 

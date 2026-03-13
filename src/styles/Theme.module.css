@@ -22,4 +22,6 @@
 	--aui-color-focus-ring: var(--aui-base-primary);
 	--aui-color-error: var(--aui-base-error);
 	--aui-color-success: var(--aui-base-success);
+	--aui-color-warning: var(--aui-base-warning);
+	--aui-color-info: var(--aui-base-info);
 }
