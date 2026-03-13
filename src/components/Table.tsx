@@ -42,6 +42,7 @@ const Table: FunctionComponent<ITableProps> = (props) => {
 			<thead class={styles.head}>
 				<tr>
 					{headers.map((header, i) => (
+						// index suffix prevents collisions with duplicate header names
 						<th key={`${header}-${i}`} class={styles.headerCell} scope="col">
 							{header}
 						</th>
