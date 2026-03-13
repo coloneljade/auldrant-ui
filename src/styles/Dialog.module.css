@@ -34,12 +34,12 @@
 	gap: 0.5em;
 }
 
-.title.title {
+.dialog-title.dialog-title {
 	margin: 0;
 	font-size: 1.25em;
 }
 
-.close {
+.dialog-close {
 	composes: focus-ring from "@styles/shared.css";
 	display: inline-grid;
 	place-items: center;
@@ -54,16 +54,16 @@
 	cursor: pointer;
 }
 
-.close:hover {
+.dialog-close:hover {
 	color: var(--aui-color-text);
 }
 
-.body {
+.dialog-body {
 	display: grid;
 	gap: 1em;
 }
 
-.message {
+.dialog-message {
 	margin: 0;
 }
 
@@ -74,7 +74,7 @@
 	gap: 0.5em;
 }
 
-.action {
+.dialog-action {
 	composes: focus-ring disabled from "@styles/shared.css";
 	padding: 0.5em 1em;
 	border: 1px solid var(--aui-color-border);
@@ -85,7 +85,7 @@
 	cursor: pointer;
 }
 
-.action:hover {
+.dialog-action:hover {
 	background: var(--aui-color-background-hover);
 }
 

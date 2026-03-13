@@ -33,6 +33,12 @@ function App() {
 
 ## Components
 
+### Feedback
+
+| Component | Description | Key Props |
+|-----------|-------------|-----------|
+| `Alert` | Status message with live region role for screen readers | `message`, `variant?`, `title?`, `actionLabel?`, `actionHref?`, `onAction?`, `onDismiss?`, `dismissLabel?`, `duration?` |
+
 ### Form Controls
 
 | Component | Description | Key Props |

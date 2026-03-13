@@ -10,6 +10,20 @@
 - Use native HTML semantics before ARIA — a `<button>` with descriptive text beats `aria-label` + `aria-pressed`
 - Lean on native validation, input types, and browser behavior before building custom logic
 
+## Use Library Components
+
+When building a new component that needs navigation or linking, always use the library's
+`Link` component — never a raw `<a>`. Before reaching for any raw HTML element, check
+`src/index.ts` to see if the library already has a component for that purpose.
+
+| Need | Use | Not |
+|------|-----|-----|
+| Navigation / linking | `<Link href="...">` | `<a href="...">` |
+| Dismiss / action button | `<button type="button">` | raw `<a>` or `<div onClick>` |
+
+Note: `<button>` is always appropriate for actions — the `Button` component is for
+primary/secondary styled buttons, not every button in a component.
+
 ## Non-Negotiable Settings
 
 ### tsconfig.json
@@ -77,6 +91,22 @@ Defined in `biome.json` and `.editorconfig`. Key conventions:
 - Destructure props in the function body, never in the parameter list.
 - Dot notation for property access (`styles.theme`), bracket notation only for dynamic keys.
 
+### Prefer natural TypeScript over utility-type aliases
+
+Use the language's native syntax instead of verbose utility-type shorthands — it's more
+readable and keeps type reasoning local. Example: `{ [key in MyEnum]: V }` over
+`Record<MyEnum, V>`. Apply this principle broadly: if the native form is clear, prefer it.
+
+### Enums
+
+Prefer `enum` over string unions for any named set of values — enables find-all-references,
+autocomplete, and exhaustive checks that raw strings cannot provide.
+
+- **Name**: `PascalCase` type, `camelCase` members — e.g. `AlertVariant.info`.
+- **Values**: match the member name — `info = 'info'`.
+- **No `const enum`**: `isolatedModules: true` + esbuild make it unsafe for a published library.
+- **Exhaustive maps**: `{ [key in MyEnum]: V }` — TypeScript errors on missing keys.
+
 ## Component Conventions
 
 ### Declaration
@@ -106,6 +136,22 @@ export default Button;
 - **Exported data types**: `I` prefix, exported (e.g., `export interface IRadioOption`)
 - **Component files**: `ComponentName.tsx` in flat `src/components/` directory
 - **CSS modules**: `ComponentName.module.css` in `src/styles/`
+
+### Content API: children vs. typed props
+
+Choose based on whether the content has a fixed semantic role:
+
+- **Explicit typed prop** (`message: string`, `label: string`) — when the content is a
+  specific, named piece of data with predictable structure. Gives consistent rendering,
+  type safety, and prevents consumers from injecting arbitrary markup into semantic regions
+  (e.g., ARIA live regions, button labels).
+
+- **`children: ComponentChildren`** — only when arbitrary composition is genuinely the
+  intent: layout containers (Card, Section), dialog bodies, any component that is
+  explicitly a slot for consumer content.
+
+Rule of thumb: if you can name what the content *is* ("a message", "a label", "a heading"),
+it should be a typed prop. If the component is a structural wrapper, use children.
 
 ### Props
 
@@ -158,6 +204,27 @@ bugs — stale state, mismatched DOM, broken animations.
 // Bad: non-unique data field
 {users.map((user) => <li key={user.role}>{user.name}</li>)}
 ```
+
+### CSS Module Class Naming
+
+Vite is configured with `localsConvention: 'camelCaseOnly'`. This means:
+
+- **CSS source** uses kebab-case: `.alert-body`, `.dialog-title`, `.icon-button`
+- **TSX access** uses camelCase: `styles.alertBody`, `styles.dialogTitle`, `styles.iconButton`
+- The bundler converts automatically — never write camelCase in CSS source
+
+**Sub-element names must be prefixed with the component name** for searchability:
+
+| Good | Bad |
+|------|-----|
+| `.alert-body` | `.body` |
+| `.dialog-title` | `.title` |
+| `.password-input-wrapper` | `.wrapper` |
+
+**Variant/modifier names** (e.g. `.success`, `.error`, `.warning`) are semantically
+self-contained and don't need prefixing — they describe a state, not a sub-element.
+
+**Root class** matches the component name in kebab-case: `.alert`, `.dialog`, `.nav`.
 
 ### File Structure
 

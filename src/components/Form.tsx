@@ -39,7 +39,7 @@ const Form: FunctionComponent<IFormProps> = (props) => {
 			}}
 		>
 			{children}
-			<div class={styles.actions}>
+			<div class={styles.formActions}>
 				<Button type="submit" label={submitLabel} />
 				{resetLabel && <Button type="reset" label={resetLabel} />}
 			</div>
