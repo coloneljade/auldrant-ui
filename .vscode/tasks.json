@@ -88,16 +88,6 @@
 				"reveal": "always",
 				"panel": "shared"
 			}
-		},
-		{
-			"label": "storybook",
-			"type": "shell",
-			"command": "bun run storybook",
-			"isBackground": true,
-			"presentation": {
-				"reveal": "always",
-				"panel": "shared"
-			}
 		}
 	]
 }

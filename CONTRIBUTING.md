@@ -73,7 +73,7 @@ Run `bun run check` to verify, `bun run check:fix` to auto-fix.
 - Use CSS Grid for layout (no flexbox for page/component layout)
 - Use `em` units for spacing and sizing
 - Export all public components from `src/index.ts`
-- Add a Storybook story for every component
+- Test your component on the dev test page (`bun run dev`)
 
 ## Dev Test Page
 
