@@ -4,34 +4,46 @@ import { HeadingLevel } from '@scripts/types';
 import { cx } from '@scripts/utils';
 import styles from '@styles/Accordion.module.css';
 import { ChevronDown } from 'lucide-preact';
-import type { ComponentChildren, FunctionComponent } from 'preact';
+import type { ComponentChildren, FunctionComponent, VNode } from 'preact';
+import { Fragment, isValidElement, toChildArray } from 'preact';
 import { useEffect, useId, useRef } from 'preact/hooks';
 
-/** A single item in an {@link Accordion}. */
-export interface IAccordionItem {
+const ID_FORMAT = /^[a-zA-Z0-9_-]+$/;
+
+/** Recursively flattens Fragment VNodes that toChildArray leaves intact. */
+function flattenChildren(children: ComponentChildren): VNode<object>[] {
+	const out: VNode<object>[] = [];
+	for (const child of toChildArray(children)) {
+		if (!isValidElement(child)) {
+			continue;
+		}
+		if (child.type === Fragment) {
+			const { children: nested } = child.props as { children?: ComponentChildren };
+			out.push(...flattenChildren(nested));
+		} else {
+			out.push(child);
+		}
+	}
+	return out;
+}
+
+/** Props for {@link AccordionItem}. */
+interface IAccordionItemProps extends IBaseProps {
 	/**
 	 * Stable identifier. Used for aria-controls/aria-labelledby wiring and open-state tracking.
 	 * Must be unique across all items. Valid characters: letters, digits, underscores, hyphens.
 	 */
 	id: string;
 	/** Visible trigger label text. */
-	trigger: string;
+	label: string;
 	/** Panel content. Supports arbitrary markup. */
-	content: ComponentChildren;
+	children: ComponentChildren;
 	/** Whether this panel is open on initial render. Ignored after mount. */
 	defaultOpen?: boolean;
 }
 
 /** Props for {@link Accordion}. */
 interface IAccordionProps extends IBaseProps {
-	/**
-	 * Accordion items. Each requires a stable `id`, `trigger` label, and `content`.
-	 *
-	 * Note: each expanded panel renders `role="region"`. When many panels can be
-	 * simultaneously open (exclusive=false), landmark proliferation may degrade
-	 * screen reader navigation. Consider limiting item count in that mode.
-	 */
-	items: IAccordionItem[];
 	/**
 	 * When true, opening one panel closes all others.
 	 * Defaults to false (multi-expand).
@@ -45,6 +57,14 @@ interface IAccordionProps extends IBaseProps {
 	 * Choose based on document outline — ensure heading levels are not skipped.
 	 */
 	headingLevel?: HeadingLevel;
+	/**
+	 * Accordion items. Each must be an {@link AccordionItem} element.
+	 *
+	 * Note: each expanded panel renders `role="region"`. When many panels can be
+	 * simultaneously open (exclusive=false), landmark proliferation may degrade
+	 * screen reader navigation. Consider limiting item count in that mode.
+	 */
+	children: ComponentChildren;
 }
 
 interface IAccordionPanelProps {
@@ -53,8 +73,6 @@ interface IAccordionPanelProps {
 	isOpen: boolean;
 	children: ComponentChildren;
 }
-
-const ID_FORMAT = /^[a-zA-Z0-9_-]+$/;
 
 const AccordionPanel: FunctionComponent<IAccordionPanelProps> = (props) => {
 	const { id, labelledBy, isOpen, children } = props;
@@ -74,28 +92,59 @@ const AccordionPanel: FunctionComponent<IAccordionPanelProps> = (props) => {
 };
 
 /**
+ * A single item in an {@link Accordion}. Renders null — all rendering is handled by Accordion.
+ *
+ * @example
+ * ```tsx
+ * <Accordion exclusive>
+ *   <AccordionItem id="one" label="Panel one" defaultOpen>
+ *     <p>Content one</p>
+ *   </AccordionItem>
+ *   <AccordionItem id="two" label="Panel two">
+ *     <p>Content two</p>
+ *   </AccordionItem>
+ * </Accordion>
+ * ```
+ */
+export const AccordionItem: FunctionComponent<IAccordionItemProps> = () => null;
+
+/**
  * Collapsible disclosure sections with ARIA state, keyboard support, and smooth animation.
  * Supports multi-expand (default) and exclusive (single-open) modes.
  */
 const Accordion: FunctionComponent<IAccordionProps> = (props) => {
-	const { items, exclusive = false, headingLevel = HeadingLevel.h3, class: className } = props;
+	const { exclusive = false, headingLevel = HeadingLevel.h3, class: className, children } = props;
 
+	// Flatten fragments, arrays, and filter falsy values
+	const flatChildren = flattenChildren(children);
+
+	// Validate: all children must be <AccordionItem> elements
+	for (const child of flatChildren) {
+		if (!isValidElement(child) || child.type !== AccordionItem) {
+			throw new Error('[Accordion] All children must be <AccordionItem>.');
+		}
+	}
+
+	const items = flatChildren as VNode<IAccordionItemProps>[];
+
+	// Validate IDs
 	const seenIds = new Set<string>();
 	for (const item of items) {
-		if (!ID_FORMAT.test(item.id)) {
+		const { id } = item.props;
+		if (!ID_FORMAT.test(id)) {
 			throw new Error(
-				`[Accordion] Invalid item id: "${item.id}". Ids must contain only letters, digits, underscores, or hyphens.`
+				`[Accordion] Invalid item id: "${id}". Ids must contain only letters, digits, underscores, or hyphens.`
 			);
 		}
-		if (seenIds.has(item.id)) {
-			throw new Error(`[Accordion] Duplicate item id: "${item.id}". Item ids must be unique.`);
+		if (seenIds.has(id)) {
+			throw new Error(`[Accordion] Duplicate item id: "${id}". Item ids must be unique.`);
 		}
-		seenIds.add(item.id);
+		seenIds.add(id);
 	}
 
 	const instanceId = useId();
 	const openIds = useSignal<Set<string>>(
-		new Set(items.filter((item) => item.defaultOpen).map((item) => item.id))
+		new Set(items.filter((item) => item.props.defaultOpen).map((item) => item.props.id))
 	);
 	const triggerRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
@@ -134,12 +183,13 @@ const Accordion: FunctionComponent<IAccordionProps> = (props) => {
 	return (
 		<div class={cx(styles.accordion, className)}>
 			{items.map((item, index) => {
-				const triggerId = `${instanceId}-trigger-${item.id}`;
-				const panelId = `${instanceId}-panel-${item.id}`;
-				const isOpen = openIds.value.has(item.id);
+				const { id, label, children: itemChildren } = item.props;
+				const triggerId = `${instanceId}-trigger-${id}`;
+				const panelId = `${instanceId}-panel-${id}`;
+				const isOpen = openIds.value.has(id);
 
 				return (
-					<div key={item.id} class={cx(styles.accordionItem, isOpen && styles.open)}>
+					<div key={id} class={cx(styles.accordionItem, isOpen && styles.open)}>
 						<HeadingTag class={styles.accordionHeading}>
 							<button
 								type="button"
@@ -150,17 +200,17 @@ const Accordion: FunctionComponent<IAccordionProps> = (props) => {
 								class={styles.accordionTrigger}
 								aria-expanded={isOpen ? 'true' : 'false'}
 								aria-controls={panelId}
-								onClick={() => toggleItem(item.id)}
+								onClick={() => toggleItem(id)}
 								onKeyDown={(e) => handleKeyDown(e, index)}
 							>
-								{item.trigger}
+								{label}
 								<span class={styles.accordionTriggerIcon} aria-hidden="true">
 									<ChevronDown size="1em" />
 								</span>
 							</button>
 						</HeadingTag>
 						<AccordionPanel id={panelId} labelledBy={triggerId} isOpen={isOpen}>
-							{item.content}
+							{itemChildren}
 						</AccordionPanel>
 					</div>
 				);
