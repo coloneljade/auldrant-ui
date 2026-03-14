@@ -1,0 +1,22 @@
+.not-found {
+	display: grid;
+	place-content: center;
+	place-items: center;
+	min-height: 100vh;
+	padding: 2em;
+	text-align: center;
+}
+
+.not-found-heading {
+	font-size: 2em;
+	margin: 0 0 0.5em;
+}
+
+.not-found-message {
+	color: var(--aui-color-text-muted);
+	margin: 0 0 1.5em;
+}
+
+.not-found-link {
+	margin-top: 0.5em;
+}

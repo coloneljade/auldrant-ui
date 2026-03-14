@@ -6,11 +6,11 @@ export const CheckboxRadioSection: FunctionComponent = () => (
 	<div class="dev-section">
 		<h2>Checkbox / RadioGroup</h2>
 		<div class="dev-row">
-			<div class="dev-stack">
-				<Checkbox label="Accept terms" name="terms" />
-				<Checkbox label="Checked" name="checked" checked />
-				<Checkbox label="Disabled" name="cb-dis" disabled />
-			</div>
+			<Checkbox label="Accept terms" name="terms" />
+			<Checkbox label="Checked" name="checked" checked />
+			<Checkbox label="Disabled" name="cb-dis" disabled />
+		</div>
+		<div class="dev-row">
 			<RadioGroup legend="Preference" name="pref">
 				<RadioItem label="Option A" value="a" />
 				<RadioItem label="Option B" value="b" />

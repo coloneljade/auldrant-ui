@@ -13,6 +13,37 @@ body {
 	background: var(--aui-color-background);
 }
 
+.dev-header {
+	border-bottom: 1px solid var(--aui-color-border);
+	background: var(--aui-color-background);
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+
+.dev-header-brand {
+	display: block;
+	width: 100%;
+	padding: 0.625em 2em;
+	text-align: center;
+	font-size: 1.25em;
+	border-bottom: 1px solid var(--aui-color-border);
+}
+
+.dev-header nav {
+	max-width: 64em;
+	margin: 0 auto;
+	padding: 0.5em 2em;
+	grid-auto-flow: column;
+	align-items: center;
+	justify-content: start;
+	gap: 2em;
+}
+
+.dev-header a {
+	text-decoration: none;
+}
+
 .dev-page {
 	max-width: 64em;
 	margin: 0 auto;
@@ -26,13 +57,7 @@ body {
 	padding-bottom: 0.5em;
 }
 
-/* Horizontal palette radio group */
-.dev-palette-row {
-	display: grid;
-	grid-auto-flow: column;
-	grid-auto-columns: max-content;
-	align-items: center;
-	gap: 0.25em 1em;
+.dev-page > fieldset {
 	margin-bottom: 2em;
 }
 
@@ -92,6 +117,35 @@ body {
 	font-size: 0.75em;
 	opacity: 0.8;
 	margin-top: 0.25em;
+}
+
+/* About page */
+.dev-about-tagline {
+	color: var(--aui-color-text-muted);
+	margin-bottom: 2em;
+}
+
+.dev-about-links {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));
+	gap: 1em;
+	margin-bottom: 2em;
+}
+
+.dev-about-links h2 {
+	font-size: 1em;
+	margin-bottom: 0.5em;
+}
+
+.dev-about-links p {
+	color: var(--aui-color-text-muted);
+	font-size: 0.875em;
+	margin-bottom: 0.75em;
+}
+
+.dev-about-footer {
+	color: var(--aui-color-text-muted);
+	font-size: 0.875em;
 }
 
 /* Nested theme demo */

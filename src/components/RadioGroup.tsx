@@ -66,7 +66,7 @@ interface IRadioGroupProps extends IBaseProps {
  */
 export const RadioItem: FunctionComponent<IRadioItemProps> = () => null;
 
-/** Radio button group inside a fieldset with legend. */
+/** Radio button group rendered as conjoined tile buttons inside a fieldset. */
 const RadioGroup: FunctionComponent<IRadioGroupProps> = (props) => {
 	const {
 		legend,
@@ -103,11 +103,9 @@ const RadioGroup: FunctionComponent<IRadioGroupProps> = (props) => {
 			<legend class={styles.legend}>{legend}</legend>
 			{items.map((item) => {
 				const { label, value: itemValue } = item.props;
-				const optionId = `${groupId}-${itemValue}`;
 				return (
-					<div key={itemValue} class={styles.option}>
+					<label key={itemValue} class={styles.option}>
 						<input
-							id={optionId}
 							class={styles.input}
 							type="radio"
 							name={name}
@@ -117,8 +115,8 @@ const RadioGroup: FunctionComponent<IRadioGroupProps> = (props) => {
 							disabled={disabled}
 							onChange={onChange && (() => onChange(itemValue))}
 						/>
-						<label for={optionId}>{label}</label>
-					</div>
+						{label}
+					</label>
 				);
 			})}
 			{error && (

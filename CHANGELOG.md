@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.17.0] - 2026-03-14
+
+### Added
+
+- feat(Theme): convert Palette to enum and add palette signal (#83) ([#86](https://github.com/coloneljade/auldrant-ui/pull/86))
+- feat(NotFound,Nav): add 404 page, /about route, routing demo, Nav titleHref (#78) ([#86](https://github.com/coloneljade/auldrant-ui/pull/86))
+- feat(RadioGroup,Checkbox): add highlight tile variants with full click targets (#84) ([#86](https://github.com/coloneljade/auldrant-ui/pull/86))
+- chore: drop default variants, consolidate to tile-only style, improve dev page layout ([#86](https://github.com/coloneljade/auldrant-ui/pull/86))
+
 ## [0.16.0] - 2026-03-14
 
 ### Changed
