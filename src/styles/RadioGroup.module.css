@@ -36,9 +36,10 @@
 
 .input {
 	position: absolute;
+	inset: 0;
 	opacity: 0;
-	width: 0;
-	height: 0;
+	cursor: pointer;
+	appearance: none;
 }
 
 .option:has(.input:checked) {
