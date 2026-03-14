@@ -1,8 +1,8 @@
 import FormField from '@components/FormField';
+import Icon, { IconName } from '@components/Icon';
 import type { IFieldProps } from '@scripts/types';
 import { describeBy } from '@scripts/utils';
 import styles from '@styles/SearchInput.module.css';
-import { Search, X } from 'lucide-preact';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
@@ -49,7 +49,7 @@ const SearchInput: FunctionComponent<ISearchInputProps> = (props) => {
 				class={className}
 			>
 				<div class={styles.searchInputWrapper}>
-					<Search size="1em" aria-hidden="true" />
+					<Icon name={IconName.search} />
 					<input
 						id={id}
 						class={styles.input}
@@ -79,7 +79,7 @@ const SearchInput: FunctionComponent<ISearchInputProps> = (props) => {
 								onClear?.();
 							}}
 						>
-							<X size="1em" />
+							<Icon name={IconName.dismiss} />
 						</button>
 					)}
 				</div>

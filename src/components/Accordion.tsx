@@ -1,9 +1,9 @@
+import Icon, { IconName } from '@components/Icon';
 import { useSignal } from '@preact/signals';
 import type { IBaseProps } from '@scripts/types';
 import { HeadingLevel } from '@scripts/types';
 import { cx } from '@scripts/utils';
 import styles from '@styles/Accordion.module.css';
-import { ChevronDown } from 'lucide-preact';
 import type { ComponentChildren, FunctionComponent, VNode } from 'preact';
 import { Fragment, isValidElement, toChildArray } from 'preact';
 import { useEffect, useId, useRef } from 'preact/hooks';
@@ -205,7 +205,7 @@ const Accordion: FunctionComponent<IAccordionProps> = (props) => {
 							>
 								{label}
 								<span class={styles.accordionTriggerIcon} aria-hidden="true">
-									<ChevronDown size="1em" />
+									<Icon name={IconName.chevronDown} />
 								</span>
 							</button>
 						</HeadingTag>

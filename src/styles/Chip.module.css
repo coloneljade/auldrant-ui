@@ -22,6 +22,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	/* rem ensures 24px touch target (WCAG 2.5.8) regardless of inherited font-size */
 	min-width: 1.5rem;
 	min-height: 1.5rem;
 	padding: 0;

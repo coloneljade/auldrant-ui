@@ -7,6 +7,7 @@ import SearchInput from '@components/SearchInput';
 import SkipLink from '@components/SkipLink';
 import TabGroup, { Tab } from '@components/Tabs';
 import Theme, { Palette } from '@components/Theme';
+import Toaster from '@components/Toaster';
 import { useSignal } from '@preact/signals';
 import { location, navigate } from '@signals/routing';
 import { palette } from '@signals/theme';
@@ -33,6 +34,7 @@ import { SelectSection } from './sections/SelectSection';
 import { SpinnerSection } from './sections/SpinnerSection';
 import { TableSection } from './sections/TableSection';
 import { TextareaSection } from './sections/TextareaSection';
+import { ToastSection } from './sections/ToastSection';
 
 /** All dev sections — used for both tab layout and global search filtering. */
 const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
@@ -57,6 +59,7 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'accordion', Section: AccordionSection },
 	{ key: 'dialog', Section: DialogSection },
 	{ key: 'modal', Section: ModalSection },
+	{ key: 'toast', Section: ToastSection },
 ];
 
 /** Extract tab ID from /tests/tab/:id, falling back to 'inputs'. */
@@ -153,6 +156,7 @@ export const TestPage: FunctionComponent = () => {
 							</Tab>
 							<Tab id="feedback" label="Feedback">
 								<AlertSection />
+								<ToastSection />
 								<SpinnerSection />
 								<BadgeSection />
 								<ChipSection />
@@ -177,6 +181,7 @@ export const TestPage: FunctionComponent = () => {
 					)}
 				</div>
 			</Route>
+			<Toaster />
 		</Theme>
 	);
 };

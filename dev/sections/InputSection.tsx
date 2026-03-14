@@ -14,5 +14,10 @@ export const InputSection: FunctionComponent = () => (
 			<Input label="Disabled" name="dis" disabled />
 			<Input label="With error" name="err" error="This field is required" />
 		</div>
+		<div class="dev-row">
+			<Input label="Date" name="date" type="date" />
+			<Input label="Time" name="time" type="time" />
+			<Input label="Date & Time" name="datetime" type="datetime-local" />
+		</div>
 	</div>
 );

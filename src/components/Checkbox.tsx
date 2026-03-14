@@ -1,7 +1,7 @@
+import Icon, { IconName } from '@components/Icon';
 import type { IFieldProps } from '@scripts/types';
 import { cx, describeBy } from '@scripts/utils';
 import styles from '@styles/Checkbox.module.css';
-import { Check } from 'lucide-preact';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
@@ -32,7 +32,7 @@ const Checkbox: FunctionComponent<ICheckboxProps> = (props) => {
 					aria-describedby={describeBy(error && errorId)}
 					onChange={onChange && ((e) => onChange((e.target as HTMLInputElement).checked))}
 				/>
-				<Check size="1em" class={styles.checkIcon} aria-hidden="true" />
+				<Icon name={IconName.check} class={styles.checkIcon} />
 				{label}
 			</label>
 			{error && (

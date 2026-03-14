@@ -1,8 +1,8 @@
+import Icon, { IconName } from '@components/Icon';
 import type { IBaseProps } from '@scripts/types';
 import useDraggable from '@scripts/useDraggable';
 import { cx } from '@scripts/utils';
 import styles from '@styles/Dialog.module.css';
-import { X } from 'lucide-preact';
 import type { ComponentChildren, FunctionComponent } from 'preact';
 import { useEffect, useId, useRef } from 'preact/hooks';
 
@@ -216,7 +216,7 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 							title={defaults.closeDescription}
 							onClick={onDismiss}
 						>
-							<X size="1.5em" aria-hidden="true" />
+							<Icon name={IconName.dismiss} />
 						</button>
 					)}
 				</header>

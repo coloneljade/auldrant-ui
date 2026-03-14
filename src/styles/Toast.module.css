@@ -1,77 +1,82 @@
-.alert {
+.toaster {
+	position: fixed;
+	bottom: 1em;
+	right: 1em;
+	display: grid;
+	gap: 0.5em;
+	z-index: 500;
+	/* Prevent the container itself from blocking pointer events when empty */
+	pointer-events: none;
+}
+
+.toast {
 	display: grid;
 	grid-template-columns: auto 1fr auto;
 	gap: 0.75em;
 	align-items: start;
-	padding: 0.75em 1em;
+	padding: 0.875em 1em;
 	border-left: 0.25em solid;
 	border-radius: 0.25em;
-	animation: aui-alert-fade-in 0.2s ease;
+	pointer-events: auto;
+	animation: aui-toast-fade-in 0.2s ease;
 }
 
 .dismissing {
-	animation: aui-alert-fade-out 0.25s ease forwards;
+	animation: aui-toast-fade-out 0.25s ease forwards;
 	pointer-events: none;
 }
 
-@keyframes aui-alert-fade-in {
+@keyframes aui-toast-fade-in {
 	from {
 		opacity: 0;
-		translate: 0 -0.25em;
+		translate: 0.5em 0;
 	}
 }
 
-@keyframes aui-alert-fade-out {
+@keyframes aui-toast-fade-out {
 	to {
 		opacity: 0;
-		translate: 0 -0.25em;
+		translate: 0.5em 0;
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.alert,
+	.toast,
 	.dismissing {
 		animation-duration: 0.001ms;
 	}
 }
 
-.alert-icon {
-	align-self: start;
+.toast-icon {
+	align-self: center;
 }
 
-.alert-body {
+.toast-body {
 	display: grid;
 	gap: 0.25em;
 }
 
-.alert-title {
+.toast-title {
 	margin: 0;
 	font-weight: 600;
 }
 
-.alert-message {
+.toast-message {
 	margin: 0;
 }
 
-.alert-action {
+.toast-dismiss {
 	composes: focus-ring from "@styles/shared.css";
-	display: inline-block;
-	margin-top: 0.25em;
-	font: inherit;
-	cursor: pointer;
-}
-
-.alert-dismiss {
-	composes: focus-ring from "@styles/shared.css";
-	align-self: start;
-	padding: 0.125em 0.5em;
-	border: 1px solid currentColor;
+	align-self: stretch;
+	display: flex;
+	align-items: center;
+	padding: 0 0.125em;
+	border: none;
 	border-radius: 0.25em;
 	background: transparent;
 	color: inherit;
-	font: inherit;
 	cursor: pointer;
-	white-space: nowrap;
+	line-height: 0;
 }
 
 /* Variant: info */

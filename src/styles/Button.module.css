@@ -15,6 +15,7 @@
 
 .icon-button {
 	padding: 0.5em;
+	/* rem ensures 44px touch target (WCAG 2.5.5) regardless of inherited font-size */
 	min-width: 2.75rem;
 	min-height: 2.75rem;
 	display: inline-grid;

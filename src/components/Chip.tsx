@@ -1,7 +1,7 @@
+import Icon, { IconName } from '@components/Icon';
 import type { IBaseProps } from '@scripts/types';
 import { cx } from '@scripts/utils';
 import styles from '@styles/Chip.module.css';
-import { X } from 'lucide-preact';
 import type { FunctionComponent } from 'preact';
 
 /** Color variants for {@link Chip}. */
@@ -66,7 +66,7 @@ const Chip: FunctionComponent<IChipProps> = (props) => {
 						}
 					}}
 				>
-					<X size="1em" aria-hidden="true" />
+					<Icon name={IconName.dismiss} />
 				</button>
 			)}
 		</span>

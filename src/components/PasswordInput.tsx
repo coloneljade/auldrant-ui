@@ -1,9 +1,9 @@
 import FormField from '@components/FormField';
+import Icon, { IconName } from '@components/Icon';
 import { useSignal } from '@preact/signals';
 import type { IFieldProps } from '@scripts/types';
 import { describeBy } from '@scripts/utils';
 import styles from '@styles/PasswordInput.module.css';
-import { Eye, EyeOff } from 'lucide-preact';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
@@ -82,7 +82,7 @@ const PasswordInput: FunctionComponent<IPasswordInputProps> = (props) => {
 						visible.value = !visible.value;
 					}}
 				>
-					{visible.value ? <EyeOff size="1em" /> : <Eye size="1em" />}
+					<Icon name={visible.value ? IconName.hidePassword : IconName.showPassword} />
 				</button>
 			</div>
 		</FormField>
