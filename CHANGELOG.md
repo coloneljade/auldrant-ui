@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.21.0] - 2026-03-14
+
+### Added
+
+- feat(dropdown): add Dropdown and DropdownItem components ([#96](https://github.com/coloneljade/auldrant-ui/pull/96))
+- test(dropdown): behavioral and a11y test suites ([#96](https://github.com/coloneljade/auldrant-ui/pull/96))
+- feat(dropdown): wire into library, dev page, and README ([#96](https://github.com/coloneljade/auldrant-ui/pull/96))
+
 ## [0.20.0] - 2026-03-14
 
 ### Added
