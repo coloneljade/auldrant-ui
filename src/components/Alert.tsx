@@ -1,10 +1,11 @@
 import Icon, { IconName } from '@components/Icon';
 import Link from '@components/Link';
+import { useSignal } from '@preact/signals';
 import type { IBaseProps } from '@scripts/types';
 import { cx } from '@scripts/utils';
 import styles from '@styles/Alert.module.css';
 import type { FunctionComponent } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect } from 'preact/hooks';
 
 /** Severity variants for {@link Alert}. Controls ARIA live region role and color. */
 export enum AlertVariant {
@@ -86,22 +87,29 @@ const Alert: FunctionComponent<IAlertProps> = (props) => {
 	} = props;
 
 	const role = roleByVariant[variant];
-	const [dismissing, setDismissing] = useState(false);
+	const dismissing = useSignal(false);
 
 	useEffect(() => {
 		if (!duration || !onDismiss) {
 			return;
 		}
-		const t = setTimeout(() => setDismissing(true), duration);
+		const t = setTimeout(() => {
+			dismissing.value = true;
+		}, duration);
 		return () => clearTimeout(t);
-	}, [duration, onDismiss]);
+	}, [duration, onDismiss, dismissing]);
 
 	return (
 		<div
 			role={role}
-			class={cx(styles.alert, variantClass[variant], dismissing && styles.dismissing, className)}
+			class={cx(
+				styles.alert,
+				variantClass[variant],
+				dismissing.value && styles.dismissing,
+				className
+			)}
 			onAnimationEnd={(e) => {
-				if (dismissing && e.target === e.currentTarget) {
+				if (dismissing.value && e.target === e.currentTarget) {
 					onDismiss?.();
 				}
 			}}
@@ -122,7 +130,13 @@ const Alert: FunctionComponent<IAlertProps> = (props) => {
 				)}
 			</div>
 			{onDismiss && (
-				<button type="button" class={styles.alertDismiss} onClick={() => setDismissing(true)}>
+				<button
+					type="button"
+					class={styles.alertDismiss}
+					onClick={() => {
+						dismissing.value = true;
+					}}
+				>
 					{dismissLabel}
 				</button>
 			)}

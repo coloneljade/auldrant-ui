@@ -90,6 +90,34 @@ Before `bun add`, ask:
 After `bun add` to `dependencies`, you MUST update the `NOTICES` file with the
 package's full license text. No exceptions.
 
+## CSS Units
+
+**`em` for all spacing, sizing, and layout** — values scale with their context (the default).
+
+**`rem` for WCAG touch target minimums only** (`min-width`/`min-height` on interactive elements).
+Touch targets are accessibility floors, not relative measurements. `rem` is immune to local
+font-size inheritance while still scaling with the user's root font size preference — which
+`px` does not. This is the one exception to the em-only rule.
+
+| Criterion | Minimum | `rem` value |
+|-----------|---------|-------------|
+| WCAG 2.5.5 (AAA, 44px) | Primary interactive targets | `2.75rem` |
+| WCAG 2.5.8 (AA, 24px) | Constrained targets (e.g. chip remove) | `1.5rem` |
+
+Always pair with a comment identifying the criterion:
+
+```css
+/* rem ensures 44px touch target (WCAG 2.5.5) regardless of inherited font-size */
+min-width: 2.75rem;
+min-height: 2.75rem;
+```
+
+Alternative when the container provides the target: an icon-only button set to
+`align-self: stretch` inside a container guaranteed ≥ 44px tall needs no `min-*` —
+the stretch handles it. See `.toast-dismiss` for an example.
+
+**`px` is never correct** — it ignores user font size preferences entirely.
+
 ## Code Style
 
 Defined in `biome.json` and `.editorconfig`. Key conventions:

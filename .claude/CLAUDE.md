@@ -23,7 +23,7 @@ Preact component library with strong accessibility, performance, and consistent 
 - **TypeScript only** — no `.js` or `.jsx` files in src
 - **ESNext target** — no transpilation for older runtimes
 - **CSS Grid only** — no flexbox for page/component layout
-- **em units** — for spacing and sizing (not px or rem)
+- **em units** — for spacing and sizing; `rem` only for WCAG touch target `min-width`/`min-height` (see `rules/code-quality.md`); never `px`
 - **CSS modules** — for component-scoped styles
 - **Semantic HTML first** — use native elements before ARIA
 - **Minimal dependencies** — don't add packages until they're needed
