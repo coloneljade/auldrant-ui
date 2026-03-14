@@ -2,8 +2,7 @@
 import '@styles/tokens.css';
 
 // Components
-export type { IAccordionItem } from '@components/Accordion';
-export { default as Accordion } from '@components/Accordion';
+export { AccordionItem, default as Accordion } from '@components/Accordion';
 export { AlertVariant, default as Alert } from '@components/Alert';
 export { BadgeVariant, default as Badge } from '@components/Badge';
 export { default as Button } from '@components/Button';
@@ -21,9 +20,7 @@ export { default as Modal } from '@components/Modal';
 export { default as Nav } from '@components/Nav';
 export { default as NumberInput } from '@components/NumberInput';
 export { default as PasswordInput, PasswordPurpose } from '@components/PasswordInput';
-export type { IRadioOption } from '@components/RadioGroup';
-// Types
-export { default as RadioGroup } from '@components/RadioGroup';
+export { default as RadioGroup, RadioItem } from '@components/RadioGroup';
 export { default as Route } from '@components/Route';
 export { default as Section } from '@components/Section';
 export type { ISelectGroup, ISelectOption } from '@components/Select';
@@ -31,6 +28,7 @@ export { default as Select } from '@components/Select';
 export { default as SkipLink } from '@components/SkipLink';
 export { default as Spinner } from '@components/Spinner';
 export { default as Table } from '@components/Table';
+export { default as TabGroup, Tab } from '@components/Tabs';
 export { default as Textarea } from '@components/Textarea';
 export { default as Theme, Palette } from '@components/Theme';
 export { default as VisuallyHidden } from '@components/VisuallyHidden';

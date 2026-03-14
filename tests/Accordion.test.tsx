@@ -1,19 +1,24 @@
 import { describe, expect, it } from 'bun:test';
-import type { IAccordionItem } from '@components/Accordion';
-import Accordion from '@components/Accordion';
+import Accordion, { AccordionItem } from '@components/Accordion';
 import { HeadingLevel } from '@scripts/types';
 import { fireEvent, render } from '@testing-library/preact';
-
-const baseItems: IAccordionItem[] = [
-	{ id: 'one', trigger: 'Panel one', content: <p>Content one</p> },
-	{ id: 'two', trigger: 'Panel two', content: <p>Content two</p> },
-	{ id: 'three', trigger: 'Panel three', content: <p>Content three</p> },
-];
 
 describe('Accordion', () => {
 	describe('rendering', () => {
 		it('renders all trigger labels', () => {
-			const { getByRole } = render(<Accordion items={baseItems} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 
 			getByRole('button', { name: 'Panel one' });
 			getByRole('button', { name: 'Panel two' });
@@ -21,34 +26,73 @@ describe('Accordion', () => {
 		});
 
 		it('forwards the class prop to the root element', () => {
-			const { container } = render(<Accordion items={baseItems} class="custom-class" />);
+			const { container } = render(
+				<Accordion class="custom-class">
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+				</Accordion>
+			);
 
 			expect(container.firstElementChild?.classList.contains('custom-class')).toBe(true);
 		});
 
 		it('throws when two items share the same id', () => {
-			const duplicateItems: IAccordionItem[] = [
-				{ id: 'dup', trigger: 'First', content: 'A' },
-				{ id: 'dup', trigger: 'Second', content: 'B' },
-			];
-
-			expect(() => render(<Accordion items={duplicateItems} />)).toThrow(
-				'[Accordion] Duplicate item id: "dup". Item ids must be unique.'
-			);
+			expect(() =>
+				render(
+					<Accordion>
+						<AccordionItem id="dup" label="First">
+							A
+						</AccordionItem>
+						<AccordionItem id="dup" label="Second">
+							B
+						</AccordionItem>
+					</Accordion>
+				)
+			).toThrow('[Accordion] Duplicate item id: "dup". Item ids must be unique.');
 		});
 
 		it('throws when an item id contains invalid characters', () => {
-			const invalidItems: IAccordionItem[] = [{ id: 'bad id!', trigger: 'First', content: 'A' }];
+			expect(() =>
+				render(
+					<Accordion>
+						<AccordionItem id="bad id!" label="First">
+							A
+						</AccordionItem>
+					</Accordion>
+				)
+			).toThrow('[Accordion] Invalid item id: "bad id!"');
+		});
 
-			expect(() => render(<Accordion items={invalidItems} />)).toThrow(
-				'[Accordion] Invalid item id: "bad id!"'
-			);
+		it('throws when a non-AccordionItem child is passed', () => {
+			expect(() =>
+				render(
+					<Accordion>
+						<AccordionItem id="one" label="One">
+							A
+						</AccordionItem>
+						<div>Not an accordion item</div>
+					</Accordion>
+				)
+			).toThrow('[Accordion] All children must be <AccordionItem>.');
 		});
 	});
 
 	describe('initial state', () => {
 		it('all panels are collapsed by default', () => {
-			const { getAllByRole } = render(<Accordion items={baseItems} />);
+			const { getAllByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 
 			const buttons = getAllByRole('button');
 			for (const button of buttons) {
@@ -57,11 +101,16 @@ describe('Accordion', () => {
 		});
 
 		it('item with defaultOpen is expanded on mount', () => {
-			const items: IAccordionItem[] = [
-				{ id: 'one', trigger: 'Panel one', content: 'Content', defaultOpen: true },
-				{ id: 'two', trigger: 'Panel two', content: 'Content' },
-			];
-			const { getByRole } = render(<Accordion items={items} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one" defaultOpen>
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+				</Accordion>
+			);
 
 			expect(getByRole('button', { name: 'Panel one' }).getAttribute('aria-expanded')).toBe('true');
 			expect(getByRole('button', { name: 'Panel two' }).getAttribute('aria-expanded')).toBe(
@@ -70,12 +119,19 @@ describe('Accordion', () => {
 		});
 
 		it('multiple defaultOpen items are all open in multi-expand mode', () => {
-			const items: IAccordionItem[] = [
-				{ id: 'one', trigger: 'Panel one', content: 'Content', defaultOpen: true },
-				{ id: 'two', trigger: 'Panel two', content: 'Content', defaultOpen: true },
-				{ id: 'three', trigger: 'Panel three', content: 'Content' },
-			];
-			const { getByRole } = render(<Accordion items={items} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one" defaultOpen>
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two" defaultOpen>
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 
 			expect(getByRole('button', { name: 'Panel one' }).getAttribute('aria-expanded')).toBe('true');
 			expect(getByRole('button', { name: 'Panel two' }).getAttribute('aria-expanded')).toBe('true');
@@ -87,7 +143,16 @@ describe('Accordion', () => {
 
 	describe('multi-expand (default)', () => {
 		it('clicking a collapsed trigger expands it', () => {
-			const { getByRole } = render(<Accordion items={baseItems} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+				</Accordion>
+			);
 			const trigger = getByRole('button', { name: 'Panel one' });
 
 			fireEvent.click(trigger);
@@ -96,10 +161,13 @@ describe('Accordion', () => {
 		});
 
 		it('clicking an expanded trigger collapses it', () => {
-			const items: IAccordionItem[] = [
-				{ id: 'one', trigger: 'Panel one', content: 'Content', defaultOpen: true },
-			];
-			const { getByRole } = render(<Accordion items={items} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one" defaultOpen>
+						Content one
+					</AccordionItem>
+				</Accordion>
+			);
 			const trigger = getByRole('button', { name: 'Panel one' });
 
 			fireEvent.click(trigger);
@@ -108,7 +176,19 @@ describe('Accordion', () => {
 		});
 
 		it('opening one item does not close another', () => {
-			const { getByRole } = render(<Accordion items={baseItems} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 
 			fireEvent.click(getByRole('button', { name: 'Panel one' }));
 			fireEvent.click(getByRole('button', { name: 'Panel two' }));
@@ -120,12 +200,19 @@ describe('Accordion', () => {
 
 	describe('exclusive mode', () => {
 		it('opening an item closes all others', () => {
-			const items: IAccordionItem[] = [
-				{ id: 'one', trigger: 'Panel one', content: 'Content', defaultOpen: true },
-				{ id: 'two', trigger: 'Panel two', content: 'Content' },
-				{ id: 'three', trigger: 'Panel three', content: 'Content' },
-			];
-			const { getByRole } = render(<Accordion items={items} exclusive />);
+			const { getByRole } = render(
+				<Accordion exclusive>
+					<AccordionItem id="one" label="Panel one" defaultOpen>
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 
 			fireEvent.click(getByRole('button', { name: 'Panel two' }));
 
@@ -139,10 +226,13 @@ describe('Accordion', () => {
 		});
 
 		it('toggling the open item closes it', () => {
-			const items: IAccordionItem[] = [
-				{ id: 'one', trigger: 'Panel one', content: 'Content', defaultOpen: true },
-			];
-			const { getByRole } = render(<Accordion items={items} exclusive />);
+			const { getByRole } = render(
+				<Accordion exclusive>
+					<AccordionItem id="one" label="Panel one" defaultOpen>
+						Content one
+					</AccordionItem>
+				</Accordion>
+			);
 			const trigger = getByRole('button', { name: 'Panel one' });
 
 			fireEvent.click(trigger);
@@ -153,7 +243,19 @@ describe('Accordion', () => {
 
 	describe('ARIA attributes', () => {
 		it('each trigger has aria-controls matching its panel id', () => {
-			const { getAllByRole } = render(<Accordion items={baseItems} />);
+			const { getAllByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 			const buttons = getAllByRole('button');
 			const regions = getAllByRole('region');
 
@@ -165,7 +267,19 @@ describe('Accordion', () => {
 		});
 
 		it('each panel has aria-labelledby matching its trigger id', () => {
-			const { getAllByRole } = render(<Accordion items={baseItems} />);
+			const { getAllByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 			const buttons = getAllByRole('button');
 			const regions = getAllByRole('region');
 
@@ -177,19 +291,38 @@ describe('Accordion', () => {
 		});
 
 		it('each panel has role="region"', () => {
-			const { getAllByRole } = render(<Accordion items={baseItems} />);
+			const { getAllByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 			const regions = getAllByRole('region');
 
-			expect(regions).toHaveLength(baseItems.length);
+			expect(regions).toHaveLength(3);
 		});
 
 		it('aria-expanded reflects defaultOpen state for each trigger', () => {
-			const items: IAccordionItem[] = [
-				{ id: 'one', trigger: 'Panel one', content: 'Content', defaultOpen: true },
-				{ id: 'two', trigger: 'Panel two', content: 'Content' },
-				{ id: 'three', trigger: 'Panel three', content: 'Content' },
-			];
-			const { getByRole } = render(<Accordion items={items} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one" defaultOpen>
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 
 			expect(getByRole('button', { name: 'Panel one' }).getAttribute('aria-expanded')).toBe('true');
 			expect(getByRole('button', { name: 'Panel two' }).getAttribute('aria-expanded')).toBe(
@@ -203,7 +336,19 @@ describe('Accordion', () => {
 
 	describe('keyboard navigation', () => {
 		it('ArrowDown moves focus to the next trigger', () => {
-			const { getByRole } = render(<Accordion items={baseItems} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 			const first = getByRole('button', { name: 'Panel one' });
 			const second = getByRole('button', { name: 'Panel two' });
 
@@ -213,7 +358,19 @@ describe('Accordion', () => {
 		});
 
 		it('ArrowUp moves focus to the previous trigger', () => {
-			const { getByRole } = render(<Accordion items={baseItems} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 			const first = getByRole('button', { name: 'Panel one' });
 			const second = getByRole('button', { name: 'Panel two' });
 
@@ -223,7 +380,19 @@ describe('Accordion', () => {
 		});
 
 		it('Home moves focus to the first trigger', () => {
-			const { getByRole } = render(<Accordion items={baseItems} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 			const first = getByRole('button', { name: 'Panel one' });
 			const third = getByRole('button', { name: 'Panel three' });
 
@@ -233,7 +402,19 @@ describe('Accordion', () => {
 		});
 
 		it('End moves focus to the last trigger', () => {
-			const { getByRole } = render(<Accordion items={baseItems} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 			const first = getByRole('button', { name: 'Panel one' });
 			const third = getByRole('button', { name: 'Panel three' });
 
@@ -243,7 +424,19 @@ describe('Accordion', () => {
 		});
 
 		it('ArrowDown from last trigger wraps to first', () => {
-			const { getByRole } = render(<Accordion items={baseItems} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 			const first = getByRole('button', { name: 'Panel one' });
 			const third = getByRole('button', { name: 'Panel three' });
 
@@ -253,7 +446,19 @@ describe('Accordion', () => {
 		});
 
 		it('ArrowUp from first trigger wraps to last', () => {
-			const { getByRole } = render(<Accordion items={baseItems} />);
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 			const first = getByRole('button', { name: 'Panel one' });
 			const third = getByRole('button', { name: 'Panel three' });
 
@@ -265,23 +470,59 @@ describe('Accordion', () => {
 
 	describe('headingLevel', () => {
 		it('renders h3 headings by default', () => {
-			const { container } = render(<Accordion items={baseItems} />);
+			const { container } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 
 			const headings = container.querySelectorAll('h3');
-			expect(headings).toHaveLength(baseItems.length);
+			expect(headings).toHaveLength(3);
 		});
 
 		it('renders h2 headings when headingLevel={HeadingLevel.h2}', () => {
-			const { container } = render(<Accordion items={baseItems} headingLevel={HeadingLevel.h2} />);
+			const { container } = render(
+				<Accordion headingLevel={HeadingLevel.h2}>
+					<AccordionItem id="one" label="Panel one">
+						Content one
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						Content two
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						Content three
+					</AccordionItem>
+				</Accordion>
+			);
 
 			const headings = container.querySelectorAll('h2');
-			expect(headings).toHaveLength(baseItems.length);
+			expect(headings).toHaveLength(3);
 		});
 	});
 
 	describe('panel content', () => {
 		it('content is in the DOM when collapsed', () => {
-			const { getByText } = render(<Accordion items={baseItems} />);
+			const { getByText } = render(
+				<Accordion>
+					<AccordionItem id="one" label="Panel one">
+						<p>Content one</p>
+					</AccordionItem>
+					<AccordionItem id="two" label="Panel two">
+						<p>Content two</p>
+					</AccordionItem>
+					<AccordionItem id="three" label="Panel three">
+						<p>Content three</p>
+					</AccordionItem>
+				</Accordion>
+			);
 
 			getByText('Content one');
 			getByText('Content two');

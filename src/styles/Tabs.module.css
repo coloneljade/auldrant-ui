@@ -1,0 +1,44 @@
+.tab-group {
+	display: grid;
+}
+
+.tab-list {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: max-content;
+	border-bottom: 1px solid var(--aui-color-border);
+}
+
+.tab {
+	composes: focus-ring from "@styles/shared.css";
+	padding: 0.5em 1em;
+	border: none;
+	border-bottom: 2px solid transparent;
+	margin-bottom: -1px;
+	background: transparent;
+	color: var(--aui-color-text);
+	font: inherit;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.tab:hover {
+	background: var(--aui-color-background-hover);
+}
+
+.tab[aria-selected="true"] {
+	color: var(--aui-color-primary);
+	border-bottom-color: var(--aui-color-primary);
+}
+
+.tab-panel {
+	padding: 0.75em 1em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.tab {
+		transition:
+			border-bottom-color 0.15s ease,
+			color 0.15s ease;
+	}
+}

@@ -1,5 +1,5 @@
 import Checkbox from '@components/Checkbox';
-import RadioGroup from '@components/RadioGroup';
+import RadioGroup, { RadioItem } from '@components/RadioGroup';
 import type { FunctionComponent } from 'preact';
 
 export const CheckboxRadioSection: FunctionComponent = () => (
@@ -11,24 +11,15 @@ export const CheckboxRadioSection: FunctionComponent = () => (
 				<Checkbox label="Checked" name="checked" checked />
 				<Checkbox label="Disabled" name="cb-dis" disabled />
 			</div>
-			<RadioGroup
-				legend="Preference"
-				name="pref"
-				options={[
-					{ label: 'Option A', value: 'a' },
-					{ label: 'Option B', value: 'b' },
-					{ label: 'Option C', value: 'c' },
-				]}
-			/>
-			<RadioGroup
-				legend="Disabled group"
-				name="pref-dis"
-				disabled
-				options={[
-					{ label: 'X', value: 'x' },
-					{ label: 'Y', value: 'y' },
-				]}
-			/>
+			<RadioGroup legend="Preference" name="pref">
+				<RadioItem label="Option A" value="a" />
+				<RadioItem label="Option B" value="b" />
+				<RadioItem label="Option C" value="c" />
+			</RadioGroup>
+			<RadioGroup legend="Disabled group" name="pref-dis" disabled>
+				<RadioItem label="X" value="x" />
+				<RadioItem label="Y" value="y" />
+			</RadioGroup>
 		</div>
 	</div>
 );

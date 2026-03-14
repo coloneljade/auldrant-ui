@@ -26,6 +26,20 @@ body {
 	padding-bottom: 0.5em;
 }
 
+/* Horizontal palette radio group */
+.dev-palette-row {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: max-content;
+	align-items: center;
+	gap: 0.25em 1em;
+	margin-bottom: 2em;
+}
+
+.dev-page [role="tabpanel"] {
+	padding-top: 2em;
+}
+
 .dev-section {
 	margin-bottom: 3em;
 }
@@ -34,6 +48,18 @@ body {
 	font-size: 1.125em;
 	margin-bottom: 1em;
 	color: var(--aui-color-primary);
+}
+
+.dev-section h3 {
+	font-size: 0.9375em;
+	font-weight: 600;
+	margin-top: 2em;
+	margin-bottom: 0.75em;
+	color: var(--aui-color-text-muted);
+}
+
+.dev-section h3:first-child {
+	margin-top: 0;
 }
 
 .dev-row {
