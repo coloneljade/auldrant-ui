@@ -13,6 +13,7 @@ export { default as CurrencyInput } from '@components/CurrencyInput';
 export { default as Dialog } from '@components/Dialog';
 export type { IDialogAction } from '@components/DialogBase';
 export { default as DownloadLink } from '@components/DownloadLink';
+export { DropdownItem, default as Dropdown } from '@components/Dropdown';
 export { default as Form } from '@components/Form';
 export { default as Head } from '@components/Head';
 export type { IIconProps } from '@components/Icon';

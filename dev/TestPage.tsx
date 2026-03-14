@@ -22,6 +22,7 @@ import { CheckboxRadioSection } from './sections/CheckboxRadioSection';
 import { ChipSection } from './sections/ChipSection';
 import { CurrencyInputSection } from './sections/CurrencyInputSection';
 import { DialogSection } from './sections/DialogSection';
+import { DropdownSection } from './sections/DropdownSection';
 import { FormDemo } from './sections/FormDemo';
 import { InputSection } from './sections/InputSection';
 import { LinkSection } from './sections/LinkSection';
@@ -58,6 +59,7 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'form', Section: FormDemo },
 	{ key: 'accordion', Section: AccordionSection },
 	{ key: 'dialog', Section: DialogSection },
+	{ key: 'dropdown', Section: DropdownSection },
 	{ key: 'modal', Section: ModalSection },
 	{ key: 'toast', Section: ToastSection },
 ];
@@ -176,6 +178,7 @@ export const TestPage: FunctionComponent = () => {
 							<Tab id="overlay" label="Overlay">
 								<DialogSection />
 								<ModalSection />
+								<DropdownSection />
 							</Tab>
 						</TabGroup>
 					)}
