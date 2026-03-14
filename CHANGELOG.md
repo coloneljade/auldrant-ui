@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.18.0] - 2026-03-14
+
+### Added
+
+- feat(CurrencyInput): add locale-aware currency input with `Intl.NumberFormat` for display/parse, `type="text"` + `inputMode="decimal"`, and focus/blur lifecycle via `useSignal` ([#88](https://github.com/coloneljade/auldrant-ui/pull/88))
+- test(CurrencyInput): 7 behavioral tests + 6 a11y tests (axe, SC 4.1.2, SC 3.3.1) ([#88](https://github.com/coloneljade/auldrant-ui/pull/88))
+- docs(CurrencyInput): dev section showcasing USD, JPY, EUR (de-DE), plain decimal, disabled, and error states; README entry ([#88](https://github.com/coloneljade/auldrant-ui/pull/88))
+- chore: add component checklist rule to enforce dev section + README on all future components ([#88](https://github.com/coloneljade/auldrant-ui/pull/88))
+- chore(dev): widen `.dev-row` grid minimum (12em → 20em) to prevent label/input cramping in form sections ([#88](https://github.com/coloneljade/auldrant-ui/pull/88))
+- fix(RadioGroup,Checkbox): `inset: 0` + `appearance: none` on the hidden input — `width: 0; height: 0` only covered a zero-size point so clicks outside the label text missed; `appearance: none` suppresses OS-native widget rendering that bleeds through `opacity: 0` (especially on radio) ([#88](https://github.com/coloneljade/auldrant-ui/pull/88))
+
 ## [0.17.0] - 2026-03-14
 
 ### Added
