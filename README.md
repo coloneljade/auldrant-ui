@@ -49,6 +49,9 @@ function App() {
 | `Alert` | Status message with live region role for screen readers | `message`, `variant?`, `title?`, `actionLabel?`, `actionHref?`, `onAction?`, `onDismiss?`, `dismissLabel?`, `duration?` |
 | `Badge` | Read-only inline status or count indicator pill | `children`, `variant?` |
 | `Chip` | Interactive dismissible tag for filters and selections | `label`, `variant?`, `onRemove?`, `removeLabel?`, `disabled?` |
+| `Toast` + `Toaster` | Transient notification with auto-dismiss and hover/focus pause. Mount `<Toaster />` once in app root; call `toast()` anywhere | `message`, `variant?`, `title?`, `duration?`, `dismissLabel?`, `onDismiss` on Toast |
+
+> **Note:** Toasts are intentionally transient — content must be safe to miss. For critical errors the user must act on, use `Alert`. All toasts use `role="status"` (polite) and do not interrupt screen reader focus.
 
 ### Form Controls
 
@@ -92,6 +95,15 @@ function App() {
 | `Nav` | Semantic `<nav>` wrapper with optional title | `title?`, `children` |
 | `Route` | Renders children when location matches path | `path`, `children` |
 | `SkipLink` | Skip navigation link, hidden until focused | `target?`, `label?` |
+
+### Icons
+
+| Export | Description | Key Props |
+|--------|-------------|-----------|
+| `Icon` | Renders a library icon by semantic name. Always `aria-hidden="true"`. | `name` (`IconName`), `class?` |
+| `IconName` | Enum of all icons exposed by the library | — |
+
+Default size is `1em × 1em`. Override via `class`. Never import lucide-preact directly — use `Icon` so icon swaps require only one file change.
 
 All components extend `IBaseProps` which includes `class?` and `id?`. Form controls extend `IFieldProps` which adds `label`, `name?`, `required?`, and `disabled?`. Dialog and Modal actions use the exported `IDialogAction` type (`label`, `description`, `onClick`, `shortcut`). Full prop types are available in the `.d.ts` files.
 

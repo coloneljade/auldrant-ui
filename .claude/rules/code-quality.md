@@ -123,6 +123,24 @@ autocomplete, and exhaustive checks that raw strings cannot provide.
 - **No `const enum`**: `isolatedModules: true` + esbuild make it unsafe for a published library.
 - **Exhaustive maps**: `{ [key in MyEnum]: V }` — TypeScript errors on missing keys.
 
+## State Management
+
+**Signals own reactive state. Hooks own DOM access and lifecycle side effects.**
+
+| Need | Use | Not |
+|------|-----|-----|
+| Reactive boolean/value | `useSignal` | `useState` |
+| Derived/computed value | `useComputed` | `useMemo` |
+| Module-level shared state | `signal()` | context or external store |
+| Pausable countdown timer | `useTimer` (from `@scripts/hooks`) | raw `setTimeout` + `useEffect` |
+| DOM ref | `useRef` | — |
+| Event listeners, DOM side effects | `useEffect` | — |
+| Stable IDs | `useId` | — |
+
+Signals update only the parts of the VDOM that read them — no full component re-render. Hooks from `preact/hooks` (`useEffect`, `useRef`, `useId`, custom hooks) remain appropriate for their domains; don't replace them with signals.
+
+`useState` has no place in new components. If you find yourself reaching for it, use `useSignal` instead.
+
 ## Component Conventions
 
 ### Declaration
