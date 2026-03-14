@@ -68,3 +68,4 @@ Never read/search: `node_modules/`, `dist/`, `bun.lock`
 |-------|-----------|
 | Component patterns, TypeScript style, code conventions | `rules/code-quality.md` |
 | Import aliases and path resolution | `rules/imports.md` |
+| New component checklist (required files, wiring, dev section) | `rules/component-checklist.md` |
