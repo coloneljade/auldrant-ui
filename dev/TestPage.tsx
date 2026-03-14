@@ -1,7 +1,7 @@
 import Link from '@components/Link';
 import Nav from '@components/Nav';
 import NotFound from '@components/NotFound';
-import RadioGroup, { RadioGroupVariant, RadioItem } from '@components/RadioGroup';
+import RadioGroup, { RadioItem } from '@components/RadioGroup';
 import Route from '@components/Route';
 import SkipLink from '@components/SkipLink';
 import TabGroup, { Tab } from '@components/Tabs';
@@ -22,7 +22,6 @@ import { FormDemo } from './sections/FormDemo';
 import { InputSection } from './sections/InputSection';
 import { LinkSection } from './sections/LinkSection';
 import { ModalSection } from './sections/ModalSection';
-import { NavDemo } from './sections/NavDemo';
 import { NumberInputSection } from './sections/NumberInputSection';
 import { PasswordInputSection } from './sections/PasswordInputSection';
 import { RoutingSection } from './sections/RoutingSection';
@@ -37,9 +36,15 @@ const knownRoutes = ['/', '/about'];
 export const TestPage: FunctionComponent = () => (
 	<Theme class={palette.value ?? undefined}>
 		<SkipLink />
-		<Nav title="Auldrant UI" titleHref="/">
-			<Link href="/about">About</Link>
-		</Nav>
+		<header class="dev-header">
+			<h1 class="dev-header-brand">
+				<Link href="/">Auldrant UI</Link>
+			</h1>
+			<Nav>
+				<Link href="/about">About</Link>
+				<Link href="/not-found">Test 404</Link>
+			</Nav>
+		</header>
 
 		{!knownRoutes.includes(location.value) && (
 			<NotFound message="The page you were looking for doesn't exist." />
@@ -50,7 +55,6 @@ export const TestPage: FunctionComponent = () => (
 				<RadioGroup
 					legend="Palette"
 					name="dev-palette"
-					variant={RadioGroupVariant.highlight}
 					value={palette.value ?? ''}
 					onChange={(val) => {
 						palette.value = (val as Palette) || null;
@@ -91,7 +95,6 @@ export const TestPage: FunctionComponent = () => (
 					</Tab>
 					<Tab id="navigation" label="Navigation">
 						<RoutingSection />
-						<NavDemo />
 						<FormDemo />
 					</Tab>
 					<Tab id="disclosure" label="Disclosure">

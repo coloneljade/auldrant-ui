@@ -10,7 +10,7 @@ interface INavProps extends IBaseProps {
 	/** Optional title shown as a heading above the nav. */
 	title?: string;
 	/** When provided, wraps the title in a link. Useful for brand/logo home links. */
-	titleHref?: string;
+	route?: string;
 	/** Navigation links. */
 	children: ComponentChildren;
 }
@@ -20,13 +20,13 @@ interface INavProps extends IBaseProps {
  * When a title is provided, `aria-labelledby` links the landmark to the heading.
  */
 const Nav: FunctionComponent<INavProps> = (props) => {
-	const { title, titleHref, children, class: className } = props;
+	const { title, route, children, class: className } = props;
 	const headingId = useId();
 	return (
 		<nav class={cx(styles.nav, className)} aria-labelledby={title ? headingId : undefined}>
 			{title && (
 				<h2 id={headingId} class={styles.navTitle}>
-					{titleHref ? <Link href={titleHref}>{title}</Link> : title}
+					{route ? <Link href={route}>{title}</Link> : title}
 				</h2>
 			)}
 			{children}
