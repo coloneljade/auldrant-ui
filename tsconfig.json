@@ -24,7 +24,6 @@
 		"noImplicitOverride": true,
 		"allowUnusedLabels": false,
 		"allowUnreachableCode": false,
-		"exactOptionalPropertyTypes": true,
 		"noImplicitReturns": true,
 
 		"esModuleInterop": true,
