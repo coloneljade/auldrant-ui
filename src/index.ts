@@ -18,6 +18,7 @@ export { default as Input } from '@components/Input';
 export { default as Link } from '@components/Link';
 export { default as Modal } from '@components/Modal';
 export { default as Nav } from '@components/Nav';
+export { default as NotFound } from '@components/NotFound';
 export { default as NumberInput } from '@components/NumberInput';
 export { default as PasswordInput, PasswordPurpose } from '@components/PasswordInput';
 export { default as RadioGroup, RadioItem } from '@components/RadioGroup';

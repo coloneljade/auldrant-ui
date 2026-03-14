@@ -94,6 +94,35 @@ body {
 	margin-top: 0.25em;
 }
 
+/* About page */
+.dev-about-tagline {
+	color: var(--aui-color-text-muted);
+	margin-bottom: 2em;
+}
+
+.dev-about-links {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(16em, 1fr));
+	gap: 1em;
+	margin-bottom: 2em;
+}
+
+.dev-about-links h2 {
+	font-size: 1em;
+	margin-bottom: 0.5em;
+}
+
+.dev-about-links p {
+	color: var(--aui-color-text-muted);
+	font-size: 0.875em;
+	margin-bottom: 0.75em;
+}
+
+.dev-about-footer {
+	color: var(--aui-color-text-muted);
+	font-size: 0.875em;
+}
+
 /* Nested theme demo */
 .blue-theme {
 	--aui-base-primary: oklch(0.78 0.18 260);
