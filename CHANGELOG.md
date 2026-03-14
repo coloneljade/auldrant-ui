@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.19.0] - 2026-03-14
+
+### Changed
+
+- feat(SearchInput): add search input component — `<search>` landmark, `type="search"` input, decorative icon, conditional clear button, Enter-to-submit; extends `IFieldProps` via `FormField` ([#91](https://github.com/coloneljade/auldrant-ui/pull/91))
+- test(SearchInput): behavioral and a11y tests (WCAG SC 4.1.2, SC 3.3.1) ([#91](https://github.com/coloneljade/auldrant-ui/pull/91))
+- feat(Tabs,dev): add controlled `active` prop to `TabGroup` for URL-driven and back/forward tab state; dev page restructured with About at `/`, tests at `/tests/tab/:id`, and `SearchInput` dogfooded as a global cross-tab section filter ([#91](https://github.com/coloneljade/auldrant-ui/pull/91))
+
 ## [0.18.0] - 2026-03-14
 
 ### Added
