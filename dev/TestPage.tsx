@@ -17,6 +17,7 @@ import { ButtonSection } from './sections/ButtonSection';
 import { CardSection } from './sections/CardSection';
 import { CheckboxRadioSection } from './sections/CheckboxRadioSection';
 import { ChipSection } from './sections/ChipSection';
+import { CurrencyInputSection } from './sections/CurrencyInputSection';
 import { DialogSection } from './sections/DialogSection';
 import { FormDemo } from './sections/FormDemo';
 import { InputSection } from './sections/InputSection';
@@ -73,6 +74,7 @@ export const TestPage: FunctionComponent = () => (
 					<Tab id="inputs" label="Inputs">
 						<InputSection />
 						<NumberInputSection />
+						<CurrencyInputSection />
 						<PasswordInputSection />
 						<TextareaSection />
 						<SelectSection />
