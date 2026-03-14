@@ -1,0 +1,106 @@
+.toaster {
+	position: fixed;
+	bottom: 1em;
+	right: 1em;
+	display: grid;
+	gap: 0.5em;
+	z-index: 500;
+	/* Prevent the container itself from blocking pointer events when empty */
+	pointer-events: none;
+}
+
+.toast {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	gap: 0.75em;
+	align-items: start;
+	padding: 0.75em 1em;
+	border-left: 0.25em solid;
+	border-radius: 0.25em;
+	pointer-events: auto;
+	animation: aui-toast-fade-in 0.2s ease;
+}
+
+.dismissing {
+	animation: aui-toast-fade-out 0.25s ease forwards;
+	pointer-events: none;
+}
+
+@keyframes aui-toast-fade-in {
+	from {
+		opacity: 0;
+		translate: 0.5em 0;
+	}
+}
+
+@keyframes aui-toast-fade-out {
+	to {
+		opacity: 0;
+		translate: 0.5em 0;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.toast,
+	.dismissing {
+		animation-duration: 0.001ms;
+	}
+}
+
+.toast-icon {
+	align-self: center;
+}
+
+.toast-body {
+	display: grid;
+	gap: 0.25em;
+}
+
+.toast-title {
+	margin: 0;
+	font-weight: 600;
+}
+
+.toast-message {
+	margin: 0;
+}
+
+.toast-dismiss {
+	composes: focus-ring from "@styles/shared.css";
+	align-self: start;
+	padding: 0.125em;
+	border: none;
+	border-radius: 0.25em;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+	line-height: 0;
+}
+
+/* Variant: info */
+.info {
+	border-color: var(--aui-color-info);
+	background: color-mix(in oklch, var(--aui-color-info) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}
+
+/* Variant: success */
+.success {
+	border-color: var(--aui-color-success);
+	background: color-mix(in oklch, var(--aui-color-success) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}
+
+/* Variant: warning */
+.warning {
+	border-color: var(--aui-color-warning);
+	background: color-mix(in oklch, var(--aui-color-warning) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}
+
+/* Variant: error */
+.error {
+	border-color: var(--aui-color-error);
+	background: color-mix(in oklch, var(--aui-color-error) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}
