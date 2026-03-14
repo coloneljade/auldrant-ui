@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.16.0] - 2026-03-14
+
+### Changed
+
+- Add `TabGroup` + `Tab` compound component with roving tabindex, keyboard nav (Arrow keys, Home, End), and lazy/eager panel mounting ([#85](https://github.com/coloneljade/auldrant-ui/pull/85))
+- Refactor `Accordion` from `items` array prop to `<AccordionItem>` compound children ([#85](https://github.com/coloneljade/auldrant-ui/pull/85))
+- Refactor `RadioGroup` from `options` array prop to `<RadioItem>` compound children ([#85](https://github.com/coloneljade/auldrant-ui/pull/85))
+- Migrate dev test page from flat scroll layout to `TabGroup` navigation with a live `RadioGroup` palette switcher ([#85](https://github.com/coloneljade/auldrant-ui/pull/85))
+
 ## [0.15.0] - 2026-03-13
 
 ### Added
