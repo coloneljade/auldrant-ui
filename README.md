@@ -37,9 +37,10 @@ function App() {
 
 | Component | Description | Key Props |
 |-----------|-------------|-----------|
-| `Accordion` | Collapsible disclosure sections with ARIA state and smooth animation | `items`, `exclusive?`, `headingLevel?` |
+| `Accordion` + `AccordionItem` | Collapsible disclosure sections with ARIA state and smooth animation | `exclusive?`, `headingLevel?` on Accordion; `id`, `label`, `defaultOpen?` on AccordionItem |
+| `TabGroup` + `Tab` | Accessible tab interface with keyboard navigation and lazy panel mounting | `defaultActive?`, `onChange?`, `eager?` on TabGroup; `id`, `label`, `onActivate?`, `eager?` on Tab |
 
-> **Note:** In multi-expand mode (`exclusive=false`), each open panel renders `role="region"`. Many simultaneously open panels can proliferate landmarks and degrade screen reader navigation — consider limiting item count or using `exclusive` mode in those cases.
+> **Note:** In multi-expand mode (`exclusive=false`), each open Accordion panel renders `role="region"`. Many simultaneously open panels can proliferate landmarks and degrade screen reader navigation — consider limiting item count or using `exclusive` mode in those cases.
 
 ### Feedback
 
@@ -59,7 +60,7 @@ function App() {
 | `Input` | Text input with label | `type?`, `value?`, `onInput?` |
 | `NumberInput` | Numeric input with label | `min?`, `max?`, `onInput?` |
 | `PasswordInput` | Password input with show/hide toggle | `purpose` (`'current'` \| `'new'`), `value?`, `onInput?` |
-| `RadioGroup` | Radio button group inside a fieldset | `legend`, `name`, `options` |
+| `RadioGroup` + `RadioItem` | Radio button group inside a fieldset | `legend`, `name`, `value?`, `onChange?`, `required?`, `disabled?`, `error?` on RadioGroup; `label`, `value` on RadioItem |
 | `Select` | Select dropdown with label | `options`, `value?`, `onChange?` |
 | `Textarea` | Textarea with character counter | `maxChars`, `value?`, `onInput?` |
 
