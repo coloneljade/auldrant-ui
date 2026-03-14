@@ -1,3 +1,4 @@
+import Icon, { IconName } from '@components/Icon';
 import Link from '@components/Link';
 import type { IBaseProps } from '@scripts/types';
 import { cx } from '@scripts/utils';
@@ -43,6 +44,13 @@ interface IAlertProps extends IBaseProps {
 	 */
 	duration?: number;
 }
+
+const variantIcon: { [key in AlertVariant]: IconName } = {
+	[AlertVariant.info]: IconName.info,
+	[AlertVariant.success]: IconName.success,
+	[AlertVariant.warning]: IconName.warning,
+	[AlertVariant.error]: IconName.error,
+};
 
 const variantClass: { [key in AlertVariant]: string | undefined } = {
 	[AlertVariant.info]: styles.info,
@@ -98,6 +106,7 @@ const Alert: FunctionComponent<IAlertProps> = (props) => {
 				}
 			}}
 		>
+			<Icon name={variantIcon[variant]} class={styles.alertIcon} />
 			<div class={styles.alertBody}>
 				{title && <p class={styles.alertTitle}>{title}</p>}
 				<p class={styles.alertMessage}>{message}</p>
