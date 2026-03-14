@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.20.0] - 2026-03-14
+
+### Added
+
+- feat(hooks): add useTimer pausable countdown hook ([#94](https://github.com/coloneljade/auldrant-ui/pull/94))
+- feat(Icon): add centralized icon wrapper with typed API ([#94](https://github.com/coloneljade/auldrant-ui/pull/94))
+- refactor: migrate existing components to Icon wrapper ([#94](https://github.com/coloneljade/auldrant-ui/pull/94))
+- feat(Alert): add variant icons with grid layout update ([#94](https://github.com/coloneljade/auldrant-ui/pull/94))
+- feat(Toast): add toast notification system with Toaster overlay ([#94](https://github.com/coloneljade/auldrant-ui/pull/94))
+- test(Toast): add behavioral and a11y tests ([#94](https://github.com/coloneljade/auldrant-ui/pull/94))
+- feat: wire Toast, Icon, useTimer into public API and dev page ([#94](https://github.com/coloneljade/auldrant-ui/pull/94))
+- chore(Alert): migrate useState to useSignal ([#94](https://github.com/coloneljade/auldrant-ui/pull/94))
+
 ## [0.19.0] - 2026-03-14
 
 ### Changed
