@@ -49,6 +49,12 @@ interface ITabProps extends IBaseProps {
 interface ITabGroupProps extends IBaseProps {
 	/** ID of the initially active tab. Defaults to the first tab's id. */
 	defaultActive?: string;
+	/**
+	 * Externally-controlled active tab ID. When provided, the tab group syncs to this value
+	 * whenever it changes — enabling URL-driven or otherwise externally-managed tab state.
+	 * Pair with `onChange` to write the selection back to the external source.
+	 */
+	active?: string;
 	/** Called when the active tab changes. */
 	onChange?: (id: string) => void;
 	/**
@@ -119,7 +125,14 @@ export const Tab: FunctionComponent<ITabProps> = () => null;
  * mounted. Set `eager` on the group or individual tabs to mount immediately.
  */
 const TabGroup: FunctionComponent<ITabGroupProps> = (props) => {
-	const { defaultActive, onChange, eager: groupEager = false, class: className, children } = props;
+	const {
+		defaultActive,
+		active,
+		onChange,
+		eager: groupEager = false,
+		class: className,
+		children,
+	} = props;
 
 	// Flatten fragments, arrays, and filter falsy values
 	const flatChildren = flattenChildren(children);
@@ -150,10 +163,25 @@ const TabGroup: FunctionComponent<ITabGroupProps> = (props) => {
 
 	const firstId = tabs[0]?.props.id ?? '';
 	const instanceId = useId();
-	const activeId = useSignal<string>(
-		defaultActive && tabs.some((t) => t.props.id === defaultActive) ? defaultActive : firstId
-	);
+	const resolvedInitial = (() => {
+		if (active && tabs.some((t) => t.props.id === active)) {
+			return active;
+		}
+		if (defaultActive && tabs.some((t) => t.props.id === defaultActive)) {
+			return defaultActive;
+		}
+		return firstId;
+	})();
+	const activeId = useSignal<string>(resolvedInitial);
 	const mountedIds = useSignal<Set<string>>(new Set([activeId.value]));
+
+	// Sync controlled `active` prop — enables URL-driven and back/forward support.
+	useEffect(() => {
+		if (active && tabs.some((t) => t.props.id === active) && activeId.value !== active) {
+			activeId.value = active;
+			mountedIds.value = new Set([...mountedIds.value, active]);
+		}
+	}, [active]);
 	const tablistRef = useRef<HTMLDivElement>(null);
 
 	function activateTab(id: string) {

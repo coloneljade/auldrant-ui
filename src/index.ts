@@ -24,6 +24,7 @@ export { default as NumberInput } from '@components/NumberInput';
 export { default as PasswordInput, PasswordPurpose } from '@components/PasswordInput';
 export { default as RadioGroup, RadioItem } from '@components/RadioGroup';
 export { default as Route } from '@components/Route';
+export { default as SearchInput } from '@components/SearchInput';
 export { default as Section } from '@components/Section';
 export type { ISelectGroup, ISelectOption } from '@components/Select';
 export { default as Select } from '@components/Select';
