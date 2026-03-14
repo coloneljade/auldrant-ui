@@ -13,3 +13,32 @@
 	composes: field-error from "@styles/shared.css";
 	grid-column: 2;
 }
+
+/* Highlight variant — bordered tile */
+
+.field-highlight {
+	display: block;
+	padding: 0.5em 1em;
+	border: 1px solid var(--aui-color-border);
+	border-radius: 0.25em;
+	cursor: pointer;
+	position: relative;
+}
+
+.field-highlight .input {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.field-highlight:has(.input:checked) {
+	background: var(--aui-color-primary);
+	color: var(--aui-color-background);
+	border-color: var(--aui-color-primary);
+}
+
+.field-highlight:has(.input:focus-visible) {
+	outline: 2px solid var(--aui-color-focus-ring);
+	outline-offset: 2px;
+}

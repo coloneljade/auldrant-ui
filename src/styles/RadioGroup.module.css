@@ -23,3 +23,55 @@
 .error {
 	composes: field-error from "@styles/shared.css";
 }
+
+/* Highlight variant — conjoined tile buttons */
+
+.fieldset-highlight {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: 1fr;
+	column-gap: 0;
+}
+
+.fieldset-highlight .legend {
+	grid-column: 1 / -1;
+}
+
+.fieldset-highlight .option {
+	display: block;
+	padding: 0.5em 1em;
+	border: 1px solid var(--aui-color-border);
+	position: relative;
+	cursor: pointer;
+	text-align: center;
+}
+
+.fieldset-highlight .option + .option {
+	border-left: none;
+}
+
+.fieldset-highlight .option:first-of-type {
+	border-radius: 0.25em 0 0 0.25em;
+}
+
+.fieldset-highlight .option:last-of-type {
+	border-radius: 0 0.25em 0.25em 0;
+}
+
+.fieldset-highlight .input {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.fieldset-highlight .option:has(.input:checked) {
+	background: var(--aui-color-primary);
+	color: var(--aui-color-background);
+	border-color: var(--aui-color-primary);
+}
+
+.fieldset-highlight .option:has(.input:focus-visible) {
+	outline: 2px solid var(--aui-color-focus-ring);
+	outline-offset: 2px;
+}

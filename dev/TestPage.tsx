@@ -1,7 +1,7 @@
 import Link from '@components/Link';
 import Nav from '@components/Nav';
 import NotFound from '@components/NotFound';
-import RadioGroup, { RadioItem } from '@components/RadioGroup';
+import RadioGroup, { RadioGroupVariant, RadioItem } from '@components/RadioGroup';
 import Route from '@components/Route';
 import SkipLink from '@components/SkipLink';
 import TabGroup, { Tab } from '@components/Tabs';
@@ -50,13 +50,13 @@ export const TestPage: FunctionComponent = () => (
 				<RadioGroup
 					legend="Palette"
 					name="dev-palette"
+					variant={RadioGroupVariant.highlight}
 					value={palette.value ?? ''}
-					class="dev-palette-row"
 					onChange={(val) => {
 						palette.value = (val as Palette) || null;
 					}}
 				>
-					<RadioItem label="Default (green)" value="" />
+					<RadioItem label="Green" value="" />
 					<RadioItem label="Blue" value={Palette.blue} />
 					<RadioItem label="Purple" value={Palette.purple} />
 					<RadioItem label="Teal" value={Palette.teal} />

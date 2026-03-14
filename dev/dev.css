@@ -26,13 +26,7 @@ body {
 	padding-bottom: 0.5em;
 }
 
-/* Horizontal palette radio group */
-.dev-palette-row {
-	display: grid;
-	grid-auto-flow: column;
-	grid-auto-columns: max-content;
-	align-items: center;
-	gap: 0.25em 1em;
+.dev-page > fieldset {
 	margin-bottom: 2em;
 }
 
