@@ -1,7 +1,7 @@
 import RadioGroup, { RadioItem } from '@components/RadioGroup';
 import TabGroup, { Tab } from '@components/Tabs';
 import Theme, { Palette } from '@components/Theme';
-import { signal } from '@preact/signals';
+import { palette } from '@signals/theme';
 import type { FunctionComponent } from 'preact';
 import { AccordionSection } from './sections/AccordionSection';
 import { AlertSection } from './sections/AlertSection';
@@ -24,20 +24,18 @@ import { SpinnerSection } from './sections/SpinnerSection';
 import { TableSection } from './sections/TableSection';
 import { TextareaSection } from './sections/TextareaSection';
 
-export const activePalette = signal<string | null>(null);
-
 export const TestPage: FunctionComponent = () => (
-	<Theme class={activePalette.value ?? undefined}>
+	<Theme class={palette.value ?? undefined}>
 		<div class="dev-page" id="main">
 			<h1>Auldrant UI — Dev Test Page</h1>
 
 			<RadioGroup
 				legend="Palette"
 				name="dev-palette"
-				value={activePalette.value ?? ''}
+				value={palette.value ?? ''}
 				class="dev-palette-row"
 				onChange={(val) => {
-					activePalette.value = val || null;
+					palette.value = (val as Palette) || null;
 				}}
 			>
 				<RadioItem label="Default (green)" value="" />

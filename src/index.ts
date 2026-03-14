@@ -39,3 +39,4 @@ export { cx } from '@scripts/utils';
 // Signals
 export { canonical, description, ogDescription, ogImage, ogTitle, title } from '@signals/head';
 export { hash, location, navigate } from '@signals/routing';
+export { palette } from '@signals/theme';
