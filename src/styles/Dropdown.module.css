@@ -1,0 +1,105 @@
+/* anchor-scope scopes --dropdown-trigger to each .dropdown instance — CSP-safe, no inline styles */
+.dropdown {
+	display: inline-grid;
+	anchor-scope: --dropdown-trigger;
+}
+
+.dropdown-trigger {
+	composes: focus-ring from "@styles/shared.css";
+	anchor-name: --dropdown-trigger;
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	gap: 0.5em;
+	padding: 0.375em 0.75em;
+	border: 1px solid var(--aui-color-border);
+	border-radius: 0.25em;
+	background: var(--aui-color-background);
+	color: var(--aui-color-text);
+	font: inherit;
+	cursor: pointer;
+}
+
+.dropdown-trigger:hover {
+	background: var(--aui-color-background-hover);
+}
+
+.dropdown-trigger-icon {
+	display: inline-grid;
+	place-items: center;
+}
+
+.dropdown-trigger[aria-expanded="true"] .dropdown-trigger-icon {
+	rotate: 180deg;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.dropdown-trigger-icon {
+		transition: rotate 0.2s ease;
+	}
+}
+
+.dropdown-menu {
+	/* Reset UA [popover] centering — inset:0 + margin:auto would center it */
+	inset: unset;
+	margin: unset;
+	padding: 0.25em 0;
+	border: 1px solid var(--aui-color-border);
+	border-radius: 0.25em;
+	background: var(--aui-color-background);
+	box-shadow: 0 0.25em 0.75em color-mix(in oklch, var(--aui-color-text) 12%, transparent);
+	min-width: 10em;
+}
+
+.dropdown-item {
+	composes: focus-ring from "@styles/shared.css";
+	display: block;
+	width: 100%;
+	padding: 0.5em 1em;
+	border: none;
+	background: transparent;
+	color: var(--aui-color-text);
+	font: inherit;
+	text-align: start;
+	cursor: pointer;
+}
+
+.dropdown-item:hover:not(:disabled) {
+	background: var(--aui-color-background-hover);
+}
+
+.disabled:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* ── CSS Anchor Positioning (Chrome 131+ / Safari 26+) ──────────────────────
+   anchor-scope on .dropdown scopes --dropdown-trigger per instance — no inline
+   styles needed, fully CSP-safe.
+   Migration: when Firefox ships anchor-name + anchor-scope and they reach
+   cross-browser Baseline, promote these rules to unconditional (unwrap the
+   @supports block) and delete the @supports not block below.
+   See: https://github.com/coloneljade/auldrant-ui/issues/95
+   ─────────────────────────────────────────────────────────────────────────── */
+@supports (anchor-name: --x) and (anchor-scope: --x) {
+	.dropdown-menu {
+		position: absolute;
+		position-anchor: --dropdown-trigger;
+		top: anchor(bottom);
+		left: anchor(left);
+		position-try-fallbacks: --flip-above;
+	}
+
+	@position-try --flip-above {
+		top: auto;
+		bottom: anchor(top);
+	}
+}
+
+/* ── JS Fallback (Firefox + Chrome 125–130) ──────────────────────────────── */
+@supports not ((anchor-name: --x) and (anchor-scope: --x)) {
+	/* top / left / min-width are set by useMenuPosition in Dropdown.tsx */
+	.dropdown-menu {
+		position: fixed;
+	}
+}
