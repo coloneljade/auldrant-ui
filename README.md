@@ -62,6 +62,7 @@ function App() {
 | `NumberInput` | Numeric input with label | `min?`, `max?`, `onInput?` |
 | `PasswordInput` | Password input with show/hide toggle | `purpose` (`'current'` \| `'new'`), `value?`, `onInput?` |
 | `RadioGroup` + `RadioItem` | Radio button group inside a fieldset | `legend`, `name`, `value?`, `onChange?`, `required?`, `disabled?`, `error?` on RadioGroup; `label`, `value` on RadioItem |
+| `SearchInput` | Search input with icon, clear button, and Enter-to-submit | `value?`, `onInput?`, `onClear?`, `onSubmit?` |
 | `Select` | Select dropdown with label | `options`, `value?`, `onChange?` |
 | `Textarea` | Textarea with character counter | `maxChars`, `value?`, `onInput?` |
 
