@@ -1,3 +1,26 @@
+import type { ComponentChildren, VNode } from 'preact';
+import { Fragment, isValidElement, toChildArray } from 'preact';
+
+/**
+ * Flattens ComponentChildren into a list of VNodes.
+ * Preact's toChildArray leaves Fragments intact — this recurses into them.
+ */
+export function flattenChildren(children: ComponentChildren): VNode<object>[] {
+	const out: VNode<object>[] = [];
+	for (const child of toChildArray(children)) {
+		if (!isValidElement(child)) {
+			continue;
+		}
+		if (child.type === Fragment) {
+			const { children: nested } = child.props as { children?: ComponentChildren };
+			out.push(...flattenChildren(nested));
+		} else {
+			out.push(child);
+		}
+	}
+	return out;
+}
+
 /**
  * Combine CSS class names, filtering out falsy values.
  *

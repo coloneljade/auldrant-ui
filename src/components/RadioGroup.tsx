@@ -1,26 +1,9 @@
 import type { IBaseProps } from '@scripts/types';
-import { cx, describeBy } from '@scripts/utils';
+import { cx, describeBy, flattenChildren } from '@scripts/utils';
 import styles from '@styles/RadioGroup.module.css';
 import type { ComponentChildren, FunctionComponent, VNode } from 'preact';
-import { Fragment, isValidElement, toChildArray } from 'preact';
+import { isValidElement } from 'preact';
 import { useId } from 'preact/hooks';
-
-/** Recursively flattens Fragment VNodes that toChildArray leaves intact. */
-function flattenChildren(children: ComponentChildren): VNode<object>[] {
-	const out: VNode<object>[] = [];
-	for (const child of toChildArray(children)) {
-		if (!isValidElement(child)) {
-			continue;
-		}
-		if (child.type === Fragment) {
-			const { children: nested } = child.props as { children?: ComponentChildren };
-			out.push(...flattenChildren(nested));
-		} else {
-			out.push(child);
-		}
-	}
-	return out;
-}
 
 /** Props for {@link RadioItem}. */
 interface IRadioItemProps extends IBaseProps {
