@@ -53,6 +53,15 @@
 	outline-offset: 2px;
 }
 
+.option:has(.input:disabled) {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.option:has(.input:disabled) .input {
+	cursor: not-allowed;
+}
+
 .error {
 	composes: field-error from "@styles/shared.css";
 	grid-column: 1 / -1;
