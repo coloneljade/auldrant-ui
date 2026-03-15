@@ -9,6 +9,7 @@ Always use `@<directory>` aliases for cross-directory imports. No `../` relative
 | Alias | Resolves To | Contains |
 |-------|-------------|----------|
 | `@components/*` | `src/components/*` | Component `.tsx` files (flat) |
+| `@internal/*` | `src/internal/*` | Non-exported components used by other components |
 | `@scripts/*` | `src/scripts/*` | Shared types and utilities |
 | `@signals/*` | `src/signals/*` | Preact signal stores |
 | `@styles/*` | `src/styles/*` | All CSS — layout, tokens, component modules |
