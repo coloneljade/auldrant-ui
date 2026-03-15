@@ -64,11 +64,11 @@
 	cursor: pointer;
 }
 
-.dropdown-item:hover:not(:disabled) {
+.dropdown-item:hover:not([aria-disabled="true"]) {
 	background: var(--aui-color-background-hover);
 }
 
-.disabled:disabled {
+.disabled-item {
 	opacity: 0.5;
 	cursor: not-allowed;
 }

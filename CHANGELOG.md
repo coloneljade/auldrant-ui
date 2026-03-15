@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.22.1] - 2026-03-15
+
+### Fixed
+
+- Disabled items now keyboard-accessible via arrow keys (WAI-ARIA APG compliant) ([#104](https://github.com/coloneljade/auldrant-ui/pull/104))
+- Replace native `disabled` attribute with `aria-disabled="true"` on menu items ([#104](https://github.com/coloneljade/auldrant-ui/pull/104))
+- Arrow key navigation visits all items; Home/End jump to first/last enabled item ([#104](https://github.com/coloneljade/auldrant-ui/pull/104))
+- Popover API stub extracted to `tests/preload.ts` (eliminates duplication) ([#104](https://github.com/coloneljade/auldrant-ui/pull/104))
+- Test assertions updated for `aria-disabled` (removed `hidden:true` queries) ([#104](https://github.com/coloneljade/auldrant-ui/pull/104))
+- New coverage: Fragment-wrapped items, disabled item interaction, open-state axe scan ([#104](https://github.com/coloneljade/auldrant-ui/pull/104))
+
 ## [0.22.0] - 2026-03-15
 
 ### Changed

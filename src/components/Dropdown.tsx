@@ -200,20 +200,13 @@ const Dropdown: FunctionComponent<IDropdownProps> = (props) => {
 
 		if (e.key === 'ArrowDown') {
 			e.preventDefault();
-			const pos = enabledIndices.indexOf(current);
-			const next = enabledIndices[(pos + 1) % enabledIndices.length];
-			if (next !== undefined) {
-				focusItem(next);
-			}
+			const next = current === -1 ? 0 : (current + 1) % items.length;
+			focusItem(next);
 		} else if (e.key === 'ArrowUp') {
 			e.preventDefault();
-			const pos = enabledIndices.indexOf(current);
-			const effectivePos = pos === -1 ? enabledIndices.length : pos;
-			const prev =
-				enabledIndices[(effectivePos - 1 + enabledIndices.length) % enabledIndices.length];
-			if (prev !== undefined) {
-				focusItem(prev);
-			}
+			const effectivePos = current === -1 ? items.length : current;
+			const prev = (effectivePos - 1 + items.length) % items.length;
+			focusItem(prev);
 		} else if (e.key === 'Home') {
 			e.preventDefault();
 			const first = enabledIndices[0];
@@ -274,8 +267,8 @@ const Dropdown: FunctionComponent<IDropdownProps> = (props) => {
 							type="button"
 							role="menuitem"
 							tabIndex={-1}
-							disabled={item.props.disabled}
-							class={cx(styles.dropdownItem, item.props.disabled && styles.disabled)}
+							aria-disabled={item.props.disabled ? 'true' : undefined}
+							class={cx(styles.dropdownItem, item.props.disabled && styles.disabledItem)}
 							onClick={() => selectItem(index)}
 						>
 							{item.props.children}
