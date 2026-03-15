@@ -262,7 +262,7 @@ const Dropdown: FunctionComponent<IDropdownProps> = (props) => {
 				onKeyDown={handleMenuKeyDown}
 			>
 				{items.map((item, index) => (
-					<div key={`${item.props.children}-${index}`} role="none">
+					<div key={item.props.children} role="none">
 						<button
 							type="button"
 							role="menuitem"

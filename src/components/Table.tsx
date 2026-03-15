@@ -19,6 +19,8 @@ interface ITableProps extends IBaseProps {
 	dense?: boolean;
 	/** Visually hide the caption while keeping it accessible to screen readers. */
 	captionHidden?: boolean;
+	/** Derive a stable key for each row. Falls back to row index when not provided. */
+	rowKey?: (row: ComponentChild[], index: number) => string;
 }
 
 /**
@@ -34,6 +36,7 @@ const Table: FunctionComponent<ITableProps> = (props) => {
 		striped,
 		dense,
 		captionHidden,
+		rowKey,
 		class: className,
 	} = props;
 	return (
@@ -51,7 +54,7 @@ const Table: FunctionComponent<ITableProps> = (props) => {
 			</thead>
 			<tbody>
 				{data.map((row, i) => (
-					<tr key={i} class={styles.row}>
+					<tr key={rowKey ? rowKey(row, i) : i} class={styles.row}>
 						{row.map((cell, j) =>
 							rowHeader && j === 0 ? (
 								<th key={`${headers[j]}-${i}-${j}`} class={styles.headerCell} scope="row">

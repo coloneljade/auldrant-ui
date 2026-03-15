@@ -1,5 +1,5 @@
-import type { IDialogAction } from '@components/DialogBase';
-import DialogBase from '@components/DialogBase';
+import type { IDialogAction } from '@internal/DialogBase';
+import DialogBase from '@internal/DialogBase';
 import type { IBaseProps } from '@scripts/types';
 import type { ComponentChildren, FunctionComponent } from 'preact';
 

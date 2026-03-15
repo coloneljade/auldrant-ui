@@ -22,6 +22,7 @@ export default defineConfig({
 			'@scripts': resolve(__dirname, 'src/scripts'),
 			'@signals': resolve(__dirname, 'src/signals'),
 			'@styles': resolve(__dirname, 'src/styles'),
+			'@internal': resolve(__dirname, 'src/internal'),
 		},
 	},
 	build: {

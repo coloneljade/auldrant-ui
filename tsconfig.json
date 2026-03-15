@@ -37,7 +37,8 @@
 			"@components/*": ["./src/components/*"],
 			"@scripts/*": ["./src/scripts/*"],
 			"@signals/*": ["./src/signals/*"],
-			"@styles/*": ["./src/styles/*"]
+			"@styles/*": ["./src/styles/*"],
+			"@internal/*": ["./src/internal/*"]
 		}
 	},
 	"include": ["src", "dev"],
