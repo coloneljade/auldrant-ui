@@ -61,6 +61,7 @@ function App() {
 |-----------|-------------|-----------|
 | `Button` | Standard button with configurable type and click handler | `label`, `onClick?`, `type?` |
 | `Checkbox` | Checkbox with label | `label`, `checked?`, `onChange?` |
+| `CheckboxGroup` | Fieldset wrapper for grouping Checkbox components | `legend`, `error?` |
 | `CurrencyInput` | Currency or plain-decimal input with locale-aware formatting | `value?`, `currency?` (ISO 4217), `locale?` (BCP 47), `onInput?` |
 | `Form` | Form with submit/reset buttons. Prevents default and provides FormData | `onSubmit`, `children`, `submitLabel?`, `resetLabel?`, `submitDisabled?`, `status?` |
 | `Input` | Text input with label | `type?`, `value?`, `onInput?` |

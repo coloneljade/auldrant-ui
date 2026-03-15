@@ -39,6 +39,15 @@
 	outline-offset: 2px;
 }
 
+.field:has(.input:disabled) {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.field:has(.input:disabled) .input {
+	cursor: not-allowed;
+}
+
 .error {
 	composes: field-error from "@styles/shared.css";
 }
