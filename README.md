@@ -70,6 +70,7 @@ function App() {
 | `SearchInput` | Search input with icon, clear button, and Enter-to-submit | `value?`, `onInput?`, `onClear?`, `onSubmit?` |
 | `Select` | Select dropdown with label | `options`, `value?`, `onChange?` |
 | `Textarea` | Textarea with character counter | `maxChars`, `value?`, `onInput?` |
+| `Toggle` | Immediate-action on/off switch (`role="switch"`). Not for form submission — fires effect on click | `label`, `checked`, `onChange?`, `disabled?` |
 
 ### Overlay
 

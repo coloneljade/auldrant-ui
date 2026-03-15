@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.23.0] - 2026-03-15
+
+### Added
+
+- feat(toggle): add Toggle component (#98) ([#108](https://github.com/coloneljade/auldrant-ui/pull/108))
+
 ## [0.22.1] - 2026-03-15
 
 ### Fixed
