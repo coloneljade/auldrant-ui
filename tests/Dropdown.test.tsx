@@ -1,33 +1,7 @@
-import { beforeAll, describe, expect, it, mock } from 'bun:test';
+import { describe, expect, it, mock } from 'bun:test';
 import Dropdown, { DropdownItem } from '@components/Dropdown';
 import { act, fireEvent, render } from '@testing-library/preact';
-
-// ---------------------------------------------------------------------------
-// Stub Popover API — Happy-DOM v20.x does not implement showPopover/hidePopover.
-// These stubs fire the `toggle` event so the component's handleToggle runs,
-// keeping light-dismiss behavior exercisable in integration tests.
-// ---------------------------------------------------------------------------
-beforeAll(() => {
-	type PopoverElement = HTMLElement & { showPopover?: unknown; hidePopover?: unknown };
-	if (typeof (HTMLElement.prototype as PopoverElement).showPopover !== 'function') {
-		Object.defineProperty(HTMLElement.prototype, 'showPopover', {
-			configurable: true,
-			value(this: HTMLElement) {
-				const event = new Event('toggle', { bubbles: false });
-				Object.defineProperty(event, 'newState', { value: 'open', writable: false });
-				this.dispatchEvent(event);
-			},
-		});
-		Object.defineProperty(HTMLElement.prototype, 'hidePopover', {
-			configurable: true,
-			value(this: HTMLElement) {
-				const event = new Event('toggle', { bubbles: false });
-				Object.defineProperty(event, 'newState', { value: 'closed', writable: false });
-				this.dispatchEvent(event);
-			},
-		});
-	}
-});
+import { Fragment } from 'preact';
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -164,7 +138,7 @@ describe('Dropdown', () => {
 			await openMenu(getByRole('button', { name: /options/i }));
 
 			await act(async () => {
-				fireEvent.click(getByRole('menuitem', { name: 'Archive', hidden: true }));
+				fireEvent.click(getByRole('menuitem', { name: 'Archive' }));
 			});
 			expect(onSelect).not.toHaveBeenCalled();
 		});
@@ -182,6 +156,23 @@ describe('Dropdown', () => {
 				fireEvent.click(getByRole('menuitem', { name: 'Copy' }));
 			});
 			expect(trigger.getAttribute('aria-expanded')).toBe('false');
+		});
+
+		it('opens menu when all items are disabled without focusing any item', async () => {
+			const { getByRole, getAllByRole } = render(
+				<Dropdown trigger="Options">
+					<DropdownItem disabled>Archive</DropdownItem>
+					<DropdownItem disabled>Delete</DropdownItem>
+				</Dropdown>
+			);
+			const trigger = getByRole('button', { name: /options/i });
+			await openMenu(trigger);
+
+			expect(trigger.getAttribute('aria-expanded')).toBe('true');
+			const items = getAllByRole('menuitem');
+			for (const item of items) {
+				expect(document.activeElement).not.toBe(item);
+			}
 		});
 	});
 
@@ -237,15 +228,28 @@ describe('Dropdown', () => {
 			}
 		});
 
-		it('disabled item has disabled attribute', async () => {
+		it('disabled item has aria-disabled attribute', async () => {
 			const { getByRole } = render(
 				<Dropdown trigger="Options">
 					<DropdownItem disabled>Archive</DropdownItem>
 				</Dropdown>
 			);
 			await openMenu(getByRole('button', { name: /options/i }));
-			const item = getByRole('menuitem', { name: 'Archive', hidden: true });
-			expect(item.hasAttribute('disabled')).toBe(true);
+			const item = getByRole('menuitem', { name: 'Archive' });
+			expect(item.getAttribute('aria-disabled')).toBe('true');
+		});
+
+		it('accepts Fragment-wrapped items', async () => {
+			const { getByRole, getAllByRole } = render(
+				<Dropdown trigger="Options">
+					<Fragment key="group">
+						<DropdownItem>Copy</DropdownItem>
+						<DropdownItem>Paste</DropdownItem>
+					</Fragment>
+				</Dropdown>
+			);
+			await openMenu(getByRole('button', { name: /options/i }));
+			expect(getAllByRole('menuitem')).toHaveLength(2);
 		});
 	});
 
@@ -316,6 +320,44 @@ describe('Dropdown', () => {
 			});
 
 			expect(trigger.getAttribute('aria-expanded')).toBe('true');
+		});
+
+		it('ArrowDown opens menu and focuses first enabled item', async () => {
+			const { getByRole, getAllByRole } = render(
+				<Dropdown trigger="Options">
+					<DropdownItem disabled>Archive</DropdownItem>
+					<DropdownItem>Copy</DropdownItem>
+					<DropdownItem>Paste</DropdownItem>
+				</Dropdown>
+			);
+			const trigger = getByRole('button', { name: /options/i });
+			trigger.focus();
+
+			await act(async () => {
+				fireEvent.keyDown(trigger, { key: 'ArrowDown' });
+			});
+
+			const items = getAllByRole('menuitem');
+			expect(document.activeElement).toBe(items[1]);
+		});
+
+		it('ArrowUp opens menu and focuses last enabled item', async () => {
+			const { getByRole, getAllByRole } = render(
+				<Dropdown trigger="Options">
+					<DropdownItem>Copy</DropdownItem>
+					<DropdownItem>Paste</DropdownItem>
+					<DropdownItem disabled>Archive</DropdownItem>
+				</Dropdown>
+			);
+			const trigger = getByRole('button', { name: /options/i });
+			trigger.focus();
+
+			await act(async () => {
+				fireEvent.keyDown(trigger, { key: 'ArrowUp' });
+			});
+
+			const items = getAllByRole('menuitem');
+			expect(document.activeElement).toBe(items[1]);
 		});
 	});
 
@@ -407,7 +449,7 @@ describe('Dropdown', () => {
 			expect(document.activeElement).toBe(items[2]);
 		});
 
-		it('ArrowDown skips disabled items', async () => {
+		it('ArrowDown visits disabled items', async () => {
 			const { getByRole, getAllByRole } = render(
 				<Dropdown trigger="Options">
 					<DropdownItem>Copy</DropdownItem>
@@ -417,14 +459,38 @@ describe('Dropdown', () => {
 			);
 			await openMenu(getByRole('button', { name: /options/i }));
 			const menu = getByRole('menu');
-			const items = getAllByRole('menuitem', { hidden: true });
+			const items = getAllByRole('menuitem');
 			items[0]?.focus();
 
 			await act(async () => {
 				fireEvent.keyDown(menu, { key: 'ArrowDown' });
 			});
 
-			expect(document.activeElement).toBe(items[2]);
+			expect(document.activeElement).toBe(items[1]);
+		});
+
+		it('Enter on a disabled item does not activate it or close the menu', async () => {
+			const onSelect = mock(() => {});
+			const { getByRole, getAllByRole } = render(
+				<Dropdown trigger="Options">
+					<DropdownItem>Copy</DropdownItem>
+					<DropdownItem onSelect={onSelect} disabled>
+						Archive
+					</DropdownItem>
+				</Dropdown>
+			);
+			const trigger = getByRole('button', { name: /options/i });
+			await openMenu(trigger);
+			const menu = getByRole('menu');
+			const items = getAllByRole('menuitem');
+			items[1]?.focus();
+
+			await act(async () => {
+				fireEvent.keyDown(menu, { key: 'Enter' });
+			});
+
+			expect(onSelect).not.toHaveBeenCalled();
+			expect(trigger.getAttribute('aria-expanded')).toBe('true');
 		});
 
 		it('Enter activates focused item', async () => {

@@ -1,30 +1,7 @@
-import { beforeAll, describe, expect, it } from 'bun:test';
+import { describe, expect, it } from 'bun:test';
 import Dropdown, { DropdownItem } from '@components/Dropdown';
 import { act, fireEvent, render } from '@testing-library/preact';
-import { renderAndCheckA11y } from './setup';
-
-// Stub Popover API — same as Dropdown.test.tsx
-beforeAll(() => {
-	type PopoverElement = HTMLElement & { showPopover?: unknown; hidePopover?: unknown };
-	if (typeof (HTMLElement.prototype as PopoverElement).showPopover !== 'function') {
-		Object.defineProperty(HTMLElement.prototype, 'showPopover', {
-			configurable: true,
-			value(this: HTMLElement) {
-				const event = new Event('toggle', { bubbles: false });
-				Object.defineProperty(event, 'newState', { value: 'open', writable: false });
-				this.dispatchEvent(event);
-			},
-		});
-		Object.defineProperty(HTMLElement.prototype, 'hidePopover', {
-			configurable: true,
-			value(this: HTMLElement) {
-				const event = new Event('toggle', { bubbles: false });
-				Object.defineProperty(event, 'newState', { value: 'closed', writable: false });
-				this.dispatchEvent(event);
-			},
-		});
-	}
-});
+import { checkA11y, expectNoViolations, renderAndCheckA11y } from './setup';
 
 describe('Dropdown a11y', () => {
 	it('has no axe violations — closed', async () => {
@@ -35,6 +12,21 @@ describe('Dropdown a11y', () => {
 				<DropdownItem disabled>Archive</DropdownItem>
 			</Dropdown>
 		);
+	});
+
+	it('has no axe violations — open', async () => {
+		const { getByRole, container } = render(
+			<Dropdown trigger="Options">
+				<DropdownItem onSelect={() => {}}>Copy</DropdownItem>
+				<DropdownItem onSelect={() => {}}>Paste</DropdownItem>
+				<DropdownItem disabled>Archive</DropdownItem>
+			</Dropdown>
+		);
+		await act(async () => {
+			fireEvent.click(getByRole('button', { name: /options/i }));
+		});
+		const axeResults = await checkA11y(container);
+		expectNoViolations(axeResults);
 	});
 
 	it('has no axe violations — with all items disabled', async () => {
