@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.24.0] - 2026-03-15
+
+### Changed
+
+- feat: CheckboxGroup component (#87) ([#109](https://github.com/coloneljade/auldrant-ui/pull/109))
+- fix: add disabled visual state to Checkbox and RadioGroup tiles ([#109](https://github.com/coloneljade/auldrant-ui/pull/109))
+
 ## [0.23.0] - 2026-03-15
 
 ### Added
