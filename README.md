@@ -49,6 +49,7 @@ function App() {
 | `Alert` | Status message with live region role for screen readers | `message`, `variant?`, `title?`, `actionLabel?`, `actionHref?`, `onAction?`, `onDismiss?`, `dismissLabel?`, `duration?` |
 | `Badge` | Read-only inline status or count indicator pill | `children`, `variant?` |
 | `Chip` | Interactive dismissible tag for filters and selections | `label`, `variant?`, `onRemove?`, `removeLabel?`, `disabled?` |
+| `Skeleton` | Loading placeholder with shimmer animation. Size via the `class` prop | `rounded?` (pill/avatar shape) |
 | `Toast` + `Toaster` | Transient notification with auto-dismiss and hover/focus pause. Mount `<Toaster />` once in app root; call `toast()` anywhere | `message`, `variant?`, `title?`, `duration?`, `dismissLabel?`, `onDismiss` on Toast |
 
 > **Note:** Toasts are intentionally transient — content must be safe to miss. For critical errors the user must act on, use `Alert`. All toasts use `role="status"` (polite) and do not interrupt screen reader focus.

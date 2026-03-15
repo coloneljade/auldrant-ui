@@ -32,6 +32,7 @@ import { PasswordInputSection } from './sections/PasswordInputSection';
 import { RoutingSection } from './sections/RoutingSection';
 import { SectionDemo } from './sections/SectionDemo';
 import { SelectSection } from './sections/SelectSection';
+import { SkeletonSection } from './sections/SkeletonSection';
 import { SpinnerSection } from './sections/SpinnerSection';
 import { TableSection } from './sections/TableSection';
 import { TextareaSection } from './sections/TextareaSection';
@@ -50,6 +51,7 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'link', Section: LinkSection },
 	{ key: 'alert', Section: AlertSection },
 	{ key: 'spinner', Section: SpinnerSection },
+	{ key: 'skeleton', Section: SkeletonSection },
 	{ key: 'badge', Section: BadgeSection },
 	{ key: 'chip', Section: ChipSection },
 	{ key: 'card', Section: CardSection },
@@ -160,6 +162,7 @@ export const TestPage: FunctionComponent = () => {
 								<AlertSection />
 								<ToastSection />
 								<SpinnerSection />
+								<SkeletonSection />
 								<BadgeSection />
 								<ChipSection />
 							</Tab>

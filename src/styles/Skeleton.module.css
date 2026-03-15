@@ -1,0 +1,33 @@
+@keyframes aui-skeleton-shimmer {
+	from {
+		background-position: -200% 0;
+	}
+	to {
+		background-position: 200% 0;
+	}
+}
+
+.skeleton {
+	display: block;
+	border-radius: 0.25em;
+	background-color: var(--aui-color-border);
+	background-image: linear-gradient(
+		90deg,
+		transparent 20%,
+		var(--aui-color-background-hover) 50%,
+		transparent 80%
+	);
+	background-size: 200% 100%;
+	animation: aui-skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.rounded {
+	border-radius: 9999em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.skeleton {
+		animation: none;
+		opacity: 0.6;
+	}
+}
