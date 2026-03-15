@@ -1,0 +1,18 @@
+.fieldset {
+	border: none;
+	padding: 0;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
+	gap: 0.5em;
+}
+
+.legend {
+	font-weight: bold;
+	margin-bottom: 0.5em;
+	grid-column: 1 / -1;
+}
+
+.error {
+	composes: field-error from "@styles/shared.css";
+	grid-column: 1 / -1;
+}
