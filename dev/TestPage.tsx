@@ -39,6 +39,7 @@ import { SpinnerSection } from './sections/SpinnerSection';
 import { TableSection } from './sections/TableSection';
 import { TextareaSection } from './sections/TextareaSection';
 import { ToastSection } from './sections/ToastSection';
+import { ToggleSection } from './sections/ToggleSection';
 
 /** All dev sections — used for both tab layout and global search filtering. */
 const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
@@ -50,6 +51,7 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'searchinput', Section: SearchInputSection },
 	{ key: 'select', Section: SelectSection },
 	{ key: 'checkbox radio', Section: CheckboxRadioSection },
+	{ key: 'toggle', Section: ToggleSection },
 	{ key: 'button', Section: ButtonSection },
 	{ key: 'link', Section: LinkSection },
 	{ key: 'alert', Section: AlertSection },
@@ -158,6 +160,7 @@ export const TestPage: FunctionComponent = () => {
 								<SearchInputSection />
 								<SelectSection />
 								<CheckboxRadioSection />
+								<ToggleSection />
 							</Tab>
 							<Tab id="actions" label="Actions">
 								<ButtonSection />

@@ -40,6 +40,7 @@ export { default as Textarea } from '@components/Textarea';
 export { default as Theme, Palette } from '@components/Theme';
 export { default as Toast, ToastVariant } from '@components/Toast';
 export { default as Toaster } from '@components/Toaster';
+export { default as Toggle } from '@components/Toggle';
 export { default as VisuallyHidden } from '@components/VisuallyHidden';
 export type { IDialogAction } from '@internal/DialogBase';
 export type { ITimerControls } from '@scripts/hooks';
