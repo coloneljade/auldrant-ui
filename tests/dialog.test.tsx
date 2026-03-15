@@ -3,14 +3,6 @@ import Dialog from '@components/Dialog';
 import type { IDialogAction } from '@components/DialogBase';
 import { fireEvent, render } from '@testing-library/preact';
 
-// Happy-DOM does not implement showModal/close, so we stub them.
-HTMLDialogElement.prototype.showModal ??= function () {
-	this.setAttribute('open', '');
-};
-HTMLDialogElement.prototype.close ??= function () {
-	this.removeAttribute('open');
-};
-
 describe('Dialog', () => {
 	const title = 'Test Dialog';
 	const message = 'Hello world';

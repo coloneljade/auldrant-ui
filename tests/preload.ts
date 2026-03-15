@@ -6,6 +6,14 @@ GlobalRegistrator.register();
 
 afterEach(cleanup);
 
+// Stub HTMLDialogElement API — Happy-DOM does not implement showModal/close.
+HTMLDialogElement.prototype.showModal ??= function () {
+	this.setAttribute('open', '');
+};
+HTMLDialogElement.prototype.close ??= function () {
+	this.removeAttribute('open');
+};
+
 // Stub Popover API — Happy-DOM v20.x does not implement showPopover/hidePopover.
 // These stubs fire the `toggle` event so the component's handleToggle runs,
 // keeping light-dismiss behavior exercisable in integration tests.
