@@ -1,5 +1,6 @@
+import { useSignal } from '@preact/signals';
 import type { RefObject } from 'preact';
-import { useCallback, useEffect, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useRef } from 'preact/hooks';
 
 interface IDraggableResult {
 	/** Whether a drag is currently in progress. */
@@ -17,7 +18,7 @@ function useDraggable(
 	containerRef: RefObject<HTMLElement>,
 	enabled: boolean
 ): IDraggableResult {
-	const [isDragging, setIsDragging] = useState(false);
+	const isDragging = useSignal(false);
 	const startRef = useRef({ x: 0, y: 0, offsetX: 0, offsetY: 0 });
 
 	const reset = useCallback(() => {
@@ -56,7 +57,7 @@ function useDraggable(
 			};
 
 			h.setPointerCapture(e.pointerId);
-			setIsDragging(true);
+			isDragging.value = true;
 
 			// Compute bounds: how far the dialog can move from its current position
 			// before hitting viewport edges
@@ -79,7 +80,7 @@ function useDraggable(
 			const onPointerUp = () => {
 				h.removeEventListener('pointermove', onPointerMove);
 				h.removeEventListener('pointerup', onPointerUp);
-				setIsDragging(false);
+				isDragging.value = false;
 			};
 
 			h.addEventListener('pointermove', onPointerMove);
@@ -90,7 +91,7 @@ function useDraggable(
 		return () => h.removeEventListener('pointerdown', onPointerDown);
 	}, [handleRef, containerRef, enabled]);
 
-	return { isDragging, reset };
+	return { isDragging: isDragging.value, reset };
 }
 
 export default useDraggable;

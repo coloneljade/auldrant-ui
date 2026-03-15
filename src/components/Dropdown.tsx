@@ -2,28 +2,11 @@ import Icon, { IconName } from '@components/Icon';
 import { useSignal } from '@preact/signals';
 import type { IBaseProps } from '@scripts/types';
 import useMenuPosition from '@scripts/useMenuPosition';
-import { cx } from '@scripts/utils';
+import { cx, flattenChildren } from '@scripts/utils';
 import styles from '@styles/Dropdown.module.css';
 import type { ComponentChildren, FunctionComponent, VNode } from 'preact';
-import { Fragment, isValidElement, toChildArray } from 'preact';
+import { isValidElement } from 'preact';
 import { useId, useRef } from 'preact/hooks';
-
-/** Recursively flattens Fragment VNodes that toChildArray leaves intact. */
-function flattenChildren(children: ComponentChildren): VNode<object>[] {
-	const out: VNode<object>[] = [];
-	for (const child of toChildArray(children)) {
-		if (!isValidElement(child)) {
-			continue;
-		}
-		if (child.type === Fragment) {
-			const { children: nested } = child.props as { children?: ComponentChildren };
-			out.push(...flattenChildren(nested));
-		} else {
-			out.push(child);
-		}
-	}
-	return out;
-}
 
 /** Props for {@link DropdownItem}. */
 interface IDropdownItemProps {
@@ -209,15 +192,13 @@ const Dropdown: FunctionComponent<IDropdownProps> = (props) => {
 			focusItem(prev);
 		} else if (e.key === 'Home') {
 			e.preventDefault();
-			const first = enabledIndices[0];
-			if (first !== undefined) {
-				focusItem(first);
+			if (items.length > 0) {
+				focusItem(0);
 			}
 		} else if (e.key === 'End') {
 			e.preventDefault();
-			const last = enabledIndices[enabledIndices.length - 1];
-			if (last !== undefined) {
-				focusItem(last);
+			if (items.length > 0) {
+				focusItem(items.length - 1);
 			}
 		} else if (e.key === 'Escape') {
 			closeMenu(true);

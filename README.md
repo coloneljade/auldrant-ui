@@ -51,7 +51,7 @@ function App() {
 | `Chip` | Interactive dismissible tag for filters and selections | `label`, `variant?`, `onRemove?`, `removeLabel?`, `disabled?` |
 | `Progress` | Determinate or indeterminate progress bar. Use `value` (0–100) for determinate; `indeterminate` for unknown duration | `label`, `value` (determinate) \| `indeterminate` (mutually exclusive) |
 | `Skeleton` | Loading placeholder with shimmer animation. Size via the `class` prop | `rounded?` (pill/avatar shape) |
-| `Toast` + `Toaster` | Transient notification with auto-dismiss and hover/focus pause. Mount `<Toaster />` once in app root; call `toast()` anywhere | `message`, `variant?`, `title?`, `duration?`, `dismissLabel?`, `onDismiss` on Toast |
+| `Toast` + `Toaster` | Transient notification with auto-dismiss and hover/focus pause. Mount `<Toaster />` once in app root; call `toast()` anywhere | `message`, `variant?`, `title?`, `duration?`, `dismissLabel?`, `onDismiss?` on Toast |
 
 > **Note:** Toasts are intentionally transient — content must be safe to miss. For critical errors the user must act on, use `Alert`. All toasts use `role="status"` (polite) and do not interrupt screen reader focus.
 
@@ -84,8 +84,9 @@ function App() {
 | Component | Description | Key Props |
 |-----------|-------------|-----------|
 | `Card` | Visual surface container | `children` |
+| `Head` | Render-less component that syncs props to document head signals | `title?`, `description?`, `canonical?`, `ogTitle?`, `ogDescription?`, `ogImage?` |
 | `Section` | Semantic `<section>` with configurable heading level | `title`, `level?`, `children` |
-| `Table` | Accessible data table with required headers | `headers`, `data` |
+| `Table` | Accessible data table with required headers | `caption` (required), `headers`, `data`, `rowHeader?`, `striped?`, `dense?`, `captionHidden?`, `rowKey?` |
 | `Theme` | Scopes `--aui-base-*` overrides to its subtree | `children` |
 | `VisuallyHidden` | Screen-reader-only content | `children` |
 
@@ -109,6 +110,46 @@ function App() {
 Default size is `1em × 1em`. Override via `class`. Never import lucide-preact directly — use `Icon` so icon swaps require only one file change.
 
 All components extend `IBaseProps` which includes `class?` and `id?`. Form controls extend `IFieldProps` which adds `label`, `name?`, `required?`, and `disabled?`. Dialog and Modal actions use the exported `IDialogAction` type (`label`, `description`, `onClick`, `shortcut`). Full prop types are available in the `.d.ts` files.
+
+### Head component
+
+Render `<Head>` on each page/route to declaratively manage document metadata. All props are optional — only set what the page needs:
+
+```tsx
+import { Head } from '@auldrant/ui';
+
+function AboutPage() {
+  return (
+    <>
+      <Head
+        title="About us"
+        description="Learn more about our team."
+        canonical="https://example.com/about"
+        ogTitle="About us"
+        ogDescription="Learn more about our team."
+        ogImage="https://example.com/og-about.png"
+      />
+      <main>…</main>
+    </>
+  );
+}
+```
+
+For reactive title/meta updates without a component (e.g. in a signal effect or router), use the [head signals](#head-signals) directly.
+
+### Progress: determinate vs indeterminate
+
+`value` and `indeterminate` are mutually exclusive — TypeScript enforces this via a discriminated union:
+
+```tsx
+// Determinate — value required (0–100), indeterminate must be absent
+<Progress label="Uploading" value={75} />
+
+// Indeterminate — indeterminate required, value must be absent
+<Progress label="Processing" indeterminate />
+```
+
+In indeterminate mode, `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` are omitted from the DOM — these attributes are meaningless when progress is unknown.
 
 ### Dialog actions
 
@@ -296,6 +337,43 @@ title.value = 'My Page';
 </Route>
 
 <Link href="/about">About</Link>
+```
+
+### Palette signal
+
+Switch the active palette imperatively from anywhere in the app:
+
+```ts
+import { palette, Palette } from '@auldrant/ui';
+
+palette.value = Palette.blue;   // switch to blue
+palette.value = null;           // reset to default
+```
+
+`<Theme>` reads `palette.value` and applies the corresponding class to its root element. This enables runtime palette switching without re-rendering the entire tree.
+
+### Head signals
+
+All document head values are writable signals. They can be set from anywhere — route handlers, effects, or outside of components:
+
+| Signal | Type | Effect |
+|--------|------|--------|
+| `title` | `Signal<string>` | Sets `document.title` |
+| `description` | `Signal<string>` | Syncs `<meta name="description">` |
+| `canonical` | `Signal<string>` | Syncs `<link rel="canonical">` |
+| `ogTitle` | `Signal<string>` | Syncs `<meta property="og:title">` |
+| `ogDescription` | `Signal<string>` | Syncs `<meta property="og:description">` |
+| `ogImage` | `Signal<string>` | Syncs `<meta property="og:image">` |
+
+Empty string removes the corresponding tag. These signals are SSR-compatible — the `<Head>` component syncs the same signals via `useEffect` on the client.
+
+```ts
+import { title, description, canonical } from '@auldrant/ui';
+
+// Set on navigation
+title.value = 'Dashboard';
+description.value = 'Your overview.';
+canonical.value = 'https://example.com/dashboard';
 ```
 
 ## Utilities

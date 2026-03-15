@@ -1,29 +1,12 @@
 import { useSignal } from '@preact/signals';
 import type { IBaseProps } from '@scripts/types';
-import { cx } from '@scripts/utils';
+import { cx, flattenChildren } from '@scripts/utils';
 import styles from '@styles/Tabs.module.css';
 import type { ComponentChildren, FunctionComponent, VNode } from 'preact';
-import { Fragment, isValidElement, toChildArray } from 'preact';
+import { isValidElement } from 'preact';
 import { useEffect, useId, useRef } from 'preact/hooks';
 
 const ID_FORMAT = /^[a-zA-Z0-9_-]+$/;
-
-/** Recursively flattens Fragment VNodes that toChildArray leaves intact. */
-function flattenChildren(children: ComponentChildren): VNode<object>[] {
-	const out: VNode<object>[] = [];
-	for (const child of toChildArray(children)) {
-		if (!isValidElement(child)) {
-			continue;
-		}
-		if (child.type === Fragment) {
-			const { children: nested } = child.props as { children?: ComponentChildren };
-			out.push(...flattenChildren(nested));
-		} else {
-			out.push(child);
-		}
-	}
-	return out;
-}
 
 /** Props for {@link Tab}. */
 interface ITabProps extends IBaseProps {

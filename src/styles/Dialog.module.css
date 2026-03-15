@@ -1,6 +1,6 @@
 .dialog {
-	--drag-x: 0px;
-	--drag-y: 0px;
+	--drag-x: 0;
+	--drag-y: 0;
 	position: fixed;
 	inset: 0;
 	margin: auto;

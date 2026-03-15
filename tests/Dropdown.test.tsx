@@ -449,6 +449,46 @@ describe('Dropdown', () => {
 			expect(document.activeElement).toBe(items[2]);
 		});
 
+		it('Home navigates to first item even if it is disabled', async () => {
+			const { getByRole, getAllByRole } = render(
+				<Dropdown trigger="Options">
+					<DropdownItem disabled>Archive</DropdownItem>
+					<DropdownItem>Copy</DropdownItem>
+					<DropdownItem>Paste</DropdownItem>
+				</Dropdown>
+			);
+			await openMenu(getByRole('button', { name: /options/i }));
+			const menu = getByRole('menu');
+			const items = getAllByRole('menuitem');
+			items[2]?.focus();
+
+			await act(async () => {
+				fireEvent.keyDown(menu, { key: 'Home' });
+			});
+
+			expect(document.activeElement).toBe(items[0]);
+		});
+
+		it('End navigates to last item even if it is disabled', async () => {
+			const { getByRole, getAllByRole } = render(
+				<Dropdown trigger="Options">
+					<DropdownItem>Copy</DropdownItem>
+					<DropdownItem>Paste</DropdownItem>
+					<DropdownItem disabled>Archive</DropdownItem>
+				</Dropdown>
+			);
+			await openMenu(getByRole('button', { name: /options/i }));
+			const menu = getByRole('menu');
+			const items = getAllByRole('menuitem');
+			items[0]?.focus();
+
+			await act(async () => {
+				fireEvent.keyDown(menu, { key: 'End' });
+			});
+
+			expect(document.activeElement).toBe(items[2]);
+		});
+
 		it('ArrowDown visits disabled items', async () => {
 			const { getByRole, getAllByRole } = render(
 				<Dropdown trigger="Options">

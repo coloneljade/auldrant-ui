@@ -23,7 +23,7 @@ interface IToastProps extends IBaseProps {
 	/** Optional heading rendered above the message. */
 	title?: string;
 	/** Called after the exit animation completes (timer fire or manual dismiss). */
-	onDismiss: () => void;
+	onDismiss?: () => void;
 	/** Auto-dismiss delay in milliseconds. Defaults to `5000`. */
 	duration?: number;
 	/** Accessible label for the dismiss button. Defaults to `'Dismiss'`. */
@@ -86,7 +86,7 @@ const Toast: FunctionComponent<IToastProps> = (props) => {
 			onFocusOut={() => timer.resume()}
 			onAnimationEnd={(e) => {
 				if (dismissing.value && e.target === e.currentTarget) {
-					onDismiss();
+					onDismiss?.();
 				}
 			}}
 		>

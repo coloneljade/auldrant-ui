@@ -37,4 +37,13 @@ describe('Skeleton', () => {
 		// Assert
 		expect(el.classList.contains('custom-class')).toBe(true);
 	});
+
+	it('sets aria-hidden on the root element', () => {
+		// Act
+		const { container } = render(<Skeleton />);
+		const el = container.firstElementChild as HTMLElement;
+
+		// Assert — the element is decorative and hidden from assistive technology
+		expect(el.getAttribute('aria-hidden')).toBe('true');
+	});
 });

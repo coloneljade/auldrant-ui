@@ -36,9 +36,9 @@ const Progress: FunctionComponent<IProgressProps> = (props) => {
 			value={value}
 			max={100}
 			aria-label={label}
-			aria-valuenow={value}
-			aria-valuemin={0}
-			aria-valuemax={100}
+			aria-valuenow={isIndeterminate ? undefined : value}
+			aria-valuemin={isIndeterminate ? undefined : 0}
+			aria-valuemax={isIndeterminate ? undefined : 100}
 		/>
 	);
 };
