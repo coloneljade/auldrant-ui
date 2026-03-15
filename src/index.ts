@@ -25,6 +25,7 @@ export { default as Nav } from '@components/Nav';
 export { default as NotFound } from '@components/NotFound';
 export { default as NumberInput } from '@components/NumberInput';
 export { default as PasswordInput, PasswordPurpose } from '@components/PasswordInput';
+export { default as Progress } from '@components/Progress';
 export { default as RadioGroup, RadioItem } from '@components/RadioGroup';
 export { default as Route } from '@components/Route';
 export { default as SearchInput } from '@components/SearchInput';

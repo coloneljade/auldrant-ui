@@ -1,0 +1,94 @@
+@keyframes aui-progress-indeterminate {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+
+/*
+ * Reset native rendering so custom CSS takes full control.
+ * `background` here serves as the track color for Firefox (which reads the
+ * element's own background, not a pseudo-element, when appearance is reset).
+ */
+.progress {
+	appearance: none;
+	display: block;
+	width: 100%;
+	height: 0.5em;
+	border: none;
+	border-radius: 9999em;
+	background: var(--aui-color-border);
+}
+
+/*
+ * These vendor-prefixed pseudo-elements are the only API that exists for
+ * styling <progress> internals — there is no unprefixed equivalent in any
+ * CSS specification. Omitting them leaves the fill invisible in Chrome/Safari
+ * and Firefox when appearance: none is set. This is not a stylistic choice.
+ *
+ * ::-webkit-progress-bar  — track (Chrome/Safari/Edge)
+ * ::-webkit-progress-value — fill (Chrome/Safari/Edge)
+ * ::-moz-progress-bar      — fill (Firefox)
+ */
+.progress::-webkit-progress-bar {
+	background: var(--aui-color-border);
+	border-radius: 9999em;
+}
+
+.progress::-webkit-progress-value {
+	background: var(--aui-color-primary);
+	border-radius: 9999em;
+}
+
+.progress::-moz-progress-bar {
+	background: var(--aui-color-primary);
+	border-radius: 9999em;
+}
+
+/*
+ * Indeterminate: slide a primary-colour highlight across the track.
+ * CSS :indeterminate targets <progress> elements with no value attribute.
+ * The animated gradient on the element background is visible in Firefox.
+ * In WebKit, the -webkit-progress-bar carries the animation, and the
+ * value pseudo-element is hidden so only the track gradient shows.
+ */
+.progress:indeterminate {
+	background: linear-gradient(
+		90deg,
+		var(--aui-color-border) 20%,
+		var(--aui-color-primary) 50%,
+		var(--aui-color-border) 80%
+	);
+	background-size: 200% 100%;
+	animation: aui-progress-indeterminate 1.8s ease-in-out infinite;
+}
+
+.progress:indeterminate::-webkit-progress-bar {
+	background: linear-gradient(
+		90deg,
+		var(--aui-color-border) 20%,
+		var(--aui-color-primary) 50%,
+		var(--aui-color-border) 80%
+	);
+	background-size: 200% 100%;
+	animation: aui-progress-indeterminate 1.8s ease-in-out infinite;
+	border-radius: 9999em;
+}
+
+.progress:indeterminate::-webkit-progress-value {
+	background: transparent;
+}
+
+.progress:indeterminate::-moz-progress-bar {
+	background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.progress:indeterminate,
+	.progress:indeterminate::-webkit-progress-bar {
+		animation: none;
+		background: var(--aui-color-primary);
+	}
+}
