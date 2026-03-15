@@ -49,6 +49,8 @@ function App() {
 | `Alert` | Status message with live region role for screen readers | `message`, `variant?`, `title?`, `actionLabel?`, `actionHref?`, `onAction?`, `onDismiss?`, `dismissLabel?`, `duration?` |
 | `Badge` | Read-only inline status or count indicator pill | `children`, `variant?` |
 | `Chip` | Interactive dismissible tag for filters and selections | `label`, `variant?`, `onRemove?`, `removeLabel?`, `disabled?` |
+| `Progress` | Determinate or indeterminate progress bar. Use `value` (0–100) for determinate; `indeterminate` for unknown duration | `label`, `value` (determinate) \| `indeterminate` (mutually exclusive) |
+| `Skeleton` | Loading placeholder with shimmer animation. Size via the `class` prop | `rounded?` (pill/avatar shape) |
 | `Toast` + `Toaster` | Transient notification with auto-dismiss and hover/focus pause. Mount `<Toaster />` once in app root; call `toast()` anywhere | `message`, `variant?`, `title?`, `duration?`, `dismissLabel?`, `onDismiss` on Toast |
 
 > **Note:** Toasts are intentionally transient — content must be safe to miss. For critical errors the user must act on, use `Alert`. All toasts use `role="status"` (polite) and do not interrupt screen reader focus.
@@ -60,7 +62,7 @@ function App() {
 | `Button` | Standard button with configurable type and click handler | `label`, `onClick?`, `type?` |
 | `Checkbox` | Checkbox with label | `label`, `checked?`, `onChange?` |
 | `CurrencyInput` | Currency or plain-decimal input with locale-aware formatting | `value?`, `currency?` (ISO 4217), `locale?` (BCP 47), `onInput?` |
-| `Form` | Form with submit/reset buttons. Prevents default and provides FormData | `onSubmit`, `children`, `submitLabel?` |
+| `Form` | Form with submit/reset buttons. Prevents default and provides FormData | `onSubmit`, `children`, `submitLabel?`, `resetLabel?`, `submitDisabled?`, `status?` |
 | `Input` | Text input with label | `type?`, `value?`, `onInput?` |
 | `NumberInput` | Numeric input with label | `min?`, `max?`, `onInput?` |
 | `PasswordInput` | Password input with show/hide toggle | `purpose` (`'current'` \| `'new'`), `value?`, `onInput?` |
