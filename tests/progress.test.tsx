@@ -37,14 +37,14 @@ describe('Progress', () => {
 		expect(getByRole('progressbar').getAttribute('aria-valuenow')).toBeNull();
 	});
 
-	it('indeterminate: aria-valuemin and aria-valuemax are present', () => {
+	it('indeterminate: aria-valuemin and aria-valuemax are absent', () => {
 		// Act
 		const { getByRole } = render(<Progress label="Processing" indeterminate />);
 		const el = getByRole('progressbar');
 
 		// Assert
-		expect(el.getAttribute('aria-valuemin')).toBe('0');
-		expect(el.getAttribute('aria-valuemax')).toBe('100');
+		expect(el.getAttribute('aria-valuemin')).toBeNull();
+		expect(el.getAttribute('aria-valuemax')).toBeNull();
 	});
 
 	it('value={0} renders aria-valuenow="0"', () => {
