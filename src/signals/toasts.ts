@@ -11,10 +11,8 @@ export interface IToastItem {
 	dismissLabel?: string;
 }
 
-/** Internal signal — not exported publicly. Consumed only by Toaster. */
-const toasts = signal<IToastItem[]>([]);
-
-export { toasts };
+/** Internal signal. Not part of the public API — consumed only by Toaster. */
+export const toasts = signal<IToastItem[]>([]);
 
 /**
  * Enqueue a toast notification. Call from anywhere in the app.
