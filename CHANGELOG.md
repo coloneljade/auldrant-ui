@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.22.0] - 2026-03-15
+
+### Changed
+
+- fix(form): add `submitDisabled` prop to block submission on app-level validation errors; wrap `onSubmit` in `Promise.resolve().catch()` so async handlers surface rejections ([#103](https://github.com/coloneljade/auldrant-ui/pull/103))
+- feat(skeleton): pure CSS shimmer placeholder for loading states; `rounded` prop for avatar/pill shapes; `aria-hidden`, `prefers-reduced-motion` support ([#103](https://github.com/coloneljade/auldrant-ui/pull/103))
+- feat(progress): determinate and indeterminate progress bar using native `<progress>` (CSP-safe, no inline styles); discriminated union enforces `value` xor `indeterminate`; CSS `:indeterminate` drives animation ([#103](https://github.com/coloneljade/auldrant-ui/pull/103))
+
 ## [0.21.0] - 2026-03-14
 
 ### Added
