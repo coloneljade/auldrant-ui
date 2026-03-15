@@ -60,7 +60,7 @@ function App() {
 | `Button` | Standard button with configurable type and click handler | `label`, `onClick?`, `type?` |
 | `Checkbox` | Checkbox with label | `label`, `checked?`, `onChange?` |
 | `CurrencyInput` | Currency or plain-decimal input with locale-aware formatting | `value?`, `currency?` (ISO 4217), `locale?` (BCP 47), `onInput?` |
-| `Form` | Form with submit/reset buttons. Prevents default and provides FormData | `onSubmit`, `children`, `submitLabel?` |
+| `Form` | Form with submit/reset buttons. Prevents default and provides FormData | `onSubmit`, `children`, `submitLabel?`, `resetLabel?`, `submitDisabled?`, `status?` |
 | `Input` | Text input with label | `type?`, `value?`, `onInput?` |
 | `NumberInput` | Numeric input with label | `min?`, `max?`, `onInput?` |
 | `PasswordInput` | Password input with show/hide toggle | `purpose` (`'current'` \| `'new'`), `value?`, `onInput?` |

@@ -15,6 +15,15 @@ describe('Form a11y', () => {
 		);
 	});
 
+	it('has no axe violations with submitDisabled={true}', async () => {
+		// Act & Assert
+		await renderAndCheckA11y(
+			<Form onSubmit={noop} submitDisabled={true}>
+				<p>Fields</p>
+			</Form>
+		);
+	});
+
 	// https://www.w3.org/TR/WCAG22/#compatible
 	describe('WCAG A', () => {
 		it('exposes an accessible submit button (SC 4.1.2)', () => {

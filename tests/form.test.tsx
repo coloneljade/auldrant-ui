@@ -42,6 +42,54 @@ describe('Form', () => {
 		expect(container.querySelector('button[type="reset"]')).toBeNull();
 	});
 
+	it('submit button is disabled when submitDisabled={true}', () => {
+		// Act
+		const { getByRole } = render(
+			<Form onSubmit={() => {}} submitDisabled={true}>
+				<p>Content</p>
+			</Form>
+		);
+
+		// Assert
+		expect((getByRole('button', { name: 'Submit' }) as HTMLButtonElement).disabled).toBe(true);
+	});
+
+	it('submit button is not disabled when submitDisabled is omitted', () => {
+		// Act
+		const { getByRole } = render(
+			<Form onSubmit={() => {}}>
+				<p>Content</p>
+			</Form>
+		);
+
+		// Assert
+		expect((getByRole('button', { name: 'Submit' }) as HTMLButtonElement).disabled).toBe(false);
+	});
+
+	it('renders a custom submitLabel', () => {
+		// Act
+		const { getByRole } = render(
+			<Form onSubmit={() => {}} submitLabel="Save">
+				<p>Content</p>
+			</Form>
+		);
+
+		// Assert
+		expect((getByRole('button', { name: 'Save' }) as HTMLButtonElement).type).toBe('submit');
+	});
+
+	it('renders the status message when status is provided', () => {
+		// Act
+		const { getByRole } = render(
+			<Form onSubmit={() => {}} status="Saved successfully">
+				<p>Content</p>
+			</Form>
+		);
+
+		// Assert
+		expect(getByRole('status').textContent).toBe('Saved successfully');
+	});
+
 	it('calls onSubmit with FormData on submit', () => {
 		// Arrange
 		const handleSubmit = mock(() => {});
