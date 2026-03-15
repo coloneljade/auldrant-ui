@@ -209,15 +209,13 @@ const Dropdown: FunctionComponent<IDropdownProps> = (props) => {
 			focusItem(prev);
 		} else if (e.key === 'Home') {
 			e.preventDefault();
-			const first = enabledIndices[0];
-			if (first !== undefined) {
-				focusItem(first);
+			if (items.length > 0) {
+				focusItem(0);
 			}
 		} else if (e.key === 'End') {
 			e.preventDefault();
-			const last = enabledIndices[enabledIndices.length - 1];
-			if (last !== undefined) {
-				focusItem(last);
+			if (items.length > 0) {
+				focusItem(items.length - 1);
 			}
 		} else if (e.key === 'Escape') {
 			closeMenu(true);
