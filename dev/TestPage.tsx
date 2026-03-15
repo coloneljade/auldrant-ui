@@ -31,6 +31,7 @@ import { NumberInputSection } from './sections/NumberInputSection';
 import { PasswordInputSection } from './sections/PasswordInputSection';
 import { ProgressSection } from './sections/ProgressSection';
 import { RoutingSection } from './sections/RoutingSection';
+import { SearchInputSection } from './sections/SearchInputSection';
 import { SectionDemo } from './sections/SectionDemo';
 import { SelectSection } from './sections/SelectSection';
 import { SkeletonSection } from './sections/SkeletonSection';
@@ -46,6 +47,7 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'currencyinput', Section: CurrencyInputSection },
 	{ key: 'passwordinput', Section: PasswordInputSection },
 	{ key: 'textarea', Section: TextareaSection },
+	{ key: 'searchinput', Section: SearchInputSection },
 	{ key: 'select', Section: SelectSection },
 	{ key: 'checkbox radio', Section: CheckboxRadioSection },
 	{ key: 'button', Section: ButtonSection },
@@ -153,6 +155,7 @@ export const TestPage: FunctionComponent = () => {
 								<CurrencyInputSection />
 								<PasswordInputSection />
 								<TextareaSection />
+								<SearchInputSection />
 								<SelectSection />
 								<CheckboxRadioSection />
 							</Tab>
