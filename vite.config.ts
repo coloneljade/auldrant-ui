@@ -23,6 +23,7 @@ export default defineConfig({
 			'@signals': resolve(__dirname, 'src/signals'),
 			'@styles': resolve(__dirname, 'src/styles'),
 			'@internal': resolve(__dirname, 'src/internal'),
+			'@hooks': resolve(__dirname, 'src/scripts/hooks.ts'),
 		},
 	},
 	build: {

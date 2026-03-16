@@ -28,6 +28,7 @@ import { InputSection } from './sections/InputSection';
 import { LinkSection } from './sections/LinkSection';
 import { ModalSection } from './sections/ModalSection';
 import { NumberInputSection } from './sections/NumberInputSection';
+import { PaginationSection } from './sections/PaginationSection';
 import { PasswordInputSection } from './sections/PasswordInputSection';
 import { ProgressSection } from './sections/ProgressSection';
 import { RoutingSection } from './sections/RoutingSection';
@@ -63,6 +64,7 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'card', Section: CardSection },
 	{ key: 'section', Section: SectionDemo },
 	{ key: 'table', Section: TableSection },
+	{ key: 'pagination', Section: PaginationSection },
 	{ key: 'routing', Section: RoutingSection },
 	{ key: 'form', Section: FormDemo },
 	{ key: 'accordion', Section: AccordionSection },
@@ -72,9 +74,9 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'toast', Section: ToastSection },
 ];
 
-/** Extract tab ID from /tests/tab/:id, falling back to 'inputs'. */
+/** Extract tab ID from /tests/tab/:id (ignoring any suffix), falling back to 'inputs'. */
 function tabFromPath(path: string): string {
-	const match = /^\/tests\/tab\/([a-zA-Z0-9_-]+)$/.exec(path);
+	const match = /^\/tests\/tab\/([a-zA-Z0-9_-]+)/.exec(path);
 	return match?.[1] ?? 'inputs';
 }
 
@@ -181,6 +183,7 @@ export const TestPage: FunctionComponent = () => {
 								<TableSection />
 							</Tab>
 							<Tab id="navigation" label="Navigation">
+								<PaginationSection />
 								<RoutingSection />
 								<FormDemo />
 							</Tab>

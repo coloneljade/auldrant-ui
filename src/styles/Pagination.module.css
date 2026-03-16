@@ -1,0 +1,71 @@
+.pagination {
+	margin-block-start: 1em;
+}
+
+.list {
+	display: grid;
+	grid-auto-flow: column;
+	justify-content: start;
+	gap: 0.25em;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.item {
+	display: contents;
+}
+
+.page-button {
+	composes: focus-ring from "@styles/shared.css";
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	/* rem ensures 44px touch target (WCAG 2.5.5) regardless of inherited font-size */
+	min-width: 2.75rem;
+	min-height: 2.75rem;
+	padding: 0 0.5em;
+	border-radius: 0.25em;
+	border: 1px solid var(--aui-color-border);
+	background: var(--aui-color-background);
+	color: var(--aui-color-primary);
+	font: inherit;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.page-button:hover {
+	background: var(--aui-color-border);
+}
+
+.page-button[aria-disabled="true"] {
+	opacity: 0.5;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+.current-page {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	/* rem ensures 44px touch target (WCAG 2.5.5) regardless of inherited font-size */
+	min-width: 2.75rem;
+	min-height: 2.75rem;
+	padding: 0 0.5em;
+	border-radius: 0.25em;
+	border: 1px solid var(--aui-color-primary);
+	background: var(--aui-color-primary);
+	color: var(--aui-color-background);
+	font-weight: 700;
+}
+
+.ellipsis {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	/* rem ensures 44px touch target (WCAG 2.5.5) regardless of inherited font-size */
+	min-width: 2.75rem;
+	min-height: 2.75rem;
+	color: var(--aui-color-text-muted, var(--aui-color-text));
+}
