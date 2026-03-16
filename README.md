@@ -99,8 +99,18 @@ function App() {
 | `Link` | Auto-detects internal vs external URLs | `href`, `children`, `external?` |
 | `DownloadLink` | Download link using `<a download>` | `href`, `fileName`, `label` |
 | `Nav` | Semantic `<nav>` wrapper with optional title | `title?`, `children` |
-| `Route` | Renders children when location matches path | `path`, `children` |
 | `SkipLink` | Skip navigation link, hidden until focused | `target?`, `label?` |
+
+### Routing & Pagination
+
+| Export | Description | Key Props / Signature |
+|--------|-------------|----------------------|
+| `Route` | Renders children when location matches path. Supports exact, wildcard (`/*`), and param (`:id`) patterns | `path`, `children` |
+| `Pagination` | URL-driven pagination wrapper. Renders children above a `<nav>`. Renders `<NotFound>` for invalid/out-of-range pages | `totalPages` (≥ 1), `children`, `prevLabel?`, `nextLabel?` |
+| `usePage()` | Hook: returns the current page number from the URL. `undefined` at the base URL (treat as page 1) | `() => number \| undefined` |
+| `page()` | Signal factory: same as `usePage` but as a `ReadonlySignal` for module-level use | `() => ReadonlySignal<number \| undefined>` |
+| `navigate` | Navigate to a path using the History API | `(path: string, opts?) => void` |
+| `location` | Signal holding the current pathname | `Signal<string>` |
 
 ### Icons
 
@@ -184,6 +194,78 @@ const [errors, setErrors] = useState<{ [key: string]: string }>({});
   <Input label="Name" name="name" error={errors['name']} />
 </Form>
 ```
+
+### Routing & Pagination
+
+#### Route patterns
+
+`Route` supports three path forms:
+
+```tsx
+<Route path="/about">…</Route>              {/* exact */}
+<Route path="/users/*">…</Route>            {/* wildcard — matches /users, /users/anything */}
+<Route path="/users/:id">…</Route>          {/* param — exact segment count */}
+<Route path="/org/:orgId/items/:itemId">…</Route>  {/* multi-param */}
+```
+
+#### Pagination
+
+`Pagination` is a wrapper component. It renders its children above a pagination `<nav>`, and
+automatically handles sub-routing — appending `/page/N` to the current URL. Page 1 is the base
+URL (no suffix).
+
+The parent route must use a wildcard to catch page sub-paths:
+
+```tsx
+<Route path="/results/*">
+  <ResultsComponent />
+</Route>
+```
+
+Invalid page URLs (non-numeric suffix, page number beyond `totalPages`) render `<NotFound>`
+in place of the children and nav. `totalPages` must be ≥ 1 or Pagination throws.
+
+```tsx
+import { Pagination, usePage } from 'auldrant-ui';
+import { useEffect } from 'preact/hooks';
+
+const ResultsComponent: FunctionComponent = () => (
+  <Pagination totalPages={20}>
+    <ResultsContent />
+  </Pagination>
+);
+
+const ResultsContent: FunctionComponent = () => {
+  const p = usePage(); // undefined at /results (root = page 1), 3 at /results/page/3
+
+  useEffect(() => {
+    fetchResults(p ?? 1);
+  }, [p]);
+
+  return <Table />;
+};
+```
+
+#### Why links, not callbacks?
+
+The URL is the state. Browser back/forward work. Pages are bookmarkable and shareable.
+Side effects belong in the component that owns the data, triggered naturally when the
+URL param changes — not in an event handler that fires before navigation completes.
+
+#### Module-level reactive state
+
+For signals outside the component tree:
+
+```tsx
+import { page } from 'auldrant-ui';
+import { computed } from '@preact/signals';
+
+export const currentPage = page(); // ReadonlySignal<number | undefined>
+export const results = computed(() => fetchResults(currentPage.value ?? 1));
+```
+
+> **Note:** Two independent `Pagination` components on the same route share the same `/page/:n`
+> URL state. This is a v1 limitation — keep to one paginated list per route.
 
 ## Theming
 

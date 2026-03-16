@@ -38,7 +38,8 @@
 			"@scripts/*": ["./src/scripts/*"],
 			"@signals/*": ["./src/signals/*"],
 			"@styles/*": ["./src/styles/*"],
-			"@internal/*": ["./src/internal/*"]
+			"@internal/*": ["./src/internal/*"],
+			"@hooks": ["./src/scripts/hooks.ts"]
 		}
 	},
 	"include": ["src", "dev"],

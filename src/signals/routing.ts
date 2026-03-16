@@ -52,3 +52,31 @@ window.addEventListener('popstate', () => {
 	location.value = window.location.pathname;
 	hash.value = window.location.hash.slice(1);
 });
+
+/**
+ * Match a parameterised path pattern against a pathname.
+ * Returns a params object on match (empty `{}` if pattern has no params), or `null` on mismatch.
+ * Segments prefixed with `:` are captured; all other segments must match literally.
+ *
+ * @example
+ * matchParams('/users/:id', '/users/42')       // { id: '42' }
+ * matchParams('/users/:id', '/users/42/extra') // null (length mismatch)
+ * matchParams('/a/:b/:c', '/a/x/y')            // { b: 'x', c: 'y' }
+ */
+export function matchParams(pattern: string, pathname: string): { [key: string]: string } | null {
+	const patParts = pattern.split('/').filter(Boolean);
+	const pathParts = pathname.split('/').filter(Boolean);
+	if (patParts.length !== pathParts.length) {
+		return null;
+	}
+	const params: { [key: string]: string } = {};
+	for (const [i, seg] of patParts.entries()) {
+		const val = pathParts[i] ?? '';
+		if (seg.startsWith(':')) {
+			params[seg.slice(1)] = val;
+		} else if (seg !== val) {
+			return null;
+		}
+	}
+	return params;
+}

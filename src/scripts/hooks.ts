@@ -1,4 +1,51 @@
+import type { ReadonlySignal } from '@preact/signals';
+import { computed } from '@preact/signals';
+import { location } from '@signals/routing';
 import { useEffect, useRef } from 'preact/hooks';
+
+/**
+ * Parse a pathname for the `/page/:n` suffix convention.
+ * Returns `base` (pathname without the page suffix) and `page` (positive integer or undefined).
+ * Returns `page: undefined` for any invalid or absent suffix (including non-numeric segments).
+ */
+function parsePaginationUrl(pathname: string): { base: string; page: number | undefined } {
+	const i = pathname.lastIndexOf('/page/');
+	if (i >= 0) {
+		const segment = pathname.slice(i + 6);
+		if (/^\d+$/.test(segment)) {
+			const n = parseInt(segment, 10);
+			if (n > 0) {
+				return { base: pathname.slice(0, i) || '/', page: n };
+			}
+		}
+	}
+	return { base: pathname || '/', page: undefined };
+}
+
+/**
+ * Returns the current page number from the URL convention `/page/:n`.
+ * Returns `undefined` at the base route (no `/page/` suffix — treat as page 1).
+ * Returns a positive integer when a page suffix is present.
+ * Reading `location.value` during render subscribes the component to navigation.
+ *
+ * @example
+ * const p = usePage(); // undefined at /results, 3 at /results/page/3
+ */
+export function usePage(): number | undefined {
+	return parsePaginationUrl(location.value).page;
+}
+
+/**
+ * Signal factory for the current page. Use at module level or outside components.
+ * Returns `undefined` at the base route, positive integer otherwise.
+ * For component use, prefer `usePage()`.
+ *
+ * @example
+ * export const currentPage = page(); // ReadonlySignal<number | undefined>
+ */
+export function page(): ReadonlySignal<number | undefined> {
+	return computed(() => parsePaginationUrl(location.value).page);
+}
 
 /** Controls returned by {@link useTimer}. All methods are safe to call in any order. */
 export interface ITimerControls {

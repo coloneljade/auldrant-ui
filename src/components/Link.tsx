@@ -12,6 +12,12 @@ interface ILinkProps extends IBaseProps {
 	children: ComponentChildren;
 	/** Force external behavior (same tab, rel attributes). */
 	external?: boolean;
+	/** Tab index override. Pass `-1` to remove the link from the tab order. */
+	tabIndex?: number;
+	/** Mark the link as non-interactive. Use with `tabIndex={-1}` for disabled links. */
+	'aria-disabled'?: true;
+	/** Accessible name for the link when visible text is insufficient. */
+	'aria-label'?: string;
 }
 
 /** Detect whether a URL points to a different origin. */
@@ -29,12 +35,27 @@ function isExternal(href: string): boolean {
  * External links render a plain `<a>` in the same tab.
  */
 const Link: FunctionComponent<ILinkProps> = (props) => {
-	const { href, children, external, class: className } = props;
+	const {
+		href,
+		children,
+		external,
+		class: className,
+		tabIndex,
+		'aria-disabled': ariaDisabled,
+		'aria-label': ariaLabel,
+	} = props;
 	const isExt = external ?? isExternal(href);
 
 	if (isExt) {
 		return (
-			<a href={href} class={cx(styles.link, className)} rel="noopener noreferrer">
+			<a
+				href={href}
+				class={cx(styles.link, className)}
+				rel="noopener noreferrer"
+				tabIndex={tabIndex}
+				aria-disabled={ariaDisabled}
+				aria-label={ariaLabel}
+			>
 				{children}
 			</a>
 		);
@@ -44,6 +65,9 @@ const Link: FunctionComponent<ILinkProps> = (props) => {
 		<a
 			href={href}
 			class={cx(styles.link, className)}
+			tabIndex={tabIndex}
+			aria-disabled={ariaDisabled}
+			aria-label={ariaLabel}
 			onClick={(e) => {
 				e.preventDefault();
 				navigate(href);

@@ -85,4 +85,66 @@ describe('Route', () => {
 		// Assert
 		expect(container.textContent).toBe('');
 	});
+
+	it('renders for a single-param pattern match', () => {
+		// Arrange
+		const content = 'User detail';
+		location.value = '/users/abc';
+
+		// Act
+		const { getByText } = render(
+			<Route path="/users/:id">
+				<p>{content}</p>
+			</Route>
+		);
+
+		// Assert
+		getByText(content);
+	});
+
+	it('does not render when param route has fewer segments', () => {
+		// Arrange
+		location.value = '/users';
+
+		// Act
+		const { container } = render(
+			<Route path="/users/:id">
+				<p>User</p>
+			</Route>
+		);
+
+		// Assert
+		expect(container.textContent).toBe('');
+	});
+
+	it('does not render when param route has extra segments', () => {
+		// Arrange
+		location.value = '/users/abc/extra';
+
+		// Act
+		const { container } = render(
+			<Route path="/users/:id">
+				<p>User</p>
+			</Route>
+		);
+
+		// Assert
+		expect(container.textContent).toBe('');
+	});
+
+	it('renders for a multi-param pattern match', () => {
+		// Arrange
+		const content = 'Org item';
+		location.value = '/org/123/items/456';
+
+		// Act
+		const { getByText } = render(
+			<Route path="/org/:orgId/items/:itemId">
+				<p>{content}</p>
+			</Route>
+		);
+
+		// Assert
+		getByText(content);
+	});
 });

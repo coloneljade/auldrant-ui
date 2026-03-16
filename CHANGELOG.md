@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.25.0] - 2026-03-16
+
+### Added
+
+- Route param pattern matching (`:id`, `:orgId/:itemId`) via new `matchParams()` and param branch in Route ([#112](https://github.com/coloneljade/auldrant-ui/pull/112))
+- Pagination component with URL-driven `/page/:n` convention, `usePage()` hook, and `page()` signal factory ([#112](https://github.com/coloneljade/auldrant-ui/pull/112))
+- Extended Link with `aria-disabled` and `aria-label` support for accessible disabled states ([#112](https://github.com/coloneljade/auldrant-ui/pull/112))
+- NotFound rendering for invalid/out-of-range pages, error thrown for `totalPages < 1` ([#112](https://github.com/coloneljade/auldrant-ui/pull/112))
+
 ## [0.24.0] - 2026-03-15
 
 ### Changed
