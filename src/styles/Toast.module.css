@@ -76,6 +76,8 @@
 	color: inherit;
 	cursor: pointer;
 	line-height: 0;
+	/* rem ensures 24px touch target floor (WCAG 2.5.8); align-self:stretch handles taller toasts */
+	min-height: 1.5rem;
 }
 
 .info {

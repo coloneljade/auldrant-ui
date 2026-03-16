@@ -6,7 +6,7 @@
 	padding: 0;
 	background: transparent;
 	color: var(--aui-color-text);
-	max-width: min(90vw, 32em);
+	max-width: min(90vw, 40em);
 	width: 100%;
 	height: fit-content;
 	/* No transform here — applied via inline style by useDraggable only while dragging,

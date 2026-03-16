@@ -74,7 +74,7 @@
    ─────────────────────────────────────────────────────────────────────────── */
 @supports (anchor-name: --x) and (anchor-scope: --x) {
 	.tooltip-content {
-		position: absolute;
+		position: fixed;
 		position-anchor: --tooltip-trigger;
 		bottom: calc(anchor(top) + 0.5em);
 		left: anchor(center);
