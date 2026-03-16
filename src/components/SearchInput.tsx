@@ -1,10 +1,8 @@
 import FormField from '@components/FormField';
 import Icon, { IconName } from '@components/Icon';
 import type { IFieldProps } from '@scripts/types';
-import { describeBy } from '@scripts/utils';
 import styles from '@styles/SearchInput.module.css';
 import type { FunctionComponent } from 'preact';
-import { useId } from 'preact/hooks';
 
 /** Props for {@link SearchInput}. */
 interface ISearchInputProps extends IFieldProps {
@@ -35,23 +33,13 @@ const SearchInput: FunctionComponent<ISearchInputProps> = (props) => {
 		onSubmit,
 		class: className,
 	} = props;
-	const id = useId();
-	const errorId = `${id}-error`;
 
 	return (
 		<search>
-			<FormField
-				label={label}
-				for={id}
-				required={required}
-				error={error}
-				errorId={errorId}
-				class={className}
-			>
+			<FormField label={label} required={required} error={error} class={className}>
 				<div class={styles.searchInputWrapper}>
 					<Icon name={IconName.search} />
 					<input
-						id={id}
 						class={styles.input}
 						type="search"
 						name={name}
@@ -59,8 +47,6 @@ const SearchInput: FunctionComponent<ISearchInputProps> = (props) => {
 						placeholder={placeholder}
 						required={required}
 						disabled={disabled}
-						aria-invalid={!!error || undefined}
-						aria-describedby={describeBy(error && errorId)}
 						onInput={onInput && ((e) => onInput((e.target as HTMLInputElement).value))}
 						onKeyDown={(e) => {
 							if (e.key === 'Enter' && value?.trim()) {

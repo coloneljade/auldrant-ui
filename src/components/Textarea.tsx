@@ -2,7 +2,6 @@ import FormField from '@components/FormField';
 import VisuallyHidden from '@components/VisuallyHidden';
 import { useSignal } from '@preact/signals';
 import type { IFieldProps } from '@scripts/types';
-import { describeBy } from '@scripts/utils';
 import styles from '@styles/Textarea.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
@@ -51,7 +50,6 @@ const Textarea: FunctionComponent<ITextareaProps> = (props) => {
 		class: className,
 	} = props;
 	const id = useId();
-	const errorId = `${id}-error`;
 	const counterId = `${id}-counter`;
 	const used = useSignal(value?.length ?? 0);
 	const announcement = useSignal('');
@@ -59,25 +57,16 @@ const Textarea: FunctionComponent<ITextareaProps> = (props) => {
 	const absoluteAnnounced = useSignal(false);
 
 	return (
-		<FormField
-			label={label}
-			for={id}
-			required={required}
-			error={error}
-			errorId={errorId}
-			class={className}
-		>
+		<FormField label={label} required={required} error={error} class={className}>
 			<div class={styles.textareaWrapper}>
 				<textarea
-					id={id}
 					class={styles.textarea}
 					name={name}
 					maxLength={maxChars}
 					placeholder={placeholder}
 					required={required}
 					disabled={disabled}
-					aria-invalid={!!error || undefined}
-					aria-describedby={describeBy(error && errorId, counterId)}
+					data-extra-describedby={counterId}
 					onInput={(e) => {
 						const val = (e.target as HTMLTextAreaElement).value;
 						used.value = val.length;

@@ -6,12 +6,17 @@ describe('PasswordInput', () => {
 	const label = 'Password';
 	const name = 'password';
 
+	/** Get the password input element (the only <input> — the toggle is a <button>). */
+	function getInput(container: HTMLElement) {
+		return container.querySelector('input') as HTMLInputElement;
+	}
+
 	it('toggles input type on click', () => {
 		// Arrange
-		const { getByLabelText, getByRole } = render(
+		const { container, getByRole } = render(
 			<PasswordInput label={label} name={name} purpose="current" />
 		);
-		const input = getByLabelText(/Password/) as HTMLInputElement;
+		const input = getInput(container);
 		const toggle = getByRole('button');
 
 		// Act & Assert
@@ -25,12 +30,12 @@ describe('PasswordInput', () => {
 	it('calls onInput with the value', () => {
 		// Arrange
 		const handleInput = mock(() => {});
-		const { getByLabelText } = render(
+		const { container } = render(
 			<PasswordInput label={label} name={name} purpose="current" onInput={handleInput} />
 		);
 
 		// Act
-		fireEvent.input(getByLabelText(/Password/), {
+		fireEvent.input(getInput(container), {
 			target: { value: 'secret' },
 		});
 
@@ -40,12 +45,9 @@ describe('PasswordInput', () => {
 
 	it('sets the name attribute', () => {
 		// Act
-		const { getByLabelText } = render(
-			<PasswordInput label={label} name={name} purpose="current" />
-		);
-		const input = getByLabelText(/Password/) as HTMLInputElement;
+		const { container } = render(<PasswordInput label={label} name={name} purpose="current" />);
 
 		// Assert
-		expect(input.name).toBe(name);
+		expect(getInput(container).name).toBe(name);
 	});
 });

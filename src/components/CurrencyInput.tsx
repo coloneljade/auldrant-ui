@@ -1,10 +1,8 @@
 import FormField from '@components/FormField';
 import { useSignal } from '@preact/signals';
 import type { IFieldProps } from '@scripts/types';
-import { describeBy } from '@scripts/utils';
 import styles from '@styles/CurrencyInput.module.css';
 import type { FunctionComponent } from 'preact';
-import { useId } from 'preact/hooks';
 
 /** Props for {@link CurrencyInput}. */
 interface ICurrencyInputProps extends IFieldProps {
@@ -55,24 +53,14 @@ const CurrencyInput: FunctionComponent<ICurrencyInputProps> = (props) => {
 		onInput,
 		class: className,
 	} = props;
-	const id = useId();
-	const errorId = `${id}-error`;
 	const rawText = useSignal<string | null>(null);
 
 	const displayValue =
 		rawText.value !== null ? rawText.value : formatCurrency(value, currency, locale);
 
 	return (
-		<FormField
-			label={label}
-			for={id}
-			required={required}
-			error={error}
-			errorId={errorId}
-			class={className}
-		>
+		<FormField label={label} required={required} error={error} class={className}>
 			<input
-				id={id}
 				class={styles.input}
 				type="text"
 				inputMode="decimal"
@@ -80,8 +68,6 @@ const CurrencyInput: FunctionComponent<ICurrencyInputProps> = (props) => {
 				value={displayValue}
 				required={required}
 				disabled={disabled}
-				aria-invalid={!!error || undefined}
-				aria-describedby={describeBy(error && errorId)}
 				onFocus={() => {
 					rawText.value = value !== undefined && !Number.isNaN(value) ? String(value) : '';
 				}}

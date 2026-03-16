@@ -7,8 +7,8 @@ describe('FormField a11y', () => {
 	it('has no axe violations', async () => {
 		// Act & Assert
 		await renderAndCheckA11y(
-			<FormField label="Name" for="name-input">
-				<input id="name-input" />
+			<FormField label="Name">
+				<input />
 			</FormField>
 		);
 	});
@@ -18,8 +18,8 @@ describe('FormField a11y', () => {
 		it('labels the child input programmatically (SC 1.3.1)', () => {
 			// Act
 			const { getByLabelText } = render(
-				<FormField label="Name" for="name-input">
-					<input id="name-input" />
+				<FormField label="Name">
+					<input />
 				</FormField>
 			);
 
@@ -30,8 +30,8 @@ describe('FormField a11y', () => {
 		it('hides the required indicator from assistive technology (SC 3.3.2)', () => {
 			// Act
 			const { container } = render(
-				<FormField label="Name" for="name" required>
-					<input id="name" />
+				<FormField label="Name" required>
+					<input />
 				</FormField>
 			);
 			const asterisk = container.querySelector('[aria-hidden="true"]');
@@ -44,19 +44,18 @@ describe('FormField a11y', () => {
 		it('renders error message with role="alert" (SC 3.3.1)', () => {
 			// Arrange
 			const error = 'Name is required';
-			const errorId = 'name-error';
 
 			// Act
 			const { getByRole } = render(
-				<FormField label="Name" for="name" error={error} errorId={errorId}>
-					<input id="name" aria-invalid="true" aria-describedby={errorId} />
+				<FormField label="Name" error={error}>
+					<input />
 				</FormField>
 			);
 			const alert = getByRole('alert');
 
 			// Assert
 			expect(alert.textContent).toBe(error);
-			expect(alert.id).toBe(errorId);
+			expect(alert.id).toBeTruthy();
 		});
 	});
 });

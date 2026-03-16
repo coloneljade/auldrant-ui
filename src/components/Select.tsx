@@ -1,9 +1,7 @@
 import FormField from '@components/FormField';
 import type { IFieldProps } from '@scripts/types';
-import { describeBy } from '@scripts/utils';
 import styles from '@styles/Select.module.css';
 import type { FunctionComponent } from 'preact';
-import { useId } from 'preact/hooks';
 
 /** A single option in a {@link Select}. */
 export interface ISelectOption {
@@ -51,27 +49,15 @@ const Select: FunctionComponent<ISelectProps> = (props) => {
 		onChange,
 		class: className,
 	} = props;
-	const id = useId();
-	const errorId = `${id}-error`;
 
 	return (
-		<FormField
-			label={label}
-			for={id}
-			required={required}
-			error={error}
-			errorId={errorId}
-			class={className}
-		>
+		<FormField label={label} required={required} error={error} class={className}>
 			<select
-				id={id}
 				class={styles.select}
 				name={name}
 				value={value}
 				required={required}
 				disabled={disabled}
-				aria-invalid={!!error || undefined}
-				aria-describedby={describeBy(error && errorId)}
 				onChange={onChange && ((e) => onChange((e.target as HTMLSelectElement).value))}
 			>
 				{placeholder && (

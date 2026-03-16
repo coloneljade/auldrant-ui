@@ -3,10 +3,9 @@ import FileButton from '@internal/FileButton';
 import FileZone from '@internal/FileZone';
 import { useSignal } from '@preact/signals';
 import type { IFieldProps } from '@scripts/types';
-import { describeBy } from '@scripts/utils';
 import styles from '@styles/FileInput.module.css';
 import type { FunctionComponent } from 'preact';
-import { useId, useRef } from 'preact/hooks';
+import { useRef } from 'preact/hooks';
 
 /** Props for {@link FileInput}. */
 interface IFileInputProps extends IFieldProps {
@@ -126,8 +125,6 @@ const FileInput: FunctionComponent<IFileInputProps> = (props) => {
 		class: className,
 	} = props;
 
-	const id = useId();
-	const errorId = `${id}-error`;
 	const inputRef = useRef<HTMLInputElement>(null);
 	const selectedFiles = useSignal<File[]>([]);
 	const validationError = useSignal<string | null>(null);
@@ -276,15 +273,9 @@ const FileInput: FunctionComponent<IFileInputProps> = (props) => {
 		: undefined;
 
 	return (
-		<FormField
-			label={label}
-			for={id}
-			required={required}
-			error={displayError}
-			errorId={errorId}
-			class={className}
-		>
-			<label
+		<FormField label={label} required={required} error={displayError} class={className}>
+			{/* biome-ignore lint/a11y/noStaticElementInteractions: drag-and-drop enhancement — keyboard access via the file input */}
+			<div
 				onDragEnter={
 					zone
 						? (e) => {
@@ -325,7 +316,6 @@ const FileInput: FunctionComponent<IFileInputProps> = (props) => {
 			>
 				<input
 					ref={inputRef}
-					id={id}
 					class={styles.fileInputNative}
 					type="file"
 					name={name}
@@ -333,8 +323,6 @@ const FileInput: FunctionComponent<IFileInputProps> = (props) => {
 					required={required}
 					disabled={disabled}
 					multiple={multiple || undefined}
-					aria-invalid={!!displayError || undefined}
-					aria-describedby={describeBy(displayError && errorId)}
 					onChange={handleChange}
 				/>
 				{zone ? (
@@ -356,7 +344,7 @@ const FileInput: FunctionComponent<IFileInputProps> = (props) => {
 						onClear={handleClear}
 					/>
 				)}
-			</label>
+			</div>
 		</FormField>
 	);
 };

@@ -5,6 +5,10 @@
 	gap: 0.5em;
 }
 
+.field-label {
+	display: contents;
+}
+
 .label {
 	padding-top: 0.25em;
 }
