@@ -1,0 +1,125 @@
+.file-input-native {
+	composes: visually-hidden from "@styles/shared.css";
+}
+
+.file-input-button {
+	composes: focus-ring disabled from "@styles/shared.css";
+	display: inline-grid;
+	grid-auto-flow: column;
+	align-items: center;
+	gap: 0.5em;
+	padding: 0.375em 0.75em;
+	border: 1px solid var(--aui-color-border);
+	border-radius: 0.25em;
+	background: var(--aui-color-background);
+	color: var(--aui-color-text);
+	font: inherit;
+	cursor: pointer;
+	/* rem ensures 44px touch target (WCAG 2.5.5) regardless of inherited font-size */
+	min-height: 2.75rem;
+}
+
+.file-input-info {
+	display: inline-grid;
+	grid-auto-flow: column;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.file-input-clear {
+	composes: focus-ring from "@styles/shared.css";
+	display: grid;
+	place-items: center;
+	padding: 0.125em;
+	border: none;
+	background: none;
+	color: var(--aui-color-text);
+	cursor: pointer;
+	/* rem ensures 44px touch target (WCAG 2.5.5) regardless of inherited font-size */
+	min-width: 2.75rem;
+	min-height: 2.75rem;
+}
+
+.file-input-zone {
+	display: grid;
+	place-items: center;
+	gap: 0.75em;
+	padding: 2em;
+	border: 2px dashed var(--aui-color-border);
+	border-radius: 0.5em;
+	background: var(--aui-color-background);
+	color: var(--aui-color-text);
+	text-align: center;
+	cursor: pointer;
+	/* rem ensures 44px touch target (WCAG 2.5.5) regardless of inherited font-size */
+	min-height: 2.75rem;
+}
+
+.file-input-zone:hover,
+.file-input-zone.dragover {
+	border-color: var(--aui-color-primary);
+	background: var(--aui-color-background-hover);
+}
+
+.file-input-zone.disabled,
+.file-input-zone.disabled:hover {
+	opacity: 0.5;
+	cursor: not-allowed;
+	border-color: var(--aui-color-border);
+	background: var(--aui-color-background);
+}
+
+.file-input-zone-prompt {
+	display: grid;
+	place-items: center;
+	gap: 0.5em;
+}
+
+.file-input-zone-text {
+	color: var(--aui-color-text-muted);
+}
+
+.file-input-list {
+	display: grid;
+	gap: 0.5em;
+	width: 100%;
+}
+
+.file-input-item {
+	display: grid;
+	grid-template-columns: auto 1fr auto;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.file-input-item-name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.file-input-zone-summary {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	gap: 0.5em;
+	padding-top: 0.5em;
+	border-top: 1px solid var(--aui-color-border);
+	color: var(--aui-color-text-muted);
+}
+
+.file-input-clear-all {
+	composes: focus-ring from "@styles/shared.css";
+	padding: 0.25em 0.5em;
+	border: none;
+	background: none;
+	color: var(--aui-color-text-muted);
+	font: inherit;
+	cursor: pointer;
+	/* rem ensures 24px touch target (WCAG 2.5.8) for constrained UI */
+	min-height: 1.5rem;
+}
+
+.file-input-clear-all:hover {
+	color: var(--aui-color-text);
+}

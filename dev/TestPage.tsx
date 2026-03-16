@@ -23,6 +23,7 @@ import { ChipSection } from './sections/ChipSection';
 import { CurrencyInputSection } from './sections/CurrencyInputSection';
 import { DialogSection } from './sections/DialogSection';
 import { DropdownSection } from './sections/DropdownSection';
+import { FileInputSection } from './sections/FileInputSection';
 import { FormDemo } from './sections/FormDemo';
 import { InputSection } from './sections/InputSection';
 import { LinkSection } from './sections/LinkSection';
@@ -50,6 +51,7 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'passwordinput', Section: PasswordInputSection },
 	{ key: 'textarea', Section: TextareaSection },
 	{ key: 'searchinput', Section: SearchInputSection },
+	{ key: 'fileinput', Section: FileInputSection },
 	{ key: 'select', Section: SelectSection },
 	{ key: 'checkbox radio', Section: CheckboxRadioSection },
 	{ key: 'toggle', Section: ToggleSection },
@@ -160,6 +162,7 @@ export const TestPage: FunctionComponent = () => {
 								<PasswordInputSection />
 								<TextareaSection />
 								<SearchInputSection />
+								<FileInputSection />
 								<SelectSection />
 								<CheckboxRadioSection />
 								<ToggleSection />

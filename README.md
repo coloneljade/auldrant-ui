@@ -63,6 +63,7 @@ function App() {
 | `Checkbox` | Checkbox with label | `label`, `checked?`, `onChange?` |
 | `CheckboxGroup` | Fieldset wrapper for grouping Checkbox components | `legend`, `error?` |
 | `CurrencyInput` | Currency or plain-decimal input with locale-aware formatting | `value?`, `currency?` (ISO 4217), `locale?` (BCP 47), `onInput?` |
+| `FileInput` | File picker with button or drag-and-drop zone variant. Single or multi-file with client-side type, size, count, and total-size validation | `accept`, `maxSize`, `onSelect`, `zone?`, `multiple?`, `maxFiles?`, `maxTotalSize?`, `onRemove?`, `onClear?` |
 | `Form` | Form with submit/reset buttons. Prevents default and provides FormData | `onSubmit`, `children`, `submitLabel?`, `resetLabel?`, `submitDisabled?`, `status?` |
 | `Input` | Text input with label | `type?`, `value?`, `onInput?` |
 | `NumberInput` | Numeric input with label | `min?`, `max?`, `onInput?` |
