@@ -1,6 +1,6 @@
 {
   "name": "@auldrant/ui",
-  "version": "0.24.0",
+  "version": "0.25.0",
   "type": "module",
   "description": "Accessible Preact component library with design tokens and CSS modules",
   "author": "Colonel Jade",
