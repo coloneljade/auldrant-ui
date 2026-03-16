@@ -14,6 +14,7 @@ export { default as CurrencyInput } from '@components/CurrencyInput';
 export { default as Dialog } from '@components/Dialog';
 export { default as DownloadLink } from '@components/DownloadLink';
 export { DropdownItem, default as Dropdown } from '@components/Dropdown';
+export { default as FileInput } from '@components/FileInput';
 export { default as Form } from '@components/Form';
 export { default as Head } from '@components/Head';
 export type { IIconProps } from '@components/Icon';
