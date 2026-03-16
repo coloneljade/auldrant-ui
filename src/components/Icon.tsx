@@ -6,9 +6,11 @@ import {
 	ChevronDown,
 	Eye,
 	EyeOff,
+	File,
 	Info,
 	Search,
 	TriangleAlert,
+	Upload,
 	X,
 	XCircle,
 } from 'lucide-preact';
@@ -20,11 +22,13 @@ export enum IconName {
 	chevronDown = 'chevronDown',
 	dismiss = 'dismiss',
 	error = 'error',
+	file = 'file',
 	hidePassword = 'hidePassword',
 	info = 'info',
 	search = 'search',
 	showPassword = 'showPassword',
 	success = 'success',
+	upload = 'upload',
 	warning = 'warning',
 }
 
@@ -47,11 +51,13 @@ const iconMap = {
 	[IconName.chevronDown]: ChevronDown,
 	[IconName.dismiss]: X,
 	[IconName.error]: XCircle,
+	[IconName.file]: File,
 	[IconName.hidePassword]: EyeOff,
 	[IconName.info]: Info,
 	[IconName.search]: Search,
 	[IconName.showPassword]: Eye,
 	[IconName.success]: CheckCircle,
+	[IconName.upload]: Upload,
 	[IconName.warning]: TriangleAlert,
 } satisfies { [key in IconName]: unknown };
 
