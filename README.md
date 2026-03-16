@@ -81,6 +81,7 @@ function App() {
 | `Dialog` | Dismissible dialog (Escape, backdrop, X button) | `open`, `title`, `onClose`, `message?`, `defaultAction?` |
 | `Dropdown` + `DropdownItem` | Trigger button with a Popover API menu, full keyboard support, and type-ahead navigation | `trigger` on Dropdown; `onSelect?`, `disabled?` on DropdownItem |
 | `Modal` | Action-required modal (`role="alertdialog"`) | `open`, `title`, `onCancel`, `defaultAction`, `focusCancel?` |
+| `Tooltip` | Hover/focus tooltip with CSS Anchor Positioning and accessible `aria-describedby` wiring | `content`, `delay?` |
 
 ### Layout
 
