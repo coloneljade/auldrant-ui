@@ -1,4 +1,5 @@
 import Icon, { IconName } from '@components/Icon';
+import Tooltip from '@components/Tooltip';
 import type { IBaseProps } from '@scripts/types';
 import useDraggable from '@scripts/useDraggable';
 import { cx } from '@scripts/utils';
@@ -210,14 +211,16 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 						{title}
 					</h2>
 					{!alert && (
-						<button
-							type="button"
-							class={styles.dialogClose}
-							title={defaults.closeDescription}
-							onClick={onDismiss}
-						>
-							<Icon name={IconName.dismiss} />
-						</button>
+						<Tooltip content="Close (Esc)">
+							<button
+								type="button"
+								class={styles.dialogClose}
+								aria-label={defaults.closeDescription}
+								onClick={onDismiss}
+							>
+								<Icon name={IconName.dismiss} />
+							</button>
+						</Tooltip>
 					)}
 				</header>
 				<div class={styles.dialogBody}>
@@ -227,37 +230,35 @@ const DialogBase: FunctionComponent<IDialogBaseProps> = (props) => {
 				{hasFooter && (
 					<footer class={styles.footer}>
 						{actions?.map((action) => (
-							<button
-								key={action.label}
-								type="button"
-								class={styles.dialogAction}
-								title={action.description}
-								onClick={action.onClick}
-							>
-								{action.label} {formatHint(action.shortcut)}
-							</button>
+							<Tooltip key={action.label} content={action.description}>
+								<button type="button" class={styles.dialogAction} onClick={action.onClick}>
+									{action.label} {formatHint(action.shortcut)}
+								</button>
+							</Tooltip>
 						))}
 						{defaultAction && (
-							<button
-								ref={defaultButtonRef}
-								type="button"
-								class={cx(styles.dialogAction, styles.primary)}
-								title={defaultAction.description}
-								onClick={defaultAction.onClick}
-							>
-								{defaultAction.label} {formatHint(defaultAction.shortcut)}
-							</button>
+							<Tooltip content={defaultAction.description}>
+								<button
+									ref={defaultButtonRef}
+									type="button"
+									class={cx(styles.dialogAction, styles.primary)}
+									onClick={defaultAction.onClick}
+								>
+									{defaultAction.label} {formatHint(defaultAction.shortcut)}
+								</button>
+							</Tooltip>
 						)}
 						{onCancel && (
-							<button
-								ref={cancelButtonRef}
-								type="button"
-								class={styles.dialogAction}
-								title={defaults.cancelDescription}
-								onClick={onCancel}
-							>
-								{cancelLabel ?? defaults.cancel} {formatHint('Esc')}
-							</button>
+							<Tooltip content={defaults.cancelDescription}>
+								<button
+									ref={cancelButtonRef}
+									type="button"
+									class={styles.dialogAction}
+									onClick={onCancel}
+								>
+									{cancelLabel ?? defaults.cancel} {formatHint('Esc')}
+								</button>
+							</Tooltip>
 						)}
 					</footer>
 				)}

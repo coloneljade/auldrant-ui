@@ -1,5 +1,6 @@
 import FormField from '@components/FormField';
 import Icon, { IconName } from '@components/Icon';
+import Tooltip from '@components/Tooltip';
 import { useSignal } from '@preact/signals';
 import type { IFieldProps } from '@scripts/types';
 import styles from '@styles/PasswordInput.module.css';
@@ -59,17 +60,19 @@ const PasswordInput: FunctionComponent<IPasswordInputProps> = (props) => {
 					disabled={disabled}
 					onInput={onInput && ((e) => onInput((e.target as HTMLInputElement).value))}
 				/>
-				<button
-					type="button"
-					class={styles.toggle}
-					disabled={disabled}
-					aria-label={visible.value ? 'Hide password' : 'Show password'}
-					onClick={() => {
-						visible.value = !visible.value;
-					}}
-				>
-					<Icon name={visible.value ? IconName.hidePassword : IconName.showPassword} />
-				</button>
+				<Tooltip content={visible.value ? 'Hide password' : 'Show password'}>
+					<button
+						type="button"
+						class={styles.toggle}
+						disabled={disabled}
+						aria-label={visible.value ? 'Hide password' : 'Show password'}
+						onClick={() => {
+							visible.value = !visible.value;
+						}}
+					>
+						<Icon name={visible.value ? IconName.hidePassword : IconName.showPassword} />
+					</button>
+				</Tooltip>
 			</div>
 		</FormField>
 	);

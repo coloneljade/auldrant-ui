@@ -1,5 +1,6 @@
 import FormField from '@components/FormField';
 import Icon, { IconName } from '@components/Icon';
+import Tooltip from '@components/Tooltip';
 import type { IFieldProps } from '@scripts/types';
 import styles from '@styles/SearchInput.module.css';
 import type { FunctionComponent } from 'preact';
@@ -55,18 +56,20 @@ const SearchInput: FunctionComponent<ISearchInputProps> = (props) => {
 						}}
 					/>
 					{value && (
-						<button
-							type="button"
-							class={styles.clearButton}
-							disabled={disabled}
-							aria-label="Clear search"
-							onClick={() => {
-								onInput?.('');
-								onClear?.();
-							}}
-						>
-							<Icon name={IconName.dismiss} />
-						</button>
+						<Tooltip content="Clear search">
+							<button
+								type="button"
+								class={styles.clearButton}
+								disabled={disabled}
+								aria-label="Clear search"
+								onClick={() => {
+									onInput?.('');
+									onClear?.();
+								}}
+							>
+								<Icon name={IconName.dismiss} />
+							</button>
+						</Tooltip>
 					)}
 				</div>
 			</FormField>

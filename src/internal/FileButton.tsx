@@ -1,4 +1,5 @@
 import Icon, { IconName } from '@components/Icon';
+import Tooltip from '@components/Tooltip';
 import styles from '@styles/FileInput.module.css';
 import type { FunctionComponent } from 'preact';
 
@@ -38,18 +39,20 @@ const FileButton: FunctionComponent<IFileButtonProps> = (props) => {
 				<span>
 					{file.name} ({file.size})
 				</span>
-				<button
-					type="button"
-					class={styles.fileInputClear}
-					disabled={disabled}
-					aria-label="Remove file"
-					onClick={(e) => {
-						e.preventDefault();
-						onClear();
-					}}
-				>
-					<Icon name={IconName.dismiss} />
-				</button>
+				<Tooltip content="Remove file">
+					<button
+						type="button"
+						class={styles.fileInputClear}
+						disabled={disabled}
+						aria-label="Remove file"
+						onClick={(e) => {
+							e.preventDefault();
+							onClear();
+						}}
+					>
+						<Icon name={IconName.dismiss} />
+					</button>
+				</Tooltip>
 			</span>
 		);
 	}
@@ -62,18 +65,20 @@ const FileButton: FunctionComponent<IFileButtonProps> = (props) => {
 				<span>
 					{files.length} files ({totalSize})
 				</span>
-				<button
-					type="button"
-					class={styles.fileInputClear}
-					disabled={disabled}
-					aria-label="Clear all files"
-					onClick={(e) => {
-						e.preventDefault();
-						onClear();
-					}}
-				>
-					<Icon name={IconName.dismiss} />
-				</button>
+				<Tooltip content="Clear all files">
+					<button
+						type="button"
+						class={styles.fileInputClear}
+						disabled={disabled}
+						aria-label="Clear all files"
+						onClick={(e) => {
+							e.preventDefault();
+							onClear();
+						}}
+					>
+						<Icon name={IconName.dismiss} />
+					</button>
+				</Tooltip>
 			</span>
 		);
 	}
