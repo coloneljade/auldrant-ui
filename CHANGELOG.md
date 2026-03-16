@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.26.1] - 2026-03-16
+
+### Fixed
+
+- refactor(FormField): wrapping label + imperative error wiring (#115) ([#116](https://github.com/coloneljade/auldrant-ui/pull/116))
+- feat(tokens): light-dark() color scheme + dev toggle ([#116](https://github.com/coloneljade/auldrant-ui/pull/116))
+- feat(Textarea): soft character limit with overage indication ([#116](https://github.com/coloneljade/auldrant-ui/pull/116))
+- chore(dev): add over-limit Textarea example ([#116](https://github.com/coloneljade/auldrant-ui/pull/116))
+
 ## [0.26.0] - 2026-03-16
 
 ### Added
