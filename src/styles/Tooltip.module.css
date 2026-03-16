@@ -1,0 +1,103 @@
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+.tooltip {
+	display: inline-block;
+	anchor-scope: --tooltip-trigger;
+	/* No position: relative here — keeping .tooltip non-positioned means
+	   .tooltip-content's containing block climbs past the dialog to the viewport,
+	   so it is never trapped inside a transformed ancestor. The JS fallback
+	   @supports block adds position: relative where it is needed for containing. */
+}
+
+.tooltip-trigger-anchor {
+	anchor-name: --tooltip-trigger;
+	display: inline-flex;
+}
+
+.tooltip-content {
+	/* Hidden state — visibility:hidden keeps element measurable for positioning */
+	visibility: hidden;
+	opacity: 0;
+	pointer-events: none;
+
+	/* Visual */
+	position: absolute; /* default before @supports kicks in; overridden below */
+	max-width: 16em;
+	padding: 0.375em 0.75em;
+	border-radius: 0.25em;
+	background: var(--aui-color-text);
+	color: var(--aui-color-background);
+	font-size: 0.875em;
+	line-height: 1.4;
+	white-space: normal;
+	z-index: 100;
+}
+
+.visible {
+	visibility: visible;
+	opacity: 1;
+	pointer-events: auto;
+}
+
+/* Arrow — ::after pseudo-element, direction driven by data-placement */
+.tooltip-content::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	translate: -50% 0;
+	border: 0.4em solid transparent;
+}
+
+/* Default (above trigger): arrow at bottom pointing down */
+[data-placement="above"] .tooltip-content::after {
+	top: 100%;
+	border-top-color: var(--aui-color-text);
+}
+
+/* Flipped (below trigger): arrow at top pointing up */
+[data-placement="below"] .tooltip-content::after {
+	bottom: 100%;
+	border-bottom-color: var(--aui-color-text);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.tooltip-content {
+		transition:
+			opacity 0.15s ease,
+			visibility 0.15s ease;
+	}
+}
+
+/* ── CSS Anchor Positioning (Chrome 131+ / Safari 26+) ──────────────────────
+   Migration: when Firefox ships anchor-name + anchor-scope and they reach
+   cross-browser Baseline, promote these rules to unconditional and delete
+   the @supports not block below. See: https://github.com/coloneljade/auldrant-ui/issues/117
+   ─────────────────────────────────────────────────────────────────────────── */
+@supports (anchor-name: --x) and (anchor-scope: --x) {
+	.tooltip-content {
+		position: absolute;
+		position-anchor: --tooltip-trigger;
+		bottom: calc(anchor(top) + 0.5em);
+		left: anchor(center);
+		translate: -50% 0;
+		position-try-fallbacks: --flip-below;
+	}
+
+	@position-try --flip-below {
+		bottom: auto;
+		top: calc(anchor(bottom) + 0.5em);
+	}
+}
+
+/* ── JS Fallback (Firefox + Chrome < 131) ───────────────────────────────────
+   JS sets --tooltip-x / --tooltip-y via setProperty; CSS positions from those
+   variables. On migration, delete this entire block and useTooltipPosition.ts.
+   See: https://github.com/coloneljade/auldrant-ui/issues/117
+   ─────────────────────────────────────────────────────────────────────────── */
+@supports not ((anchor-name: --x) and (anchor-scope: --x)) {
+	.tooltip-content {
+		position: fixed;
+		left: var(--tooltip-x, 0);
+		top: var(--tooltip-y, 0);
+		translate: -50% 0;
+	}
+}

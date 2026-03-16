@@ -43,6 +43,7 @@ import { TableSection } from './sections/TableSection';
 import { TextareaSection } from './sections/TextareaSection';
 import { ToastSection } from './sections/ToastSection';
 import { ToggleSection } from './sections/ToggleSection';
+import { TooltipSection } from './sections/TooltipSection';
 
 /** All dev sections — used for both tab layout and global search filtering. */
 const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
@@ -75,6 +76,7 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'dropdown', Section: DropdownSection },
 	{ key: 'modal', Section: ModalSection },
 	{ key: 'toast', Section: ToastSection },
+	{ key: 'tooltip', Section: TooltipSection },
 ];
 
 /** Extract tab ID from /tests/tab/:id (ignoring any suffix), falling back to 'inputs'. */
@@ -221,6 +223,7 @@ export const TestPage: FunctionComponent = () => {
 								<DialogSection />
 								<ModalSection />
 								<DropdownSection />
+								<TooltipSection />
 							</Tab>
 						</TabGroup>
 					)}

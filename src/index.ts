@@ -44,6 +44,7 @@ export { default as Theme, Palette } from '@components/Theme';
 export { default as Toast, ToastVariant } from '@components/Toast';
 export { default as Toaster } from '@components/Toaster';
 export { default as Toggle } from '@components/Toggle';
+export { default as Tooltip } from '@components/Tooltip';
 export { default as VisuallyHidden } from '@components/VisuallyHidden';
 export { page, usePage } from '@hooks';
 export type { IDialogAction } from '@internal/DialogBase';
