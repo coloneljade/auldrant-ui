@@ -59,10 +59,10 @@ describe('Dialog', () => {
 	it('calls onClose when the X button is clicked', () => {
 		// Arrange
 		const handleClose = mock(() => {});
-		const { getByTitle } = render(<Dialog open title={title} onClose={handleClose} />);
+		const { getByRole } = render(<Dialog open title={title} onClose={handleClose} />);
 
 		// Act
-		fireEvent.click(getByTitle('Close this dialog'));
+		fireEvent.click(getByRole('button', { name: 'Close this dialog' }));
 
 		// Assert
 		expect(handleClose).toHaveBeenCalledTimes(1);
@@ -70,10 +70,10 @@ describe('Dialog', () => {
 
 	it('renders the X close button', () => {
 		// Act
-		const { getByTitle } = render(<Dialog open title={title} onClose={() => {}} />);
+		const { getByRole } = render(<Dialog open title={title} onClose={() => {}} />);
 
 		// Assert
-		getByTitle('Close this dialog');
+		getByRole('button', { name: 'Close this dialog' });
 	});
 
 	it('renders defaultAction button with label and shortcut hint', () => {
@@ -86,12 +86,12 @@ describe('Dialog', () => {
 		};
 
 		// Act
-		const { getByTitle } = render(
+		const { getByRole } = render(
 			<Dialog open title={title} defaultAction={action} onClose={() => {}} />
 		);
 
 		// Assert
-		const button = getByTitle(action.description);
+		const button = getByRole('button', { name: /Download/ });
 		expect(button.textContent).toContain(action.label);
 		expect(button.textContent).toContain('(Shift+D)');
 	});
@@ -106,12 +106,12 @@ describe('Dialog', () => {
 		};
 
 		// Act
-		const { getByTitle } = render(
+		const { getByRole } = render(
 			<Dialog open title={title} actions={[action]} onClose={() => {}} />
 		);
 
 		// Assert
-		getByTitle(action.description);
+		getByRole('button', { name: /Save/ });
 	});
 
 	it('does not render a footer when no actions are provided', () => {
