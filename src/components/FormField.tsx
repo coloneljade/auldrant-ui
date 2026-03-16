@@ -37,19 +37,21 @@ const FormField: FunctionComponent<IFormFieldProps> = (props) => {
 			return;
 		}
 		const extra = el.getAttribute('data-extra-describedby') || undefined;
-		if (error) {
+		const invalid = error || el.hasAttribute('data-over');
+		if (invalid) {
 			el.setAttribute('aria-invalid', 'true');
+		} else {
+			el.removeAttribute('aria-invalid');
+		}
+		if (error) {
 			const composed = describeBy(errorId, extra);
 			if (composed) {
 				el.setAttribute('aria-describedby', composed);
 			}
+		} else if (extra) {
+			el.setAttribute('aria-describedby', extra);
 		} else {
-			el.removeAttribute('aria-invalid');
-			if (extra) {
-				el.setAttribute('aria-describedby', extra);
-			} else {
-				el.removeAttribute('aria-describedby');
-			}
+			el.removeAttribute('aria-describedby');
 		}
 	});
 

@@ -101,6 +101,19 @@ describe('Textarea a11y', () => {
 			// Assert
 			getByRole('alert');
 		});
+
+		it('marks the textarea as invalid when over the character limit (SC 3.3.1)', () => {
+			// Arrange
+			const limit = 10;
+			const { container } = render(<Textarea label={label} name={name} maxChars={limit} />);
+			const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+
+			// Act — type beyond the limit
+			fireEvent.input(textarea, { target: { value: 'a'.repeat(15) } });
+
+			// Assert
+			expect(textarea.getAttribute('aria-invalid')).toBe('true');
+		});
 	});
 
 	// https://www.w3.org/TR/WCAG22/#status-messages
@@ -173,6 +186,20 @@ describe('Textarea a11y', () => {
 
 			// Assert — 9 remaining triggers absolute threshold announcement
 			expect(liveRegion.textContent).toContain('9 characters remaining');
+		});
+
+		it('announces overage when over the character limit (SC 4.1.3)', () => {
+			// Arrange
+			const charLimit = 100;
+			const { container } = render(<Textarea label={label} name={name} maxChars={charLimit} />);
+			const textarea = container.querySelector('textarea') as HTMLTextAreaElement;
+			const liveRegion = container.querySelector('[aria-live="polite"]') as HTMLElement;
+
+			// Act — type 110 characters (110% threshold)
+			fireEvent.input(textarea, { target: { value: 'a'.repeat(110) } });
+
+			// Assert
+			expect(liveRegion.textContent).toContain('10 characters over limit');
 		});
 
 		it('does not announce below 75% threshold (SC 4.1.3)', () => {
