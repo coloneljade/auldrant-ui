@@ -13,3 +13,9 @@
 	font-size: 0.875em;
 	color: var(--aui-color-text-muted);
 }
+
+.counter-over {
+	composes: counter;
+	color: var(--aui-color-error);
+	font-weight: bold;
+}

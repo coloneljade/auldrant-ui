@@ -12,6 +12,7 @@ import { useSignal } from '@preact/signals';
 import { location, navigate } from '@signals/routing';
 import { palette } from '@signals/theme';
 import type { FunctionComponent } from 'preact';
+import { useEffect } from 'preact/hooks';
 import { AboutPage } from './AboutPage';
 import { AccordionSection } from './sections/AccordionSection';
 import { AlertSection } from './sections/AlertSection';
@@ -88,9 +89,19 @@ function isKnownRoute(path: string): boolean {
 
 export const TestPage: FunctionComponent = () => {
 	const filter = useSignal('');
+	const colorScheme = useSignal('auto');
 	const activeTab = tabFromPath(location.value);
 	const q = filter.value.toLowerCase();
 	const matches = q ? ALL_SECTIONS.filter(({ key }) => key.includes(q)) : null;
+
+	useEffect(() => {
+		const style = document.documentElement.style;
+		if (colorScheme.value === 'auto') {
+			style.removeProperty('color-scheme');
+		} else {
+			style.colorScheme = `only ${colorScheme.value}`;
+		}
+	}, [colorScheme.value]);
 
 	return (
 		<Theme class={palette.value ?? undefined}>
@@ -130,6 +141,19 @@ export const TestPage: FunctionComponent = () => {
 						<RadioItem label="Red" value={Palette.red} />
 						<RadioItem label="Orange" value={Palette.orange} />
 						<RadioItem label="Yellow" value={Palette.yellow} />
+					</RadioGroup>
+
+					<RadioGroup
+						legend="Color scheme"
+						name="dev-color-scheme"
+						value={colorScheme.value}
+						onChange={(val) => {
+							colorScheme.value = val;
+						}}
+					>
+						<RadioItem label="Auto" value="auto" />
+						<RadioItem label="Light" value="light" />
+						<RadioItem label="Dark" value="dark" />
 					</RadioGroup>
 
 					<SearchInput

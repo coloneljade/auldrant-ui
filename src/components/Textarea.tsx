@@ -2,20 +2,19 @@ import FormField from '@components/FormField';
 import VisuallyHidden from '@components/VisuallyHidden';
 import { useSignal } from '@preact/signals';
 import type { IFieldProps } from '@scripts/types';
-import { describeBy } from '@scripts/utils';
 import styles from '@styles/Textarea.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
 /** Thresholds (percentage of maxChars used) at which to announce remaining characters. */
-const PERCENT_THRESHOLDS = [75, 90, 100];
+const PERCENT_THRESHOLDS = [75, 90, 100, 110];
 
 /** Absolute remaining character count that triggers an additional announcement. */
 const ABSOLUTE_THRESHOLD = 10;
 
 /** Props for {@link Textarea}. */
 interface ITextareaProps extends IFieldProps {
-	/** Maximum character limit. Sets `maxLength` on the textarea. */
+	/** Soft character limit. Counter turns to an error state when exceeded. */
 	maxChars: number;
 	/** Current textarea value. */
 	value?: string;
@@ -51,33 +50,24 @@ const Textarea: FunctionComponent<ITextareaProps> = (props) => {
 		class: className,
 	} = props;
 	const id = useId();
-	const errorId = `${id}-error`;
 	const counterId = `${id}-counter`;
 	const used = useSignal(value?.length ?? 0);
 	const announcement = useSignal('');
 	const lastPercentThreshold = useSignal(0);
 	const absoluteAnnounced = useSignal(false);
+	const over = used.value > maxChars;
 
 	return (
-		<FormField
-			label={label}
-			for={id}
-			required={required}
-			error={error}
-			errorId={errorId}
-			class={className}
-		>
+		<FormField label={label} required={required} error={error} class={className}>
 			<div class={styles.textareaWrapper}>
 				<textarea
-					id={id}
 					class={styles.textarea}
 					name={name}
-					maxLength={maxChars}
 					placeholder={placeholder}
 					required={required}
 					disabled={disabled}
-					aria-invalid={!!error || undefined}
-					aria-describedby={describeBy(error && errorId, counterId)}
+					data-extra-describedby={counterId}
+					data-over={over || undefined}
 					onInput={(e) => {
 						const val = (e.target as HTMLTextAreaElement).value;
 						used.value = val.length;
@@ -89,7 +79,12 @@ const Textarea: FunctionComponent<ITextareaProps> = (props) => {
 							!absoluteAnnounced.value && remaining <= ABSOLUTE_THRESHOLD && remaining > 0;
 
 						if (threshold > lastPercentThreshold.value || hitAbsolute) {
-							announcement.value = `${remaining} character${remaining === 1 ? '' : 's'} remaining`;
+							if (remaining < 0) {
+								const overage = -remaining;
+								announcement.value = `${overage} character${overage === 1 ? '' : 's'} over limit`;
+							} else {
+								announcement.value = `${remaining} character${remaining === 1 ? '' : 's'} remaining`;
+							}
 							lastPercentThreshold.value = threshold;
 							if (hitAbsolute) {
 								absoluteAnnounced.value = true;
@@ -101,7 +96,7 @@ const Textarea: FunctionComponent<ITextareaProps> = (props) => {
 				>
 					{value}
 				</textarea>
-				<span id={counterId} class={styles.counter}>
+				<span id={counterId} class={over ? styles.counterOver : styles.counter}>
 					{used} / {maxChars}
 				</span>
 				<VisuallyHidden>

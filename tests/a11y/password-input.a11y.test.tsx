@@ -7,6 +7,11 @@ describe('PasswordInput a11y', () => {
 	const label = 'Password';
 	const name = 'password';
 
+	/** Get the password input element (the only <input> — the toggle is a <button>). */
+	function getInput(container: HTMLElement) {
+		return container.querySelector('input') as HTMLInputElement;
+	}
+
 	it('has no axe violations', async () => {
 		// Act & Assert
 		await renderAndCheckA11y(<PasswordInput label={label} name={name} purpose="current" />);
@@ -16,12 +21,13 @@ describe('PasswordInput a11y', () => {
 	describe('WCAG A', () => {
 		it('labels the password input programmatically (SC 4.1.2)', () => {
 			// Act
-			const { getByLabelText } = render(
+			const { container, getAllByLabelText } = render(
 				<PasswordInput label={label} name={name} purpose="current" />
 			);
+			const input = getInput(container);
 
-			// Assert
-			getByLabelText(/Password/);
+			// Assert — input is among elements labelled "Password" (mechanism-agnostic)
+			expect(getAllByLabelText(/^Password/)).toContain(input);
 		});
 
 		it('provides an accessible toggle button (SC 4.1.2)', () => {
@@ -46,26 +52,25 @@ describe('PasswordInput a11y', () => {
 
 		it('exposes the disabled state on input and toggle (SC 4.1.2)', () => {
 			// Act
-			const { getByLabelText, getByRole } = render(
+			const { container, getByRole } = render(
 				<PasswordInput label={label} name={name} purpose="current" disabled />
 			);
-			const input = getByLabelText(/Password/);
+			const input = getInput(container);
 			const toggle = getByRole('button', { name: /password/i });
 
 			// Assert
-			expect((input as HTMLInputElement).disabled).toBe(true);
+			expect(input.disabled).toBe(true);
 			expect((toggle as HTMLButtonElement).disabled).toBe(true);
 		});
 
 		it('exposes the required state (SC 4.1.2)', () => {
 			// Act
-			const { getByLabelText } = render(
+			const { container } = render(
 				<PasswordInput label={label} name={name} purpose="current" required />
 			);
-			const input = getByLabelText(/Password/);
 
 			// Assert
-			expect((input as HTMLInputElement).required).toBe(true);
+			expect(getInput(container).required).toBe(true);
 		});
 
 		it('marks the input as invalid with error (SC 3.3.1)', () => {
@@ -73,13 +78,12 @@ describe('PasswordInput a11y', () => {
 			const error = 'Password is required';
 
 			// Act
-			const { getByLabelText } = render(
+			const { container } = render(
 				<PasswordInput label={label} name={name} purpose="current" error={error} />
 			);
-			const input = getByLabelText(/Password/);
 
 			// Assert
-			expect(input.getAttribute('aria-invalid')).toBe('true');
+			expect(getInput(container).getAttribute('aria-invalid')).toBe('true');
 		});
 
 		it('describes the input with the error message (SC 3.3.1)', () => {
@@ -87,14 +91,13 @@ describe('PasswordInput a11y', () => {
 			const error = 'Password is required';
 
 			// Act
-			const { getByLabelText, getByText } = render(
+			const { container, getByText } = render(
 				<PasswordInput label={label} name={name} purpose="current" error={error} />
 			);
-			const input = getByLabelText(/Password/);
 			const errorElement = getByText(error);
 
 			// Assert
-			expect(input.getAttribute('aria-describedby')).toBe(errorElement.id);
+			expect(getInput(container).getAttribute('aria-describedby')).toBe(errorElement.id);
 		});
 
 		it('announces the error message via role="alert" (SC 3.3.1)', () => {
@@ -112,22 +115,18 @@ describe('PasswordInput a11y', () => {
 	describe('WCAG AA', () => {
 		it('sets autocomplete for current password purpose (SC 1.3.5)', () => {
 			// Act
-			const { getByLabelText } = render(
-				<PasswordInput label={label} name={name} purpose="current" />
-			);
-			const input = getByLabelText(/Password/);
+			const { container } = render(<PasswordInput label={label} name={name} purpose="current" />);
 
 			// Assert
-			expect(input.getAttribute('autocomplete')).toBe('current-password');
+			expect(getInput(container).getAttribute('autocomplete')).toBe('current-password');
 		});
 
 		it('sets autocomplete for new password purpose (SC 1.3.5)', () => {
 			// Act
-			const { getByLabelText } = render(<PasswordInput label={label} name={name} purpose="new" />);
-			const input = getByLabelText(/Password/);
+			const { container } = render(<PasswordInput label={label} name={name} purpose="new" />);
 
 			// Assert
-			expect(input.getAttribute('autocomplete')).toBe('new-password');
+			expect(getInput(container).getAttribute('autocomplete')).toBe('new-password');
 		});
 	});
 });

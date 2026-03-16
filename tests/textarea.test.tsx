@@ -15,16 +15,20 @@ describe('Textarea', () => {
 		getByText(new RegExp(`/ ${maxChars}`));
 	});
 
-	it('sets maxLength on the textarea element', () => {
+	it('updates counter when typing beyond maxChars', () => {
 		// Arrange
-		const limit = 150;
+		const limit = 10;
+		const { getByRole, getByText } = render(
+			<Textarea label={label} name={name} maxChars={limit} />
+		);
 
-		// Act
-		const { getByRole } = render(<Textarea label={label} name={name} maxChars={limit} />);
-		const textarea = getByRole('textbox', { name: /Bio/ }) as HTMLTextAreaElement;
+		// Act — type beyond the limit
+		fireEvent.input(getByRole('textbox', { name: /Bio/ }), {
+			target: { value: 'a'.repeat(15) },
+		});
 
-		// Assert
-		expect(textarea.maxLength).toBe(limit);
+		// Assert — counter shows 15 / 10
+		getByText('15 / 10');
 	});
 
 	it('calls onInput with the value', () => {

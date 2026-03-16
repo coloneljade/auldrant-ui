@@ -16,10 +16,10 @@ describe('SearchInput a11y', () => {
 	describe('WCAG A', () => {
 		it('labels the search input programmatically (SC 4.1.2)', () => {
 			// Act
-			const { getByLabelText } = render(<SearchInput label={label} name={name} />);
+			const { getByRole } = render(<SearchInput label={label} name={name} />);
 
-			// Assert
-			getByLabelText(/Search/);
+			// Assert — searchbox has accessible name (regardless of labelling mechanism)
+			getByRole('searchbox', { name: /Search/ });
 		});
 
 		it('provides an accessible clear button (SC 4.1.2)', () => {
@@ -32,35 +32,33 @@ describe('SearchInput a11y', () => {
 
 		it('exposes the disabled state on input and clear button (SC 4.1.2)', () => {
 			// Act
-			const { getByLabelText, getByRole } = render(
+			const { getByRole } = render(
 				<SearchInput label={label} name={name} value="query" disabled />
 			);
-			const input = getByLabelText(/Search/);
+			const input = getByRole('searchbox', { name: /Search/ }) as HTMLInputElement;
 			const clearBtn = getByRole('button', { name: /clear search/i });
 
 			// Assert
-			expect((input as HTMLInputElement).disabled).toBe(true);
+			expect(input.disabled).toBe(true);
 			expect((clearBtn as HTMLButtonElement).disabled).toBe(true);
 		});
 
 		it('exposes the required state (SC 4.1.2)', () => {
 			// Act
-			const { getByLabelText } = render(<SearchInput label={label} name={name} required />);
-			const input = getByLabelText(/Search/);
+			const { getByRole } = render(<SearchInput label={label} name={name} required />);
 
 			// Assert
-			expect((input as HTMLInputElement).required).toBe(true);
+			expect((getByRole('searchbox', { name: /Search/ }) as HTMLInputElement).required).toBe(true);
 		});
 
 		it('marks the input as invalid with error (SC 3.3.1)', () => {
 			// Act
-			const { getByLabelText } = render(
+			const { getByRole } = render(
 				<SearchInput label={label} name={name} error="Search term required" />
 			);
-			const input = getByLabelText(/Search/);
 
 			// Assert
-			expect(input.getAttribute('aria-invalid')).toBe('true');
+			expect(getByRole('searchbox', { name: /Search/ }).getAttribute('aria-invalid')).toBe('true');
 		});
 
 		it('describes the input with the error message (SC 3.3.1)', () => {
@@ -68,10 +66,10 @@ describe('SearchInput a11y', () => {
 			const error = 'Search term required';
 
 			// Act
-			const { getByLabelText, getByText } = render(
+			const { getByRole, getByText } = render(
 				<SearchInput label={label} name={name} error={error} />
 			);
-			const input = getByLabelText(/Search/);
+			const input = getByRole('searchbox', { name: /Search/ });
 			const errorElement = getByText(error);
 
 			// Assert

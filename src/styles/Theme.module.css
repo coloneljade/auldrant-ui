@@ -3,7 +3,8 @@
  *
  * CSS color-mix() resolves at computed-value time. When a consumer overrides
  * --aui-base-* on a <Theme> wrapper, :root-level derivations don't re-trigger.
- * Repeating the derivation here ensures scoped overrides propagate correctly.
+ * Repeating the derivation here — including light-dark() formulas — ensures
+ * scoped overrides propagate correctly in both light and dark modes.
  *
  * Keep in sync with tokens.css.
  */
@@ -17,11 +18,32 @@
 	--aui-color-background-hover: color-mix(in oklch, var(--_aui-bg) 92%, var(--_aui-fg));
 	--aui-color-surface: color-mix(in oklch, var(--_aui-bg) 97%, var(--_aui-fg));
 	--aui-color-border: color-mix(in oklch, var(--_aui-bg) 50%, var(--_aui-fg));
-	--aui-color-primary: var(--aui-base-primary);
-	--aui-color-primary-hover: color-mix(in oklch, var(--aui-base-primary) 85%, var(--_aui-fg));
-	--aui-color-focus-ring: var(--aui-base-primary);
-	--aui-color-error: var(--aui-base-error);
-	--aui-color-success: var(--aui-base-success);
-	--aui-color-warning: var(--aui-base-warning);
-	--aui-color-info: var(--aui-base-info);
+	--aui-color-primary: light-dark(
+		color-mix(in oklch, var(--aui-base-primary) 33%, var(--_aui-fg)),
+		var(--aui-base-primary)
+	);
+	--aui-color-primary-hover: light-dark(
+		color-mix(in oklch, var(--aui-base-primary) 25%, var(--_aui-fg)),
+		color-mix(in oklch, var(--aui-base-primary) 85%, var(--_aui-fg))
+	);
+	--aui-color-focus-ring: light-dark(
+		color-mix(in oklch, var(--aui-base-primary) 33%, var(--_aui-fg)),
+		var(--aui-base-primary)
+	);
+	--aui-color-error: light-dark(
+		color-mix(in oklch, var(--aui-base-error) 33%, var(--_aui-fg)),
+		var(--aui-base-error)
+	);
+	--aui-color-success: light-dark(
+		color-mix(in oklch, var(--aui-base-success) 33%, var(--_aui-fg)),
+		var(--aui-base-success)
+	);
+	--aui-color-warning: light-dark(
+		color-mix(in oklch, var(--aui-base-warning) 33%, var(--_aui-fg)),
+		var(--aui-base-warning)
+	);
+	--aui-color-info: light-dark(
+		color-mix(in oklch, var(--aui-base-info) 33%, var(--_aui-fg)),
+		var(--aui-base-info)
+	);
 }

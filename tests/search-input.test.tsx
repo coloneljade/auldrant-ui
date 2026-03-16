@@ -8,21 +8,19 @@ describe('SearchInput', () => {
 
 	it('renders with label', () => {
 		// Act
-		const { getByLabelText } = render(<SearchInput label={label} name={name} />);
+		const { getByRole } = render(<SearchInput label={label} name={name} />);
 
-		// Assert
-		getByLabelText(/Search/);
+		// Assert — input has accessible name "Search" (regardless of labelling mechanism)
+		getByRole('searchbox', { name: /Search/ });
 	});
 
 	it('calls onInput with the value on keystroke', () => {
 		// Arrange
 		const handleInput = mock(() => {});
-		const { getByLabelText } = render(
-			<SearchInput label={label} name={name} onInput={handleInput} />
-		);
+		const { getByRole } = render(<SearchInput label={label} name={name} onInput={handleInput} />);
 
 		// Act
-		fireEvent.input(getByLabelText(/Search/), { target: { value: 'hello' } });
+		fireEvent.input(getByRole('searchbox', { name: /Search/ }), { target: { value: 'hello' } });
 
 		// Assert
 		expect(handleInput).toHaveBeenCalledWith('hello');
@@ -69,12 +67,12 @@ describe('SearchInput', () => {
 	it('calls onSubmit when Enter is pressed with a non-empty value', () => {
 		// Arrange
 		const handleSubmit = mock(() => {});
-		const { getByLabelText } = render(
+		const { getByRole } = render(
 			<SearchInput label={label} name={name} value="hello" onSubmit={handleSubmit} />
 		);
 
 		// Act
-		fireEvent.keyDown(getByLabelText(/Search/), { key: 'Enter' });
+		fireEvent.keyDown(getByRole('searchbox', { name: /Search/ }), { key: 'Enter' });
 
 		// Assert
 		expect(handleSubmit).toHaveBeenCalledWith('hello');
@@ -83,12 +81,12 @@ describe('SearchInput', () => {
 	it('does not call onSubmit when Enter is pressed with empty value', () => {
 		// Arrange
 		const handleSubmit = mock(() => {});
-		const { getByLabelText } = render(
+		const { getByRole } = render(
 			<SearchInput label={label} name={name} value="" onSubmit={handleSubmit} />
 		);
 
 		// Act
-		fireEvent.keyDown(getByLabelText(/Search/), { key: 'Enter' });
+		fireEvent.keyDown(getByRole('searchbox', { name: /Search/ }), { key: 'Enter' });
 
 		// Assert
 		expect(handleSubmit).not.toHaveBeenCalled();
@@ -96,10 +94,8 @@ describe('SearchInput', () => {
 
 	it('disables input and clear button when disabled', () => {
 		// Act
-		const { getByLabelText, getByRole } = render(
-			<SearchInput label={label} name={name} value="hello" disabled />
-		);
-		const input = getByLabelText(/Search/) as HTMLInputElement;
+		const { getByRole } = render(<SearchInput label={label} name={name} value="hello" disabled />);
+		const input = getByRole('searchbox', { name: /Search/ }) as HTMLInputElement;
 		const clearBtn = getByRole('button', { name: /clear search/i }) as HTMLButtonElement;
 
 		// Assert

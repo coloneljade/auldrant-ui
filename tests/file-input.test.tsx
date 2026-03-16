@@ -234,7 +234,7 @@ describe('FileInput', () => {
 			/>
 		);
 		const file = makeFile('photo.png', 2048, 'image/png');
-		const dropLabel = getByText(/Drag a file here/).closest('label') as HTMLElement;
+		const dropLabel = getByText(/Drag a file here/).closest('div')!.parentElement as HTMLElement;
 
 		// Act — drag events are on the label wrapper
 		fireEvent.drop(dropLabel, { dataTransfer: { files: [file] } });
@@ -257,7 +257,7 @@ describe('FileInput', () => {
 			/>
 		);
 		const file = makeFile('doc.pdf', 100, 'application/pdf');
-		const dropLabel = getByText(/Drag a file here/).closest('label') as HTMLElement;
+		const dropLabel = getByText(/Drag a file here/).closest('div')!.parentElement as HTMLElement;
 
 		// Act
 		fireEvent.drop(dropLabel, { dataTransfer: { files: [file] } });
@@ -323,12 +323,13 @@ describe('FileInput', () => {
 					onSelect={handleSelect}
 				/>
 			);
+			const input = getByLabelText(/Upload/);
 			const file1 = makeFile('a.pdf', 1024, 'application/pdf');
 			const file2 = makeFile('b.pdf', 2048, 'application/pdf');
 
 			// Act
-			fireEvent.change(getByLabelText(/Upload/), { target: { files: [file1] } });
-			fireEvent.change(getByLabelText(/Upload/), { target: { files: [file2] } });
+			fireEvent.change(input, { target: { files: [file1] } });
+			fireEvent.change(input, { target: { files: [file2] } });
 
 			// Assert — second call should include both files
 			expect(handleSelect).toHaveBeenCalledTimes(2);
@@ -349,11 +350,12 @@ describe('FileInput', () => {
 					onSelect={handleSelect}
 				/>
 			);
+			const input = getByLabelText(/Upload/);
 			const file = makeFile('a.pdf', 1024, 'application/pdf');
 
 			// Act — add same file twice
-			fireEvent.change(getByLabelText(/Upload/), { target: { files: [file] } });
-			fireEvent.change(getByLabelText(/Upload/), { target: { files: [file] } });
+			fireEvent.change(input, { target: { files: [file] } });
+			fireEvent.change(input, { target: { files: [file] } });
 
 			// Assert — only called once (duplicate silently skipped, no new files added)
 			expect(handleSelect).toHaveBeenCalledTimes(1);
@@ -635,14 +637,15 @@ describe('FileInput', () => {
 					onSelect={handleSelect}
 				/>
 			);
+			const input = getByLabelText(/Upload/);
 			const file1 = makeFile('a.pdf', 100, 'application/pdf');
 			const file2 = makeFile('b.pdf', 100, 'application/pdf');
 
 			// Add first file
-			fireEvent.change(getByLabelText(/Upload/), { target: { files: [file1] } });
+			fireEvent.change(input, { target: { files: [file1] } });
 
 			// Act — try to add another
-			fireEvent.change(getByLabelText(/Upload/), { target: { files: [file2] } });
+			fireEvent.change(input, { target: { files: [file2] } });
 
 			// Assert
 			expect(handleSelect).toHaveBeenCalledTimes(1);
