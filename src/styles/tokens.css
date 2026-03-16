@@ -4,8 +4,9 @@
  * Consumers provide --aui-base-* tokens (only --aui-base-primary is required).
  * The library derives all --aui-color-* tokens via color-mix(in oklch, ...).
  *
- * Dark-first: default values assume dark background. A @media query swaps
- * direction tokens and adjusts primary/semantic colors for light mode.
+ * Mode switching uses light-dark() + color-scheme, enabling JS-controlled
+ * light/dark toggling (set `color-scheme: only light` or `only dark` on :root).
+ * Dark-preferred: color-scheme lists dark first.
  *
  * Blend rationale (validated by tests/contrast.test.ts):
  *   text-muted:        82% fg → ~10:1 AAA across recommended pairs
@@ -21,6 +22,8 @@
  */
 
 :root {
+	color-scheme: dark light;
+
 	/* --- Base tokens (consumer-overridable) --- */
 	--aui-base-primary: oklch(0.78 0.18 160);
 	--aui-base-white: #f5f5f5;
@@ -30,9 +33,9 @@
 	--aui-base-warning: oklch(0.78 0.18 80);
 	--aui-base-info: oklch(0.78 0.15 260);
 
-	/* --- Direction tokens (internal — swapped by color-scheme) --- */
-	--_aui-fg: var(--aui-base-white);
-	--_aui-bg: var(--aui-base-black);
+	/* --- Direction tokens (internal — swapped by color-scheme via light-dark()) --- */
+	--_aui-fg: light-dark(var(--aui-base-black), var(--aui-base-white));
+	--_aui-bg: light-dark(var(--aui-base-white), var(--aui-base-black));
 
 	/* --- Derived tokens (consumed by all components) --- */
 	--aui-color-text: var(--_aui-fg);
@@ -41,27 +44,34 @@
 	--aui-color-background-hover: color-mix(in oklch, var(--_aui-bg) 92%, var(--_aui-fg));
 	--aui-color-surface: color-mix(in oklch, var(--_aui-bg) 97%, var(--_aui-fg));
 	--aui-color-border: color-mix(in oklch, var(--_aui-bg) 50%, var(--_aui-fg));
-	--aui-color-primary: var(--aui-base-primary);
-	--aui-color-primary-hover: color-mix(in oklch, var(--aui-base-primary) 85%, var(--_aui-fg));
-	--aui-color-focus-ring: var(--aui-base-primary);
-	--aui-color-error: var(--aui-base-error);
-	--aui-color-success: var(--aui-base-success);
-	--aui-color-warning: var(--aui-base-warning);
-	--aui-color-info: var(--aui-base-info);
-}
-
-@media (prefers-color-scheme: light) {
-	:root {
-		--_aui-fg: var(--aui-base-black);
-		--_aui-bg: var(--aui-base-white);
-		--aui-color-primary: color-mix(in oklch, var(--aui-base-primary) 33%, var(--_aui-fg));
-		--aui-color-primary-hover: color-mix(in oklch, var(--aui-base-primary) 25%, var(--_aui-fg));
-		--aui-color-focus-ring: color-mix(in oklch, var(--aui-base-primary) 33%, var(--_aui-fg));
-		--aui-color-error: color-mix(in oklch, var(--aui-base-error) 33%, var(--_aui-fg));
-		--aui-color-success: color-mix(in oklch, var(--aui-base-success) 33%, var(--_aui-fg));
-		--aui-color-warning: color-mix(in oklch, var(--aui-base-warning) 33%, var(--_aui-fg));
-		--aui-color-info: color-mix(in oklch, var(--aui-base-info) 33%, var(--_aui-fg));
-	}
+	--aui-color-primary: light-dark(
+		color-mix(in oklch, var(--aui-base-primary) 33%, var(--_aui-fg)),
+		var(--aui-base-primary)
+	);
+	--aui-color-primary-hover: light-dark(
+		color-mix(in oklch, var(--aui-base-primary) 25%, var(--_aui-fg)),
+		color-mix(in oklch, var(--aui-base-primary) 85%, var(--_aui-fg))
+	);
+	--aui-color-focus-ring: light-dark(
+		color-mix(in oklch, var(--aui-base-primary) 33%, var(--_aui-fg)),
+		var(--aui-base-primary)
+	);
+	--aui-color-error: light-dark(
+		color-mix(in oklch, var(--aui-base-error) 33%, var(--_aui-fg)),
+		var(--aui-base-error)
+	);
+	--aui-color-success: light-dark(
+		color-mix(in oklch, var(--aui-base-success) 33%, var(--_aui-fg)),
+		var(--aui-base-success)
+	);
+	--aui-color-warning: light-dark(
+		color-mix(in oklch, var(--aui-base-warning) 33%, var(--_aui-fg)),
+		var(--aui-base-warning)
+	);
+	--aui-color-info: light-dark(
+		color-mix(in oklch, var(--aui-base-info) 33%, var(--_aui-fg)),
+		var(--aui-base-info)
+	);
 }
 
 /* --- AAA-verified preset palettes (use on <Theme class="aui-*">) --- */
