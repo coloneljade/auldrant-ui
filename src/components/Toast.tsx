@@ -1,4 +1,5 @@
 import Icon, { IconName } from '@components/Icon';
+import Tooltip from '@components/Tooltip';
 import { useSignal } from '@preact/signals';
 import useTimer from '@scripts/hooks';
 import type { IBaseProps } from '@scripts/types';
@@ -95,9 +96,16 @@ const Toast: FunctionComponent<IToastProps> = (props) => {
 				{title && <p class={styles.toastTitle}>{title}</p>}
 				<p class={styles.toastMessage}>{message}</p>
 			</div>
-			<button type="button" class={styles.toastDismiss} aria-label={dismissLabel} onClick={dismiss}>
-				<Icon name={IconName.dismiss} />
-			</button>
+			<Tooltip content={dismissLabel}>
+				<button
+					type="button"
+					class={styles.toastDismiss}
+					aria-label={dismissLabel}
+					onClick={dismiss}
+				>
+					<Icon name={IconName.dismiss} />
+				</button>
+			</Tooltip>
 		</output>
 	);
 };

@@ -1,4 +1,5 @@
 import Icon, { IconName } from '@components/Icon';
+import Tooltip from '@components/Tooltip';
 import type { IBaseProps } from '@scripts/types';
 import { cx } from '@scripts/utils';
 import styles from '@styles/Chip.module.css';
@@ -53,21 +54,23 @@ const Chip: FunctionComponent<IChipProps> = (props) => {
 		>
 			{label}
 			{onRemove && (
-				<button
-					type="button"
-					class={styles.chipRemove}
-					aria-label={removeLabel}
-					disabled={disabled}
-					onClick={onRemove}
-					onKeyDown={(e) => {
-						if (e.key === 'Backspace' || e.key === 'Delete') {
-							e.preventDefault();
-							onRemove();
-						}
-					}}
-				>
-					<Icon name={IconName.dismiss} />
-				</button>
+				<Tooltip content={removeLabel}>
+					<button
+						type="button"
+						class={styles.chipRemove}
+						aria-label={removeLabel}
+						disabled={disabled}
+						onClick={onRemove}
+						onKeyDown={(e) => {
+							if (e.key === 'Backspace' || e.key === 'Delete') {
+								e.preventDefault();
+								onRemove();
+							}
+						}}
+					>
+						<Icon name={IconName.dismiss} />
+					</button>
+				</Tooltip>
 			)}
 		</span>
 	);

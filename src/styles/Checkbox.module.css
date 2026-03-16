@@ -13,11 +13,7 @@
 }
 
 .input {
-	position: absolute;
-	inset: 0;
-	opacity: 0;
-	cursor: pointer;
-	appearance: none;
+	composes: overlay-input from "@styles/shared.css";
 }
 
 .check-icon {

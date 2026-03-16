@@ -2,7 +2,7 @@
 	display: inline-grid;
 	align-items: center;
 	padding: 0.125em 0.5em;
-	border-radius: 9999em;
+	border-radius: var(--aui-radius-pill);
 	background: var(--aui-color-border);
 	color: var(--aui-color-text);
 	font-size: 0.875em;
@@ -33,18 +33,14 @@
 	cursor: pointer;
 }
 
-/* Variant modifier classes */
 .success {
-	background: var(--aui-color-success);
-	color: var(--aui-color-background);
+	composes: solid-success from "@styles/shared.css";
 }
 
 .warning {
-	background: var(--aui-color-warning);
-	color: var(--aui-color-background);
+	composes: solid-warning from "@styles/shared.css";
 }
 
 .error {
-	background: var(--aui-color-error);
-	color: var(--aui-color-background);
+	composes: solid-error from "@styles/shared.css";
 }

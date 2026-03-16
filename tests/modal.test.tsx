@@ -58,12 +58,12 @@ describe('Modal', () => {
 	it('calls onCancel when the Cancel button is clicked', () => {
 		// Arrange
 		const handleCancel = mock(() => {});
-		const { getByTitle } = render(
+		const { getByRole } = render(
 			<Modal open title={title} onCancel={handleCancel} defaultAction={defaultAction} />
 		);
 
 		// Act
-		fireEvent.click(getByTitle('Dismiss this dialog'));
+		fireEvent.click(getByRole('button', { name: /Cancel/ }));
 
 		// Assert
 		expect(handleCancel).toHaveBeenCalledTimes(1);
@@ -71,12 +71,12 @@ describe('Modal', () => {
 
 	it('renders Cancel button with default label and Esc hint', () => {
 		// Act
-		const { getByTitle } = render(
+		const { getByRole } = render(
 			<Modal open title={title} onCancel={() => {}} defaultAction={defaultAction} />
 		);
 
 		// Assert
-		const cancelBtn = getByTitle('Dismiss this dialog');
+		const cancelBtn = getByRole('button', { name: /Cancel/ });
 		expect(cancelBtn.textContent).toContain('Cancel');
 		expect(cancelBtn.textContent).toContain('(Esc)');
 	});
@@ -86,7 +86,7 @@ describe('Modal', () => {
 		const cancelLabel = 'Never mind';
 
 		// Act
-		const { getByTitle } = render(
+		const { getByRole } = render(
 			<Modal
 				open
 				title={title}
@@ -97,17 +97,17 @@ describe('Modal', () => {
 		);
 
 		// Assert
-		expect(getByTitle('Dismiss this dialog').textContent).toContain(cancelLabel);
+		expect(getByRole('button', { name: /Never mind/ }).textContent).toContain(cancelLabel);
 	});
 
 	it('renders defaultAction button with label and shortcut hint', () => {
 		// Act
-		const { getByTitle } = render(
+		const { getByRole } = render(
 			<Modal open title={title} onCancel={() => {}} defaultAction={defaultAction} />
 		);
 
 		// Assert
-		const button = getByTitle(defaultAction.description);
+		const button = getByRole('button', { name: /Confirm/ });
 		expect(button.textContent).toContain(defaultAction.label);
 		expect(button.textContent).toContain('(Enter)');
 	});
@@ -116,12 +116,12 @@ describe('Modal', () => {
 		// Arrange
 		const handleClick = mock(() => {});
 		const action: IDialogAction = { ...defaultAction, onClick: handleClick };
-		const { getByTitle } = render(
+		const { getByRole } = render(
 			<Modal open title={title} onCancel={() => {}} defaultAction={action} />
 		);
 
 		// Act
-		fireEvent.click(getByTitle(action.description));
+		fireEvent.click(getByRole('button', { name: /Confirm/ }));
 
 		// Assert
 		expect(handleClick).toHaveBeenCalledTimes(1);
@@ -137,7 +137,7 @@ describe('Modal', () => {
 		};
 
 		// Act
-		const { getByTitle } = render(
+		const { getByRole } = render(
 			<Modal
 				open
 				title={title}
@@ -148,7 +148,7 @@ describe('Modal', () => {
 		);
 
 		// Assert
-		getByTitle(extra.description);
+		getByRole('button', { name: /Discard/ });
 	});
 
 	it('renders buttons in order: extras, default, cancel', () => {
@@ -191,11 +191,11 @@ describe('Modal', () => {
 
 	it('does not render the X close button', () => {
 		// Act
-		const { queryByTitle } = render(
+		const { queryByRole } = render(
 			<Modal open title={title} onCancel={() => {}} defaultAction={defaultAction} />
 		);
 
 		// Assert
-		expect(queryByTitle('Close this dialog')).toBeNull();
+		expect(queryByRole('button', { name: 'Close this dialog' })).toBeNull();
 	});
 });

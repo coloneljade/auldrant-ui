@@ -26,8 +26,7 @@ function useDraggable(
 		if (!el) {
 			return;
 		}
-		el.style.removeProperty('--drag-x');
-		el.style.removeProperty('--drag-y');
+		el.style.removeProperty('transform');
 	}, [containerRef]);
 
 	useEffect(() => {
@@ -45,9 +44,10 @@ function useDraggable(
 
 			const rect = c.getBoundingClientRect();
 
-			// Current offset from CSS custom properties (or 0)
-			const currentX = Number.parseFloat(c.style.getPropertyValue('--drag-x') || '0');
-			const currentY = Number.parseFloat(c.style.getPropertyValue('--drag-y') || '0');
+			// Current offset from inline transform (or 0 if not yet dragged)
+			const match = /translate\(([^,]+)px,\s*([^)]+)px\)/.exec(c.style.transform);
+			const currentX = match ? Number.parseFloat(match[1] ?? '0') : 0;
+			const currentY = match ? Number.parseFloat(match[2] ?? '0') : 0;
 
 			startRef.current = {
 				x: e.clientX,
@@ -73,8 +73,7 @@ function useDraggable(
 				const clampedX = Math.max(maxLeft, Math.min(maxRight, dx));
 				const clampedY = Math.max(maxTop, Math.min(maxBottom, dy));
 
-				c.style.setProperty('--drag-x', `${clampedX}px`);
-				c.style.setProperty('--drag-y', `${clampedY}px`);
+				c.style.transform = `translate(${clampedX}px, ${clampedY}px)`;
 			};
 
 			const onPointerUp = () => {

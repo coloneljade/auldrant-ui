@@ -27,14 +27,8 @@
 }
 
 .file-input-clear {
-	composes: focus-ring from "@styles/shared.css";
-	display: grid;
-	place-items: center;
+	composes: ghost-button focus-ring from "@styles/shared.css";
 	padding: 0.125em;
-	border: none;
-	background: none;
-	color: var(--aui-color-text);
-	cursor: pointer;
 	/* rem ensures 44px touch target (WCAG 2.5.5) regardless of inherited font-size */
 	min-width: 2.75rem;
 	min-height: 2.75rem;

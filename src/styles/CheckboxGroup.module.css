@@ -1,15 +1,11 @@
 .fieldset {
-	border: none;
-	padding: 0;
-	display: grid;
+	composes: fieldset-reset from "@styles/shared.css";
 	grid-template-columns: repeat(auto-fill, minmax(8em, 1fr));
 	gap: 0.5em;
 }
 
 .legend {
-	font-weight: bold;
-	margin-bottom: 0.5em;
-	grid-column: 1 / -1;
+	composes: fieldset-legend from "@styles/shared.css";
 }
 
 .error {

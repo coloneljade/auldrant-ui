@@ -41,6 +41,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+	/* 0.001ms, not none — onAnimationEnd must fire for dismiss cleanup */
 	.toast,
 	.dismissing {
 		animation-duration: 0.001ms;
@@ -52,17 +53,15 @@
 }
 
 .toast-body {
-	display: grid;
-	gap: 0.25em;
+	composes: notification-body from "@styles/shared.css";
 }
 
 .toast-title {
-	margin: 0;
-	font-weight: 600;
+	composes: notification-title from "@styles/shared.css";
 }
 
 .toast-message {
-	margin: 0;
+	composes: notification-message from "@styles/shared.css";
 }
 
 .toast-dismiss {
@@ -77,32 +76,22 @@
 	color: inherit;
 	cursor: pointer;
 	line-height: 0;
+	/* rem ensures 24px touch target floor (WCAG 2.5.8); align-self:stretch handles taller toasts */
+	min-height: 1.5rem;
 }
 
-/* Variant: info */
 .info {
-	border-color: var(--aui-color-info);
-	background: color-mix(in oklch, var(--aui-color-info) 15%, var(--aui-color-background));
-	color: var(--aui-color-text);
+	composes: status-info from "@styles/shared.css";
 }
 
-/* Variant: success */
 .success {
-	border-color: var(--aui-color-success);
-	background: color-mix(in oklch, var(--aui-color-success) 15%, var(--aui-color-background));
-	color: var(--aui-color-text);
+	composes: status-success from "@styles/shared.css";
 }
 
-/* Variant: warning */
 .warning {
-	border-color: var(--aui-color-warning);
-	background: color-mix(in oklch, var(--aui-color-warning) 15%, var(--aui-color-background));
-	color: var(--aui-color-text);
+	composes: status-warning from "@styles/shared.css";
 }
 
-/* Variant: error */
 .error {
-	border-color: var(--aui-color-error);
-	background: color-mix(in oklch, var(--aui-color-error) 15%, var(--aui-color-background));
-	color: var(--aui-color-text);
+	composes: status-error from "@styles/shared.css";
 }

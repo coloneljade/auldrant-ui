@@ -22,10 +22,11 @@
 }
 
 .rounded {
-	border-radius: 9999em;
+	border-radius: var(--aui-radius-pill);
 }
 
 @media (prefers-reduced-motion: reduce) {
+	/* Infinite decorative animation — safe to fully disable (no JS event dependency) */
 	.skeleton {
 		animation: none;
 		opacity: 0.6;

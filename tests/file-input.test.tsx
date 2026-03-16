@@ -234,7 +234,7 @@ describe('FileInput', () => {
 			/>
 		);
 		const file = makeFile('photo.png', 2048, 'image/png');
-		const dropLabel = getByText(/Drag a file here/).closest('div')!.parentElement as HTMLElement;
+		const dropLabel = getByText(/Drag a file here/).closest('div')?.parentElement as HTMLElement;
 
 		// Act — drag events are on the label wrapper
 		fireEvent.drop(dropLabel, { dataTransfer: { files: [file] } });
@@ -257,7 +257,7 @@ describe('FileInput', () => {
 			/>
 		);
 		const file = makeFile('doc.pdf', 100, 'application/pdf');
-		const dropLabel = getByText(/Drag a file here/).closest('div')!.parentElement as HTMLElement;
+		const dropLabel = getByText(/Drag a file here/).closest('div')?.parentElement as HTMLElement;
 
 		// Act
 		fireEvent.drop(dropLabel, { dataTransfer: { files: [file] } });
@@ -513,9 +513,9 @@ describe('FileInput', () => {
 			// Act
 			fireEvent.change(getByLabelText(/Upload/), { target: { files: [file1, file2] } });
 
-			// Assert — both files listed individually
-			getByText(/a\.pdf/);
-			getByText(/b\.pdf/);
+			// Assert — both files listed individually (match "a.pdf (" to exclude tooltip text "Remove a.pdf")
+			getByText(/a\.pdf \(/);
+			getByText(/b\.pdf \(/);
 			// Remove buttons: one per file
 			const removeButtons = getAllByRole('button', { name: /remove/i });
 			expect(removeButtons.length).toBe(2);

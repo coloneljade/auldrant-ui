@@ -62,12 +62,12 @@ describe('FormField', () => {
 		const error = 'Bad input';
 
 		// Act
-		const { container, getByRole } = render(
+		const { getByRole } = render(
 			<FormField label={label} error={error}>
 				<input type="email" />
 			</FormField>
 		);
-		const input = container.querySelector('input')!;
+		const input = getByRole('textbox');
 		const errorEl = getByRole('alert');
 
 		// Assert — FormField imperatively wires the error attributes
@@ -77,12 +77,12 @@ describe('FormField', () => {
 
 	it('does not set aria-invalid when no error', () => {
 		// Act
-		const { container } = render(
+		const { getByRole } = render(
 			<FormField label={label}>
 				<input type="email" />
 			</FormField>
 		);
-		const input = container.querySelector('input')!;
+		const input = getByRole('textbox');
 
 		// Assert
 		expect(input.getAttribute('aria-invalid')).toBeNull();
@@ -94,12 +94,12 @@ describe('FormField', () => {
 		const error = 'Bad input';
 
 		// Act
-		const { container, getByRole } = render(
+		const { getByRole } = render(
 			<FormField label={label} error={error}>
 				<textarea data-extra-describedby="counter-id" />
 			</FormField>
 		);
-		const textarea = container.querySelector('textarea')!;
+		const textarea = getByRole('textbox');
 		const errorEl = getByRole('alert');
 
 		// Assert — both error ID and extra ID are composed
@@ -108,12 +108,12 @@ describe('FormField', () => {
 
 	it('preserves data-extra-describedby without error', () => {
 		// Act
-		const { container } = render(
+		const { getByRole } = render(
 			<FormField label={label}>
 				<textarea data-extra-describedby="counter-id" />
 			</FormField>
 		);
-		const textarea = container.querySelector('textarea')!;
+		const textarea = getByRole('textbox');
 
 		// Assert — extra ID is set as aria-describedby even without error
 		expect(textarea.getAttribute('aria-describedby')).toBe('counter-id');

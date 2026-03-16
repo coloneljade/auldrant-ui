@@ -1,6 +1,4 @@
 .dialog {
-	--drag-x: 0;
-	--drag-y: 0;
 	position: fixed;
 	inset: 0;
 	margin: auto;
@@ -8,10 +6,12 @@
 	padding: 0;
 	background: transparent;
 	color: var(--aui-color-text);
-	max-width: min(90vw, 32em);
+	max-width: min(90vw, 40em);
 	width: 100%;
 	height: fit-content;
-	transform: translate(var(--drag-x), var(--drag-y));
+	/* No transform here — applied via inline style by useDraggable only while dragging,
+	   so position:fixed descendants (tooltips, dropdowns) are never trapped by a transform
+	   containing block when the dialog is at rest. */
 }
 
 .dialog::backdrop {

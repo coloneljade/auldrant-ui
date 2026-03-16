@@ -1,16 +1,12 @@
 .fieldset {
-	border: none;
-	padding: 0;
-	display: grid;
+	composes: fieldset-reset from "@styles/shared.css";
 	grid-auto-flow: column;
 	grid-auto-columns: 1fr;
 	column-gap: 0;
 }
 
 .legend {
-	font-weight: bold;
-	margin-bottom: 0.5em;
-	grid-column: 1 / -1;
+	composes: fieldset-legend from "@styles/shared.css";
 }
 
 .option {
@@ -35,11 +31,7 @@
 }
 
 .input {
-	position: absolute;
-	inset: 0;
-	opacity: 0;
-	cursor: pointer;
-	appearance: none;
+	composes: overlay-input from "@styles/shared.css";
 }
 
 .option:has(.input:checked) {

@@ -1,4 +1,5 @@
 import Icon, { IconName } from '@components/Icon';
+import Tooltip from '@components/Tooltip';
 import { cx } from '@scripts/utils';
 import styles from '@styles/FileInput.module.css';
 import type { FunctionComponent } from 'preact';
@@ -47,18 +48,20 @@ const FileZone: FunctionComponent<IFileZoneProps> = (props) => {
 					<span>
 						{first.name} ({first.size})
 					</span>
-					<button
-						type="button"
-						class={styles.fileInputClear}
-						disabled={disabled}
-						aria-label="Remove file"
-						onClick={(e) => {
-							e.preventDefault();
-							onClear();
-						}}
-					>
-						<Icon name={IconName.dismiss} />
-					</button>
+					<Tooltip content="Remove file">
+						<button
+							type="button"
+							class={styles.fileInputClear}
+							disabled={disabled}
+							aria-label="Remove file"
+							onClick={(e) => {
+								e.preventDefault();
+								onClear();
+							}}
+						>
+							<Icon name={IconName.dismiss} />
+						</button>
+					</Tooltip>
 				</span>
 			) : first && multiple ? (
 				// Multi-file list with prompt to add more
@@ -69,36 +72,40 @@ const FileZone: FunctionComponent<IFileZoneProps> = (props) => {
 							<span class={styles.fileInputItemName}>
 								{file.name} ({file.size})
 							</span>
-							<button
-								type="button"
-								class={styles.fileInputClear}
-								disabled={disabled}
-								aria-label={`Remove ${file.name}`}
-								onClick={(e) => {
-									e.preventDefault();
-									onRemove(i);
-								}}
-							>
-								<Icon name={IconName.dismiss} />
-							</button>
+							<Tooltip content={`Remove ${file.name}`}>
+								<button
+									type="button"
+									class={styles.fileInputClear}
+									disabled={disabled}
+									aria-label={`Remove ${file.name}`}
+									onClick={(e) => {
+										e.preventDefault();
+										onRemove(i);
+									}}
+								>
+									<Icon name={IconName.dismiss} />
+								</button>
+							</Tooltip>
 						</span>
 					))}
 					<span class={styles.fileInputZoneSummary}>
 						<span>
 							{files.length} files ({totalSize})
 						</span>
-						<button
-							type="button"
-							class={styles.fileInputClearAll}
-							disabled={disabled}
-							aria-label="Clear all files"
-							onClick={(e) => {
-								e.preventDefault();
-								onClear();
-							}}
-						>
-							Clear all
-						</button>
+						<Tooltip content="Clear all files">
+							<button
+								type="button"
+								class={styles.fileInputClearAll}
+								disabled={disabled}
+								aria-label="Clear all files"
+								onClick={(e) => {
+									e.preventDefault();
+									onClear();
+								}}
+							>
+								Clear all
+							</button>
+						</Tooltip>
 					</span>
 					<span class={styles.fileInputZonePrompt} aria-hidden="true">
 						<Icon name={IconName.upload} />

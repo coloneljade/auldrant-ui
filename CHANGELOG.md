@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.0] - 2026-03-16
+
+### Added
+
+- Add Tooltip component with CSS Anchor Positioning and JS fallback (Firefox/older browsers use JS fallback via `useTooltipPosition`) ([#118](https://github.com/coloneljade/auldrant-ui/pull/118))
+- Dogfood Tooltip on all icon-only buttons across the library (close, dismiss, remove, toggle, clear) ([#118](https://github.com/coloneljade/auldrant-ui/pull/118))
+- Fix dialog drag transform to unblock `position:fixed` descendants from escaping dialog bounds ([#118](https://github.com/coloneljade/auldrant-ui/pull/118))
+- Fix tooltip clipping — use `position:fixed` in CSS Anchor path so tooltips paint above dialog edges ([#118](https://github.com/coloneljade/auldrant-ui/pull/118))
+- Widen dialog `max-width` from 32em to 40em for more comfortable content ([#118](https://github.com/coloneljade/auldrant-ui/pull/118))
+- Add WCAG 2.5.8 touch target minimums to PasswordInput toggle and Toast dismiss buttons ([#118](https://github.com/coloneljade/auldrant-ui/pull/118))
+- Extract shared CSS patterns to composable classes in `shared.css` ([#118](https://github.com/coloneljade/auldrant-ui/pull/118))
+
 ## [0.26.1] - 2026-03-16
 
 ### Fixed
