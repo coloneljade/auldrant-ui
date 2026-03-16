@@ -33,6 +33,9 @@
 	--aui-base-warning: oklch(0.78 0.18 80);
 	--aui-base-info: oklch(0.78 0.15 260);
 
+	/* --- Shape tokens --- */
+	--aui-radius-pill: 9999em;
+
 	/* --- Direction tokens (internal — swapped by color-scheme via light-dark()) --- */
 	--_aui-fg: light-dark(var(--aui-base-black), var(--aui-base-white));
 	--_aui-bg: light-dark(var(--aui-base-white), var(--aui-base-black));

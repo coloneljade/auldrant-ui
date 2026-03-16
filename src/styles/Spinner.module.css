@@ -26,6 +26,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+	/* Infinite decorative animation — safe to fully disable (no JS event dependency) */
 	.spinner {
 		animation: none;
 		opacity: 0.6;

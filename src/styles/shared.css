@@ -50,3 +50,97 @@
 	white-space: nowrap;
 	border: 0;
 }
+
+/* --- Tinted status variants (Alert + Toast) --- */
+
+.status-info {
+	border-color: var(--aui-color-info);
+	background: color-mix(in oklch, var(--aui-color-info) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}
+
+.status-success {
+	border-color: var(--aui-color-success);
+	background: color-mix(in oklch, var(--aui-color-success) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}
+
+.status-warning {
+	border-color: var(--aui-color-warning);
+	background: color-mix(in oklch, var(--aui-color-warning) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}
+
+.status-error {
+	border-color: var(--aui-color-error);
+	background: color-mix(in oklch, var(--aui-color-error) 15%, var(--aui-color-background));
+	color: var(--aui-color-text);
+}
+
+/* --- Solid status variants (Chip + Badge) --- */
+
+.solid-success {
+	background: var(--aui-color-success);
+	color: var(--aui-color-background);
+}
+
+.solid-warning {
+	background: var(--aui-color-warning);
+	color: var(--aui-color-background);
+}
+
+.solid-error {
+	background: var(--aui-color-error);
+	color: var(--aui-color-background);
+}
+
+/* --- Notification body (Alert + Toast) --- */
+
+.notification-body {
+	display: grid;
+	gap: 0.25em;
+}
+
+.notification-title {
+	margin: 0;
+	font-weight: 600;
+}
+
+.notification-message {
+	margin: 0;
+}
+
+/* --- Overlay input (RadioGroup + Checkbox) --- */
+
+.overlay-input {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	cursor: pointer;
+	appearance: none;
+}
+
+/* --- Ghost button (PasswordInput, SearchInput, FileInput) --- */
+
+.ghost-button {
+	display: grid;
+	place-items: center;
+	border: none;
+	background: none;
+	color: var(--aui-color-text);
+	cursor: pointer;
+}
+
+/* --- Fieldset/legend reset (RadioGroup + CheckboxGroup) --- */
+
+.fieldset-reset {
+	border: none;
+	padding: 0;
+	display: grid;
+}
+
+.fieldset-legend {
+	font-weight: bold;
+	margin-bottom: 0.5em;
+	grid-column: 1 / -1;
+}
