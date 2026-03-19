@@ -60,7 +60,7 @@ const CurrencyInput: FunctionComponent<ICurrencyInputProps> = (props) => {
 	const rawText = useSignal<string | null>(null);
 
 	const displayValue =
-		rawText.value !== null ? rawText.value : formatCurrency(value, currency, locale);
+		rawText.value === null ? formatCurrency(value, currency, locale) : rawText.value;
 
 	return (
 		<FormField label={label} required={required} error={error} inputId={id} class={className}>
