@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] - 2026-03-19
+
+### Fixed
+
+- fix(a11y): restore explicit id/for label association in FormField ([#121](https://github.com/coloneljade/auldrant-ui/pull/121))
+- chore: add favicons and move script to head in dev page ([#121](https://github.com/coloneljade/auldrant-ui/pull/121))
+
 ## [1.0.0] - 2026-03-16
 
 ### Added

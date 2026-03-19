@@ -1,7 +1,9 @@
 import FormField from '@components/FormField';
 import type { IFieldProps } from '@scripts/types';
+import { describeBy } from '@scripts/utils';
 import styles from '@styles/Input.module.css';
 import type { FunctionComponent } from 'preact';
+import { useId } from 'preact/hooks';
 
 /** Input types supported by the {@link Input} component. */
 export type InputType = 'text' | 'email' | 'url' | 'tel' | 'date' | 'time' | 'datetime-local';
@@ -51,11 +53,14 @@ const Input: FunctionComponent<IInputProps> = (props) => {
 		onInput,
 		class: className,
 	} = props;
+	const id = useId();
+	const errorId = `${id}-error`;
 
 	return (
-		<FormField label={label} required={required} error={error} class={className}>
+		<FormField label={label} required={required} error={error} inputId={id} class={className}>
 			<input
 				class={styles.input}
+				id={id}
 				type={type}
 				name={name}
 				value={value}
@@ -66,6 +71,8 @@ const Input: FunctionComponent<IInputProps> = (props) => {
 				pattern={pattern}
 				required={required}
 				disabled={disabled}
+				aria-invalid={!!error || undefined}
+				aria-describedby={describeBy(error && errorId)}
 				onInput={onInput && ((e) => onInput((e.target as HTMLInputElement).value))}
 			/>
 		</FormField>

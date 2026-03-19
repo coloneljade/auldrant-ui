@@ -3,8 +3,10 @@ import Icon, { IconName } from '@components/Icon';
 import Tooltip from '@components/Tooltip';
 import { useSignal } from '@preact/signals';
 import type { IFieldProps } from '@scripts/types';
+import { describeBy } from '@scripts/utils';
 import styles from '@styles/PasswordInput.module.css';
 import type { FunctionComponent } from 'preact';
+import { useId } from 'preact/hooks';
 
 /** Whether the password field is for the current or a new password. */
 export enum PasswordPurpose {
@@ -44,13 +46,16 @@ const PasswordInput: FunctionComponent<IPasswordInputProps> = (props) => {
 		onInput,
 		class: className,
 	} = props;
+	const id = useId();
+	const errorId = `${id}-error`;
 	const visible = useSignal(false);
 
 	return (
-		<FormField label={label} required={required} error={error} class={className}>
+		<FormField label={label} required={required} error={error} inputId={id} class={className}>
 			<div class={styles.passwordInputWrapper}>
 				<input
 					class={styles.input}
+					id={id}
 					type={visible.value ? 'text' : 'password'}
 					name={name}
 					value={value}
@@ -58,6 +63,8 @@ const PasswordInput: FunctionComponent<IPasswordInputProps> = (props) => {
 					autoComplete={autocompleteMap[purpose]}
 					required={required}
 					disabled={disabled}
+					aria-invalid={!!error || undefined}
+					aria-describedby={describeBy(error && errorId)}
 					onInput={onInput && ((e) => onInput((e.target as HTMLInputElement).value))}
 				/>
 				<Tooltip content={visible.value ? 'Hide password' : 'Show password'}>
