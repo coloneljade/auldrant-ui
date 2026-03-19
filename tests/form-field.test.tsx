@@ -5,15 +5,15 @@ import { render } from '@testing-library/preact';
 describe('FormField', () => {
 	const label = 'Email';
 
-	it('label associates with input via wrapping label', () => {
+	it('label associates with input via explicit for/id', () => {
 		// Act
 		const { getByLabelText } = render(
-			<FormField label={label}>
-				<input type="email" />
+			<FormField label={label} inputId="email-input">
+				<input id="email-input" type="email" />
 			</FormField>
 		);
 
-		// Assert — getByLabelText confirms wrapping label association
+		// Assert — getByLabelText confirms for/id association
 		getByLabelText(new RegExp(label));
 	});
 
@@ -23,8 +23,8 @@ describe('FormField', () => {
 
 		// Act
 		const { getByRole } = render(
-			<FormField label={label} error={error}>
-				<input type="email" />
+			<FormField label={label} inputId="email-input" error={error}>
+				<input id="email-input" type="email" />
 			</FormField>
 		);
 
@@ -35,8 +35,8 @@ describe('FormField', () => {
 	it('renders required marker when required prop is true', () => {
 		// Act
 		const { container } = render(
-			<FormField label={label} required>
-				<input type="email" />
+			<FormField label={label} inputId="email-input" required>
+				<input id="email-input" type="email" />
 			</FormField>
 		);
 
@@ -48,8 +48,8 @@ describe('FormField', () => {
 	it('does not render required marker when required is omitted', () => {
 		// Act
 		const { container } = render(
-			<FormField label={label}>
-				<input type="email" />
+			<FormField label={label} inputId="email-input">
+				<input id="email-input" type="email" />
 			</FormField>
 		);
 
@@ -57,65 +57,19 @@ describe('FormField', () => {
 		expect(container.querySelector('[aria-hidden="true"]')).toBeNull();
 	});
 
-	it('sets aria-invalid and aria-describedby on child input when error is present', () => {
+	it('error paragraph id matches inputId-error convention', () => {
 		// Arrange
 		const error = 'Bad input';
 
 		// Act
 		const { getByRole } = render(
-			<FormField label={label} error={error}>
-				<input type="email" />
+			<FormField label={label} inputId="test-input" error={error}>
+				<input id="test-input" type="email" />
 			</FormField>
 		);
-		const input = getByRole('textbox');
 		const errorEl = getByRole('alert');
 
-		// Assert — FormField imperatively wires the error attributes
-		expect(input.getAttribute('aria-invalid')).toBe('true');
-		expect(input.getAttribute('aria-describedby')).toBe(errorEl.id);
-	});
-
-	it('does not set aria-invalid when no error', () => {
-		// Act
-		const { getByRole } = render(
-			<FormField label={label}>
-				<input type="email" />
-			</FormField>
-		);
-		const input = getByRole('textbox');
-
-		// Assert
-		expect(input.getAttribute('aria-invalid')).toBeNull();
-		expect(input.getAttribute('aria-describedby')).toBeNull();
-	});
-
-	it('composes aria-describedby with data-extra-describedby', () => {
-		// Arrange
-		const error = 'Bad input';
-
-		// Act
-		const { getByRole } = render(
-			<FormField label={label} error={error}>
-				<textarea data-extra-describedby="counter-id" />
-			</FormField>
-		);
-		const textarea = getByRole('textbox');
-		const errorEl = getByRole('alert');
-
-		// Assert — both error ID and extra ID are composed
-		expect(textarea.getAttribute('aria-describedby')).toBe(`${errorEl.id} counter-id`);
-	});
-
-	it('preserves data-extra-describedby without error', () => {
-		// Act
-		const { getByRole } = render(
-			<FormField label={label}>
-				<textarea data-extra-describedby="counter-id" />
-			</FormField>
-		);
-		const textarea = getByRole('textbox');
-
-		// Assert — extra ID is set as aria-describedby even without error
-		expect(textarea.getAttribute('aria-describedby')).toBe('counter-id');
+		// Assert — error element ID follows the inputId-error convention
+		expect(errorEl.id).toBe('test-input-error');
 	});
 });
