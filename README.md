@@ -1,5 +1,9 @@
 # @auldrant/ui
 
+[![npm](https://img.shields.io/npm/v/@auldrant/ui?color=blue)](https://www.npmjs.com/package/@auldrant/ui)
+[![CI](https://img.shields.io/github/actions/workflow/status/coloneljade/auldrant-ui/ci.yml?label=CI)](https://github.com/coloneljade/auldrant-ui/actions)
+[![license](https://img.shields.io/github/license/coloneljade/auldrant-ui)](https://github.com/coloneljade/auldrant-ui/blob/main/LICENSE)
+
 Accessible Preact component library with design tokens and CSS modules.
 
 ## Installation
