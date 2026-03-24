@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.1] - 2026-03-24
+
+### Changed
+
+- chore(deps): update lucide-preact to 1.x ([#135](https://github.com/coloneljade/auldrant-ui/pull/135))
+
 ## [1.1.0] - 2026-03-24
 
 ### Added

@@ -1,6 +1,6 @@
 {
   "name": "@auldrant/ui",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "type": "module",
   "description": "Accessible Preact component library with design tokens and CSS modules",
   "author": "Colonel Jade",
@@ -80,6 +80,6 @@
     "preact": "^10.28.4"
   },
   "dependencies": {
-    "lucide-preact": "^0.577.0"
+    "lucide-preact": "^1.6.0"
   }
 }
