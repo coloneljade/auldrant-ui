@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-03-24
+
+### Added
+
+- fix: apply base body styles in tokens.css ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- fix(a11y): make SkipLink target required instead of defaulting to #main ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- fix(#128): include Head in NotFound to set document title ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- feat(#129): add promise-based global dialog API (confirm/dialog + DialogHost) ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- feat(#130): add text CSS module for common text treatments ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- feat(#131): make Nav title required, render visually hidden, remove route ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- feat(#132): add Page + Router + pageTitle signal + simplify NotFound ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- fix: upgrade TypeScript 6 and Vite 8, clean up config ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- fix(tests): add signal resets and missing a11y tests for Page and Router ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- **DialogHost** — global dialog queue host; mount once in app root ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- **Page** — render-less page orchestrator (routing + document title + pageTitle signal) ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- **Router** — exclusive route matching wrapper (renders only first matching child) ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- `confirm()` / `dialog()` — promise-based imperative dialog functions ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- `pageTitle` signal — synced by Page, readable by consumers for headings ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- `text` CSS module — shared text utility classes (muted, primary, sm, lg) ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- **Nav**: `title` now required (visually hidden heading), `route` prop removed ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- **SkipLink**: `target` now required (no default `#main`) ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- **NotFound**: `heading` prop removed, changed from `<main>` to `<div>` (content-only, pair with Page) ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- TypeScript 5 → 6, Vite 8.0.0 → 8.0.2 ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- vite.config.ts simplified: `resolve.tsconfigPaths` replaces manual aliases ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+- Removed `baseUrl` from tsconfig.json ([#133](https://github.com/coloneljade/auldrant-ui/pull/133))
+
 ## [1.0.1] - 2026-03-19
 
 ### Fixed
