@@ -12,6 +12,7 @@ export { default as CheckboxGroup } from '@components/CheckboxGroup';
 export { ChipVariant, default as Chip } from '@components/Chip';
 export { default as CurrencyInput } from '@components/CurrencyInput';
 export { default as Dialog } from '@components/Dialog';
+export { default as DialogHost } from '@components/DialogHost';
 export { default as DownloadLink } from '@components/DownloadLink';
 export { DropdownItem, default as Dropdown } from '@components/Dropdown';
 export { default as FileInput } from '@components/FileInput';
@@ -53,7 +54,8 @@ export { default as useTimer } from '@scripts/hooks';
 export { HeadingLevel } from '@scripts/types';
 // Utilities
 export { cx } from '@scripts/utils';
-
+export type { IConfirmOptions, IDialogActionOption, IDialogOptions } from '@signals/dialogs';
+export { confirm, dialog } from '@signals/dialogs';
 // Signals
 export { canonical, description, ogDescription, ogImage, ogTitle, title } from '@signals/head';
 export { hash, location, navigate } from '@signals/routing';

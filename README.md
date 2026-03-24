@@ -79,6 +79,7 @@ function App() {
 | Component | Description | Key Props |
 |-----------|-------------|-----------|
 | `Dialog` | Dismissible dialog (Escape, backdrop, X button) | `open`, `title`, `onClose`, `message?`, `defaultAction?` |
+| `DialogHost` | Global dialog queue host. Mount once in app root; show dialogs via `confirm()` / `dialog()` | — |
 | `Dropdown` + `DropdownItem` | Trigger button with a Popover API menu, full keyboard support, and type-ahead navigation | `trigger` on Dropdown; `onSelect?`, `disabled?` on DropdownItem |
 | `Modal` | Action-required modal (`role="alertdialog"`) | `open`, `title`, `onCancel`, `defaultAction`, `focusCancel?` |
 | `Tooltip` | Hover/focus tooltip with CSS Anchor Positioning and accessible `aria-describedby` wiring | `content`, `delay?` |
@@ -165,7 +166,69 @@ For reactive title/meta updates without a component (e.g. in a signal effect or 
 
 In indeterminate mode, `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` are omitted from the DOM — these attributes are meaningless when progress is unknown.
 
+### Imperative dialogs (`confirm` / `dialog`)
+
+Mount `<DialogHost />` once in the app root alongside `<Toaster />`. Then call `confirm()` or `dialog()` from anywhere — no local state, no JSX at the call site.
+
+**Confirmation (Modal behavior — action required, no backdrop dismiss):**
+
+```ts
+import { confirm, toast } from '@auldrant/ui';
+
+async function handleDelete(item: Item) {
+  const confirmed = await confirm({
+    title: 'Delete item?',
+    message: `This will permanently remove ${item.name}.`,
+    actionLabel: 'Delete',
+    actionShortcut: 'd',
+    focusCancel: true,
+  });
+
+  if (confirmed) {
+    await deleteItem(item);
+    toast('Item deleted.');
+  }
+}
+```
+
+**Dialog (dismissible, multi-action):**
+
+```ts
+import { dialog } from '@auldrant/ui';
+
+const choice = await dialog({
+  title: 'Unsaved changes',
+  message: 'You have unsaved changes. What would you like to do?',
+  defaultAction: { label: 'Save', shortcut: 'Enter' },
+  actions: [{ label: 'Discard', shortcut: 'd' }],
+});
+
+if (choice === 'Save') { await save(); }
+else if (choice === 'Discard') { discard(); }
+// null = dismissed via Escape/backdrop/X
+```
+
+**Setup:**
+
+```tsx
+import { DialogHost, Theme, Toaster } from '@auldrant/ui';
+
+function App() {
+  return (
+    <Theme>
+      <Main />
+      <Toaster />
+      <DialogHost />
+    </Theme>
+  );
+}
+```
+
+Dialogs are queued — calling `confirm()` or `dialog()` while one is open shows the next dialog after the current one resolves. `confirm()` renders a `Modal` (action required, `role="alertdialog"`). `dialog()` renders a `Dialog` (dismissible).
+
 ### Dialog actions
+
+For advanced cases where you need full control (rich content via `children`, custom state management), `Dialog` and `Modal` are available with local-state props:
 
 ```tsx
 import type { IDialogAction } from '@auldrant/ui';

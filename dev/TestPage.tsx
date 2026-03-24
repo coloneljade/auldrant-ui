@@ -1,3 +1,4 @@
+import DialogHost from '@components/DialogHost';
 import Link from '@components/Link';
 import Nav from '@components/Nav';
 import NotFound from '@components/NotFound';
@@ -22,6 +23,7 @@ import { CardSection } from './sections/CardSection';
 import { CheckboxRadioSection } from './sections/CheckboxRadioSection';
 import { ChipSection } from './sections/ChipSection';
 import { CurrencyInputSection } from './sections/CurrencyInputSection';
+import { DialogHostSection } from './sections/DialogHostSection';
 import { DialogSection } from './sections/DialogSection';
 import { DropdownSection } from './sections/DropdownSection';
 import { FileInputSection } from './sections/FileInputSection';
@@ -73,6 +75,7 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'form', Section: FormDemo },
 	{ key: 'accordion', Section: AccordionSection },
 	{ key: 'dialog', Section: DialogSection },
+	{ key: 'dialoghost', Section: DialogHostSection },
 	{ key: 'dropdown', Section: DropdownSection },
 	{ key: 'modal', Section: ModalSection },
 	{ key: 'toast', Section: ToastSection },
@@ -223,6 +226,7 @@ export const TestPage: FunctionComponent = () => {
 							<Tab id="overlay" label="Overlay">
 								<DialogSection />
 								<ModalSection />
+								<DialogHostSection />
 								<DropdownSection />
 								<TooltipSection />
 							</Tab>
@@ -231,6 +235,7 @@ export const TestPage: FunctionComponent = () => {
 				</div>
 			</Route>
 			<Toaster />
+			<DialogHost />
 		</Theme>
 	);
 };
