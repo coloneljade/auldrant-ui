@@ -77,6 +77,12 @@
 	);
 }
 
+body {
+	background: var(--aui-color-background);
+	color: var(--aui-color-text);
+	margin: 0;
+}
+
 /* --- AAA-verified preset palettes (use on <Theme class="aui-*">) --- */
 .aui-blue {
 	--aui-base-primary: oklch(0.78 0.18 260);
