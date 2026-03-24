@@ -1,3 +1,4 @@
+import Head from '@components/Head';
 import Link from '@components/Link';
 import type { IBaseProps } from '@scripts/types';
 import { cx } from '@scripts/utils';
@@ -36,13 +37,16 @@ const NotFound: FunctionComponent<INotFoundProps> = (props) => {
 		class: className,
 	} = props;
 	return (
-		<main class={cx(styles.notFound, className)}>
-			<h1 class={styles.notFoundHeading}>{heading}</h1>
-			{message && <p class={styles.notFoundMessage}>{message}</p>}
-			<Link href={href} class={styles.notFoundLink}>
-				{linkLabel}
-			</Link>
-		</main>
+		<>
+			<Head title={heading} />
+			<main class={cx(styles.notFound, className)}>
+				<h1 class={styles.notFoundHeading}>{heading}</h1>
+				{message && <p class={styles.notFoundMessage}>{message}</p>}
+				<Link href={href} class={styles.notFoundLink}>
+					{linkLabel}
+				</Link>
+			</main>
+		</>
 	);
 };
 
