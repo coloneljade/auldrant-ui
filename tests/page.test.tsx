@@ -1,10 +1,15 @@
-import { describe, expect, it } from 'bun:test';
+import { beforeEach, describe, expect, it } from 'bun:test';
 import Page from '@components/Page';
 import { pageTitle } from '@signals/head';
 import { location } from '@signals/routing';
 import { render } from '@testing-library/preact';
 
 describe('Page', () => {
+	beforeEach(() => {
+		location.value = '/';
+		pageTitle.value = '';
+	});
+
 	it('renders children when path matches', () => {
 		// Arrange
 		location.value = '/about';

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'bun:test';
+import { beforeEach, describe, expect, it } from 'bun:test';
 import Page from '@components/Page';
 import Route from '@components/Route';
 import Router from '@components/Router';
@@ -6,6 +6,10 @@ import { location } from '@signals/routing';
 import { render } from '@testing-library/preact';
 
 describe('Router', () => {
+	beforeEach(() => {
+		location.value = '/';
+	});
+
 	it('renders the first matching Route', () => {
 		// Arrange
 		location.value = '/home';
