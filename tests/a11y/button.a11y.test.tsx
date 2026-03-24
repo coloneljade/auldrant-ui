@@ -1,11 +1,8 @@
 import { describe, expect, it } from 'bun:test';
 import Button from '@components/Button';
+import { IconName } from '@components/Icon';
 import { render } from '@testing-library/preact';
-import type { VNode } from 'preact';
 import { renderAndCheckA11y } from './setup';
-
-// Intentionally no aria-hidden — the Button component is responsible for injecting it.
-const icon: VNode = <svg width="16" height="16" />;
 
 describe('Button a11y', () => {
 	const label = 'Save';
@@ -39,14 +36,14 @@ describe('Button a11y', () => {
 describe('Button (icon-only) a11y', () => {
 	it('has no axe violations', async () => {
 		// Act & Assert
-		await renderAndCheckA11y(<Button icon={icon} aria-label="Close" />);
+		await renderAndCheckA11y(<Button icon={IconName.dismiss} aria-label="Close" />);
 	});
 
 	// https://www.w3.org/TR/WCAG22/#compatible
 	describe('WCAG A', () => {
 		it('has an accessible name from aria-label (SC 4.1.2)', () => {
 			// Act
-			const { getByRole } = render(<Button icon={icon} aria-label="Close" />);
+			const { getByRole } = render(<Button icon={IconName.dismiss} aria-label="Close" />);
 
 			// Assert
 			getByRole('button', { name: 'Close' });

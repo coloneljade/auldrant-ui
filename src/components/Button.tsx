@@ -1,8 +1,8 @@
+import Icon, { type IconName } from '@components/Icon';
 import type { IBaseProps } from '@scripts/types';
 import { cx } from '@scripts/utils';
 import styles from '@styles/Button.module.css';
-import type { FunctionComponent, VNode } from 'preact';
-import { cloneElement } from 'preact';
+import type { FunctionComponent } from 'preact';
 
 interface IButtonBaseProps extends IBaseProps {
 	/** Click handler. */
@@ -21,8 +21,8 @@ interface ITextButtonProps extends IButtonBaseProps {
 
 /** Props for an icon-only button. */
 interface IIconButtonProps extends IButtonBaseProps {
-	/** Icon element rendered inside the button. */
-	icon: VNode;
+	/** Icon to render inside the button. */
+	icon: IconName;
 	/** Accessible name for icon-only buttons. Required when `icon` is set. */
 	'aria-label': string;
 }
@@ -47,7 +47,7 @@ const Button: FunctionComponent<IButtonProps> = (props) => {
 				onClick={onClick}
 				disabled={disabled}
 			>
-				{cloneElement(icon, { 'aria-hidden': 'true' })}
+				<Icon name={icon} />
 			</button>
 		);
 	}

@@ -62,8 +62,9 @@ const iconMap = {
 } satisfies { [key in IconName]: unknown };
 
 /**
- * Renders a single icon by semantic name. Always `aria-hidden="true"` — the
- * surrounding context (visible text or `aria-label`) must provide accessible meaning.
+ * Renders a single icon by semantic name. Icons are `aria-hidden="true"` by default
+ * (set by lucide) — the surrounding context (visible text or `aria-label`) must provide
+ * accessible meaning.
  *
  * Defaults to `1em × 1em`; override via the `class` prop.
  *
@@ -73,7 +74,7 @@ const iconMap = {
 const Icon: FunctionComponent<IIconProps> = (props) => {
 	const { name, class: className } = props;
 	const LucideIcon = iconMap[name];
-	return <LucideIcon aria-hidden="true" class={cx(styles.icon, className)} />;
+	return <LucideIcon class={cx(styles.icon, className)} />;
 };
 
 export default Icon;
