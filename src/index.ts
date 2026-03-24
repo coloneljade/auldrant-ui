@@ -26,11 +26,13 @@ export { default as Modal } from '@components/Modal';
 export { default as Nav } from '@components/Nav';
 export { default as NotFound } from '@components/NotFound';
 export { default as NumberInput } from '@components/NumberInput';
+export { default as Page } from '@components/Page';
 export { default as Pagination } from '@components/Pagination';
 export { default as PasswordInput, PasswordPurpose } from '@components/PasswordInput';
 export { default as Progress } from '@components/Progress';
 export { default as RadioGroup, RadioItem } from '@components/RadioGroup';
 export { default as Route } from '@components/Route';
+export { default as Router } from '@components/Router';
 export { default as SearchInput } from '@components/SearchInput';
 export { default as Section } from '@components/Section';
 export type { ISelectGroup, ISelectOption } from '@components/Select';
@@ -57,7 +59,15 @@ export { cx } from '@scripts/utils';
 export type { IConfirmOptions, IDialogActionOption, IDialogOptions } from '@signals/dialogs';
 export { confirm, dialog } from '@signals/dialogs';
 // Signals
-export { canonical, description, ogDescription, ogImage, ogTitle, title } from '@signals/head';
+export {
+	canonical,
+	description,
+	ogDescription,
+	ogImage,
+	ogTitle,
+	pageTitle,
+	title,
+} from '@signals/head';
 export { hash, location, navigate } from '@signals/routing';
 export { palette } from '@signals/theme';
 export { toast } from '@signals/toasts';

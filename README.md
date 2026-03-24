@@ -108,12 +108,55 @@ function App() {
 
 | Export | Description | Key Props / Signature |
 |--------|-------------|----------------------|
+| `Router` | Exclusive route matching wrapper. Renders only the first matching Route or Page child. | `children` (Route and/or Page components) |
+| `Page` | Render-less page orchestrator. Handles routing, document title, and page heading signal via `pageTitle`. Uses Route internally. | `path` (required), `title` (required), `description?`, `children` |
 | `Route` | Renders children when location matches path. Supports exact, wildcard (`/*`), and param (`:id`) patterns | `path`, `children` |
 | `Pagination` | URL-driven pagination wrapper. Renders children above a `<nav>`. Renders `<NotFound>` for invalid/out-of-range pages | `totalPages` (≥ 1), `children`, `prevLabel?`, `nextLabel?` |
 | `usePage()` | Hook: returns the current page number from the URL. `undefined` at the base URL (treat as page 1) | `() => number \| undefined` |
 | `page()` | Signal factory: same as `usePage` but as a `ReadonlySignal` for module-level use | `() => ReadonlySignal<number \| undefined>` |
 | `navigate` | Navigate to a path using the History API | `(path: string, opts?) => void` |
 | `location` | Signal holding the current pathname | `Signal<string>` |
+| `pageTitle` | Signal that syncs the page title. Set by `Page`, readable by consumers to update headings | `Signal<string>` |
+| `NotFound` | Content-only 404 component. Renders message and home link. Pair with `Page` for full routing. | `message?`, `href?`, `linkLabel?` |
+
+#### Page, Router, and NotFound
+
+Use `Router` to coordinate multiple pages with exclusive matching. `Page` handles routing, document title via `Head`, and signals the page title:
+
+```tsx
+import { Router, Page, NotFound, pageTitle } from '@auldrant/ui';
+
+export default function App() {
+ return (
+  <>
+   <header>
+    <h1>{pageTitle.value}</h1>
+   </header>
+   <main>
+    <Router>
+     <Page path="/" title="Auldrant UI">
+      <HomePage />
+     </Page>
+     <Page path="/about" title="About">
+      <AboutPage />
+     </Page>
+     <Page path="/items/:id" title="Item Details">
+      <ItemPage />
+     </Page>
+     <Page path="/*" title="Page not found">
+      <NotFound message="The page you were looking for doesn't exist." />
+     </Page>
+    </Router>
+   </main>
+  </>
+ );
+}
+```
+
+- **Router** renders only the first matching child (Page or Route)
+- **Page** is render-less: it syncs the title signal and metadata, then renders children
+- **NotFound** is content-only: pair it with a catch-all Page (`path="/*"`) as the last route
+- Routes outside a Router still work independently
 
 ### Icons
 

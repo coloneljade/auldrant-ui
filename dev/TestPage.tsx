@@ -2,14 +2,16 @@ import DialogHost from '@components/DialogHost';
 import Link from '@components/Link';
 import Nav from '@components/Nav';
 import NotFound from '@components/NotFound';
+import Page from '@components/Page';
 import RadioGroup, { RadioItem } from '@components/RadioGroup';
-import Route from '@components/Route';
+import Router from '@components/Router';
 import SearchInput from '@components/SearchInput';
 import SkipLink from '@components/SkipLink';
 import TabGroup, { Tab } from '@components/Tabs';
 import Theme, { Palette } from '@components/Theme';
 import Toaster from '@components/Toaster';
 import { useSignal } from '@preact/signals';
+import { pageTitle } from '@signals/head';
 import { location, navigate } from '@signals/routing';
 import { palette } from '@signals/theme';
 import type { FunctionComponent } from 'preact';
@@ -82,14 +84,12 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'tooltip', Section: TooltipSection },
 ];
 
+pageTitle.value = 'Auldrant UI';
+
 /** Extract tab ID from /tests/tab/:id (ignoring any suffix), falling back to 'inputs'. */
 function tabFromPath(path: string): string {
 	const match = /^\/tests\/tab\/([a-zA-Z0-9_-]+)/.exec(path);
 	return match?.[1] ?? 'inputs';
-}
-
-function isKnownRoute(path: string): boolean {
-	return path === '/' || path === '/tests' || path.startsWith('/tests/');
 }
 
 export const TestPage: FunctionComponent = () => {
@@ -114,7 +114,7 @@ export const TestPage: FunctionComponent = () => {
 			<SkipLink target={`#${mainId}`} />
 			<header class="dev-header">
 				<h1 class="dev-header-brand">
-					<Link href="/">Auldrant UI</Link>
+					<Link href="/">{pageTitle.value}</Link>
 				</h1>
 				<Nav title="Site">
 					<Link href="/tests/tab/inputs">Tests</Link>
@@ -122,118 +122,123 @@ export const TestPage: FunctionComponent = () => {
 				</Nav>
 			</header>
 
-			{!isKnownRoute(location.value) && (
-				<NotFound message="The page you were looking for doesn't exist." />
-			)}
+			<main id={mainId}>
+				<Router>
+					<Page path="/" title="Auldrant UI">
+						<AboutPage id={mainId} />
+					</Page>
 
-			<Route path="/">
-				<AboutPage id={mainId} />
-			</Route>
+					<Page path="/tests/*" title="Tests">
+						<div class="dev-page" id={mainId}>
+							<RadioGroup
+								legend="Palette"
+								name="dev-palette"
+								value={palette.value ?? ''}
+								onChange={(val) => {
+									palette.value = (val as Palette) || null;
+								}}
+							>
+								<RadioItem label="Green" value="" />
+								<RadioItem label="Blue" value={Palette.blue} />
+								<RadioItem label="Purple" value={Palette.purple} />
+								<RadioItem label="Teal" value={Palette.teal} />
+								<RadioItem label="Red" value={Palette.red} />
+								<RadioItem label="Orange" value={Palette.orange} />
+								<RadioItem label="Yellow" value={Palette.yellow} />
+							</RadioGroup>
 
-			<Route path="/tests/*">
-				<div class="dev-page" id={mainId}>
-					<RadioGroup
-						legend="Palette"
-						name="dev-palette"
-						value={palette.value ?? ''}
-						onChange={(val) => {
-							palette.value = (val as Palette) || null;
-						}}
-					>
-						<RadioItem label="Green" value="" />
-						<RadioItem label="Blue" value={Palette.blue} />
-						<RadioItem label="Purple" value={Palette.purple} />
-						<RadioItem label="Teal" value={Palette.teal} />
-						<RadioItem label="Red" value={Palette.red} />
-						<RadioItem label="Orange" value={Palette.orange} />
-						<RadioItem label="Yellow" value={Palette.yellow} />
-					</RadioGroup>
+							<RadioGroup
+								legend="Color scheme"
+								name="dev-color-scheme"
+								value={colorScheme.value}
+								onChange={(val) => {
+									colorScheme.value = val;
+								}}
+							>
+								<RadioItem label="Auto" value="auto" />
+								<RadioItem label="Light" value="light" />
+								<RadioItem label="Dark" value="dark" />
+							</RadioGroup>
 
-					<RadioGroup
-						legend="Color scheme"
-						name="dev-color-scheme"
-						value={colorScheme.value}
-						onChange={(val) => {
-							colorScheme.value = val;
-						}}
-					>
-						<RadioItem label="Auto" value="auto" />
-						<RadioItem label="Light" value="light" />
-						<RadioItem label="Dark" value="dark" />
-					</RadioGroup>
+							<SearchInput
+								label="Filter sections"
+								name="dev-filter"
+								value={filter.value}
+								placeholder="e.g. button, input…"
+								onInput={(v) => {
+									filter.value = v;
+								}}
+								onClear={() => {
+									filter.value = '';
+								}}
+							/>
 
-					<SearchInput
-						label="Filter sections"
-						name="dev-filter"
-						value={filter.value}
-						placeholder="e.g. button, input…"
-						onInput={(v) => {
-							filter.value = v;
-						}}
-						onClear={() => {
-							filter.value = '';
-						}}
-					/>
-
-					{matches ? (
-						<div>
-							{matches.length > 0 ? (
-								matches.map(({ key, Section }) => <Section key={key} />)
+							{matches ? (
+								<div>
+									{matches.length > 0 ? (
+										matches.map(({ key, Section }) => <Section key={key} />)
+									) : (
+										<p>No sections match "{filter.value}".</p>
+									)}
+								</div>
 							) : (
-								<p>No sections match "{filter.value}".</p>
+								<TabGroup active={activeTab} onChange={(id) => navigate(`/tests/tab/${id}`)} eager>
+									<Tab id="inputs" label="Inputs">
+										<InputSection />
+										<NumberInputSection />
+										<CurrencyInputSection />
+										<PasswordInputSection />
+										<TextareaSection />
+										<SearchInputSection />
+										<FileInputSection />
+										<SelectSection />
+										<CheckboxRadioSection />
+										<ToggleSection />
+									</Tab>
+									<Tab id="actions" label="Actions">
+										<ButtonSection />
+										<LinkSection />
+									</Tab>
+									<Tab id="feedback" label="Feedback">
+										<AlertSection />
+										<ToastSection />
+										<SpinnerSection />
+										<SkeletonSection />
+										<ProgressSection />
+										<BadgeSection />
+										<ChipSection />
+									</Tab>
+									<Tab id="layout" label="Layout">
+										<CardSection />
+										<SectionDemo />
+										<TableSection />
+									</Tab>
+									<Tab id="navigation" label="Navigation">
+										<PaginationSection />
+										<RoutingSection />
+										<FormDemo />
+									</Tab>
+									<Tab id="disclosure" label="Disclosure">
+										<AccordionSection />
+									</Tab>
+									<Tab id="overlay" label="Overlay">
+										<DialogSection />
+										<ModalSection />
+										<DialogHostSection />
+										<DropdownSection />
+										<TooltipSection />
+									</Tab>
+								</TabGroup>
 							)}
 						</div>
-					) : (
-						<TabGroup active={activeTab} onChange={(id) => navigate(`/tests/tab/${id}`)} eager>
-							<Tab id="inputs" label="Inputs">
-								<InputSection />
-								<NumberInputSection />
-								<CurrencyInputSection />
-								<PasswordInputSection />
-								<TextareaSection />
-								<SearchInputSection />
-								<FileInputSection />
-								<SelectSection />
-								<CheckboxRadioSection />
-								<ToggleSection />
-							</Tab>
-							<Tab id="actions" label="Actions">
-								<ButtonSection />
-								<LinkSection />
-							</Tab>
-							<Tab id="feedback" label="Feedback">
-								<AlertSection />
-								<ToastSection />
-								<SpinnerSection />
-								<SkeletonSection />
-								<ProgressSection />
-								<BadgeSection />
-								<ChipSection />
-							</Tab>
-							<Tab id="layout" label="Layout">
-								<CardSection />
-								<SectionDemo />
-								<TableSection />
-							</Tab>
-							<Tab id="navigation" label="Navigation">
-								<PaginationSection />
-								<RoutingSection />
-								<FormDemo />
-							</Tab>
-							<Tab id="disclosure" label="Disclosure">
-								<AccordionSection />
-							</Tab>
-							<Tab id="overlay" label="Overlay">
-								<DialogSection />
-								<ModalSection />
-								<DialogHostSection />
-								<DropdownSection />
-								<TooltipSection />
-							</Tab>
-						</TabGroup>
-					)}
-				</div>
-			</Route>
+					</Page>
+
+					<Page path="/*" title="Page not found">
+						<NotFound message="The page you were looking for doesn't exist." />
+					</Page>
+				</Router>
+			</main>
+
 			<Toaster />
 			<DialogHost />
 		</Theme>
