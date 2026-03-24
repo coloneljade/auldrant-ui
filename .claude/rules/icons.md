@@ -17,7 +17,7 @@ Centralising through `Icon` means:
 
 ## All icons are aria-hidden
 
-`<Icon>` always renders `aria-hidden="true"`. Adjacent visible text or an explicit `aria-label` on the parent element must provide accessible meaning — never rely on an icon alone.
+Icons are `aria-hidden="true"` by default via lucide. Adjacent visible text or an explicit `aria-label` on the parent element must provide accessible meaning — never rely on an icon alone.
 
 ## Sizing
 
