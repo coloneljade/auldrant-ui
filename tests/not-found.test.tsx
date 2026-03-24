@@ -1,8 +1,29 @@
-import { describe, expect, it } from 'bun:test';
+import { afterEach, describe, expect, it } from 'bun:test';
 import NotFound from '@components/NotFound';
+import { title } from '@signals/head';
 import { render } from '@testing-library/preact';
 
 describe('NotFound', () => {
+	afterEach(() => {
+		title.value = '';
+	});
+
+	it('sets document title to the default heading', () => {
+		// Act
+		render(<NotFound />);
+
+		// Assert
+		expect(document.title).toBe('Page not found');
+	});
+
+	it('sets document title to a custom heading', () => {
+		// Act
+		render(<NotFound heading="404 — Nothing here" />);
+
+		// Assert
+		expect(document.title).toBe('404 — Nothing here');
+	});
+
 	it('renders the default "Page not found" heading', () => {
 		// Act
 		const { getByRole } = render(<NotFound />);
