@@ -1,4 +1,4 @@
-import Link from '@components/Link';
+import VisuallyHidden from '@components/VisuallyHidden';
 import type { IBaseProps } from '@scripts/types';
 import { cx } from '@scripts/utils';
 import styles from '@styles/Nav.module.css';
@@ -7,28 +7,25 @@ import { useId } from 'preact/hooks';
 
 /** Props for {@link Nav}. */
 interface INavProps extends IBaseProps {
-	/** Optional title shown as a heading above the nav. */
-	title?: string;
-	/** When provided, wraps the title in a link. Useful for brand/logo home links. */
-	route?: string;
+	/** Accessible name for the navigation landmark (visually hidden). */
+	title: string;
 	/** Navigation links. */
 	children: ComponentChildren;
 }
 
 /**
- * Semantic `<nav>` wrapper with optional title heading.
- * When a title is provided, `aria-labelledby` links the landmark to the heading.
+ * Semantic `<nav>` wrapper with a visually hidden heading.
+ * The heading labels the landmark via `aria-labelledby` for screen readers
+ * without adding visual clutter.
  */
 const Nav: FunctionComponent<INavProps> = (props) => {
-	const { title, route, children, class: className } = props;
+	const { title, children, class: className } = props;
 	const headingId = useId();
 	return (
-		<nav class={cx(styles.nav, className)} aria-labelledby={title ? headingId : undefined}>
-			{title && (
-				<h2 id={headingId} class={styles.navTitle}>
-					{route ? <Link href={route}>{title}</Link> : title}
-				</h2>
-			)}
+		<nav class={cx(styles.nav, className)} aria-labelledby={headingId}>
+			<VisuallyHidden>
+				<h2 id={headingId}>{title}</h2>
+			</VisuallyHidden>
 			{children}
 		</nav>
 	);

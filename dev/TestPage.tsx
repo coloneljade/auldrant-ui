@@ -116,7 +116,7 @@ export const TestPage: FunctionComponent = () => {
 				<h1 class="dev-header-brand">
 					<Link href="/">Auldrant UI</Link>
 				</h1>
-				<Nav>
+				<Nav title="Site">
 					<Link href="/tests/tab/inputs">Tests</Link>
 					<Link href="/not-found">Test 404</Link>
 				</Nav>

@@ -101,7 +101,7 @@ function App() {
 |-----------|-------------|-----------|
 | `Link` | Auto-detects internal vs external URLs | `href`, `children`, `external?` |
 | `DownloadLink` | Download link using `<a download>` | `href`, `fileName`, `label` |
-| `Nav` | Semantic `<nav>` wrapper with optional title | `title?`, `children` |
+| `Nav` | Semantic `<nav>` wrapper with visually hidden title | `title`, `children` |
 | `SkipLink` | Skip navigation link, hidden until focused | `target?`, `label?` |
 
 ### Routing & Pagination

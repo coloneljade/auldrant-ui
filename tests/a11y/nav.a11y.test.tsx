@@ -7,7 +7,7 @@ describe('Nav a11y', () => {
 	it('has no axe violations', async () => {
 		// Act & Assert
 		await renderAndCheckA11y(
-			<Nav>
+			<Nav title="Main Navigation">
 				<a href="/">Home</a>
 			</Nav>
 		);
@@ -15,19 +15,7 @@ describe('Nav a11y', () => {
 
 	// https://www.w3.org/TR/WCAG22/#adaptable
 	describe('WCAG A', () => {
-		it('renders a navigation landmark (SC 1.3.1)', () => {
-			// Act
-			const { getByRole } = render(
-				<Nav>
-					<a href="/">Home</a>
-				</Nav>
-			);
-
-			// Assert
-			getByRole('navigation');
-		});
-
-		it('is a named landmark when title is provided (SC 1.3.1)', () => {
+		it('renders a named navigation landmark (SC 1.3.1)', () => {
 			// Arrange
 			const title = 'Main Navigation';
 
