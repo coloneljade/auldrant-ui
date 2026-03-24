@@ -6,23 +6,23 @@ import { renderAndCheckA11y } from './setup';
 describe('SkipLink a11y', () => {
 	it('has no axe violations', async () => {
 		// Act & Assert
-		await renderAndCheckA11y(<SkipLink />);
+		await renderAndCheckA11y(<SkipLink target="#page-content" />);
 	});
 
 	// https://www.w3.org/TR/WCAG22/#navigable
 	describe('WCAG A', () => {
-		it('defaults to targeting #main with accessible name (SC 2.4.1)', () => {
+		it('renders with the given target and accessible name (SC 2.4.1)', () => {
 			// Act
-			const { getByRole } = render(<SkipLink />);
+			const { getByRole } = render(<SkipLink target="#app-root" />);
 			const link = getByRole('link', { name: 'Skip to main content' });
 
 			// Assert
-			expect(link.getAttribute('href')).toBe('#main');
+			expect(link.getAttribute('href')).toBe('#app-root');
 		});
 
 		it('accepts a custom target (SC 2.4.1)', () => {
 			// Arrange
-			const target = '#content';
+			const target = '#article-body';
 
 			// Act
 			const { getByRole } = render(<SkipLink target={target} />);
@@ -36,7 +36,7 @@ describe('SkipLink a11y', () => {
 			const label = 'Skip navigation';
 
 			// Act
-			const { getByRole } = render(<SkipLink label={label} />);
+			const { getByRole } = render(<SkipLink target="#feed" label={label} />);
 
 			// Assert
 			getByRole('link', { name: label });

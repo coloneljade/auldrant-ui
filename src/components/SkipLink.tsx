@@ -5,18 +5,17 @@ import type { FunctionComponent } from 'preact';
 
 /** Props for {@link SkipLink}. */
 interface ISkipLinkProps extends IBaseProps {
-	/** Target element ID (including `#`). Defaults to `'#main'`. */
-	target?: string;
+	/** Target element ID (including `#`). */
+	target: string;
 	/** Visible link text. Defaults to `'Skip to main content'`. */
 	label?: string;
 }
 
 /**
  * Skip navigation link. Hidden until focused via keyboard Tab.
- * Targets `#main` by default.
  */
 const SkipLink: FunctionComponent<ISkipLinkProps> = (props) => {
-	const { target = '#main', label = 'Skip to main content', class: className } = props;
+	const { target, label = 'Skip to main content', class: className } = props;
 	return (
 		<a href={target} class={cx(styles.skip, className)}>
 			{label}

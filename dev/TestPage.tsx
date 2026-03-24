@@ -12,7 +12,7 @@ import { useSignal } from '@preact/signals';
 import { location, navigate } from '@signals/routing';
 import { palette } from '@signals/theme';
 import type { FunctionComponent } from 'preact';
-import { useEffect } from 'preact/hooks';
+import { useEffect, useId } from 'preact/hooks';
 import { AboutPage } from './AboutPage';
 import { AccordionSection } from './sections/AccordionSection';
 import { AlertSection } from './sections/AlertSection';
@@ -90,6 +90,7 @@ function isKnownRoute(path: string): boolean {
 }
 
 export const TestPage: FunctionComponent = () => {
+	const mainId = useId();
 	const filter = useSignal('');
 	const colorScheme = useSignal('auto');
 	const activeTab = tabFromPath(location.value);
@@ -107,7 +108,7 @@ export const TestPage: FunctionComponent = () => {
 
 	return (
 		<Theme class={palette.value ?? undefined}>
-			<SkipLink />
+			<SkipLink target={`#${mainId}`} />
 			<header class="dev-header">
 				<h1 class="dev-header-brand">
 					<Link href="/">Auldrant UI</Link>
@@ -123,11 +124,11 @@ export const TestPage: FunctionComponent = () => {
 			)}
 
 			<Route path="/">
-				<AboutPage />
+				<AboutPage id={mainId} />
 			</Route>
 
 			<Route path="/tests/*">
-				<div class="dev-page" id="main">
+				<div class="dev-page" id={mainId}>
 					<RadioGroup
 						legend="Palette"
 						name="dev-palette"
