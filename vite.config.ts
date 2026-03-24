@@ -1,4 +1,3 @@
-import { resolve } from 'node:path';
 import preact from '@preact/preset-vite';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
@@ -17,18 +16,11 @@ export default defineConfig({
 		}),
 	],
 	resolve: {
-		alias: {
-			'@components': resolve(__dirname, 'src/components'),
-			'@scripts': resolve(__dirname, 'src/scripts'),
-			'@signals': resolve(__dirname, 'src/signals'),
-			'@styles': resolve(__dirname, 'src/styles'),
-			'@internal': resolve(__dirname, 'src/internal'),
-			'@hooks': resolve(__dirname, 'src/scripts/hooks.ts'),
-		},
+		tsconfigPaths: true,
 	},
 	build: {
 		lib: {
-			entry: resolve(__dirname, 'src/index.ts'),
+			entry: 'src/index.ts',
 			formats: ['es'],
 			fileName: 'auldrant-ui',
 			cssFileName: 'auldrant-ui',

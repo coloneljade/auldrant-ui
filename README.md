@@ -79,6 +79,7 @@ function App() {
 | Component | Description | Key Props |
 |-----------|-------------|-----------|
 | `Dialog` | Dismissible dialog (Escape, backdrop, X button) | `open`, `title`, `onClose`, `message?`, `defaultAction?` |
+| `DialogHost` | Global dialog queue host. Mount once in app root; show dialogs via `confirm()` / `dialog()` | — |
 | `Dropdown` + `DropdownItem` | Trigger button with a Popover API menu, full keyboard support, and type-ahead navigation | `trigger` on Dropdown; `onSelect?`, `disabled?` on DropdownItem |
 | `Modal` | Action-required modal (`role="alertdialog"`) | `open`, `title`, `onCancel`, `defaultAction`, `focusCancel?` |
 | `Tooltip` | Hover/focus tooltip with CSS Anchor Positioning and accessible `aria-describedby` wiring | `content`, `delay?` |
@@ -100,19 +101,62 @@ function App() {
 |-----------|-------------|-----------|
 | `Link` | Auto-detects internal vs external URLs | `href`, `children`, `external?` |
 | `DownloadLink` | Download link using `<a download>` | `href`, `fileName`, `label` |
-| `Nav` | Semantic `<nav>` wrapper with optional title | `title?`, `children` |
+| `Nav` | Semantic `<nav>` wrapper with visually hidden title | `title`, `children` |
 | `SkipLink` | Skip navigation link, hidden until focused | `target?`, `label?` |
 
 ### Routing & Pagination
 
 | Export | Description | Key Props / Signature |
 |--------|-------------|----------------------|
+| `Router` | Exclusive route matching wrapper. Renders only the first matching Route or Page child. | `children` (Route and/or Page components) |
+| `Page` | Render-less page orchestrator. Handles routing, document title, and page heading signal via `pageTitle`. Uses Route internally. | `path` (required), `title` (required), `description?`, `children` |
 | `Route` | Renders children when location matches path. Supports exact, wildcard (`/*`), and param (`:id`) patterns | `path`, `children` |
 | `Pagination` | URL-driven pagination wrapper. Renders children above a `<nav>`. Renders `<NotFound>` for invalid/out-of-range pages | `totalPages` (≥ 1), `children`, `prevLabel?`, `nextLabel?` |
 | `usePage()` | Hook: returns the current page number from the URL. `undefined` at the base URL (treat as page 1) | `() => number \| undefined` |
 | `page()` | Signal factory: same as `usePage` but as a `ReadonlySignal` for module-level use | `() => ReadonlySignal<number \| undefined>` |
 | `navigate` | Navigate to a path using the History API | `(path: string, opts?) => void` |
 | `location` | Signal holding the current pathname | `Signal<string>` |
+| `pageTitle` | Signal that syncs the page title. Set by `Page`, readable by consumers to update headings | `Signal<string>` |
+| `NotFound` | Content-only 404 component. Renders message and home link. Pair with `Page` for full routing. | `message?`, `href?`, `linkLabel?` |
+
+#### Page, Router, and NotFound
+
+Use `Router` to coordinate multiple pages with exclusive matching. `Page` handles routing, document title via `Head`, and signals the page title:
+
+```tsx
+import { Router, Page, NotFound, pageTitle } from '@auldrant/ui';
+
+export default function App() {
+ return (
+  <>
+   <header>
+    <h1>{pageTitle.value}</h1>
+   </header>
+   <main>
+    <Router>
+     <Page path="/" title="Auldrant UI">
+      <HomePage />
+     </Page>
+     <Page path="/about" title="About">
+      <AboutPage />
+     </Page>
+     <Page path="/items/:id" title="Item Details">
+      <ItemPage />
+     </Page>
+     <Page path="/*" title="Page not found">
+      <NotFound message="The page you were looking for doesn't exist." />
+     </Page>
+    </Router>
+   </main>
+  </>
+ );
+}
+```
+
+- **Router** renders only the first matching child (Page or Route)
+- **Page** is render-less: it syncs the title signal and metadata, then renders children
+- **NotFound** is content-only: pair it with a catch-all Page (`path="/*"`) as the last route
+- Routes outside a Router still work independently
 
 ### Icons
 
@@ -165,7 +209,69 @@ For reactive title/meta updates without a component (e.g. in a signal effect or 
 
 In indeterminate mode, `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` are omitted from the DOM — these attributes are meaningless when progress is unknown.
 
+### Imperative dialogs (`confirm` / `dialog`)
+
+Mount `<DialogHost />` once in the app root alongside `<Toaster />`. Then call `confirm()` or `dialog()` from anywhere — no local state, no JSX at the call site.
+
+**Confirmation (Modal behavior — action required, no backdrop dismiss):**
+
+```ts
+import { confirm, toast } from '@auldrant/ui';
+
+async function handleDelete(item: Item) {
+  const confirmed = await confirm({
+    title: 'Delete item?',
+    message: `This will permanently remove ${item.name}.`,
+    actionLabel: 'Delete',
+    actionShortcut: 'd',
+    focusCancel: true,
+  });
+
+  if (confirmed) {
+    await deleteItem(item);
+    toast('Item deleted.');
+  }
+}
+```
+
+**Dialog (dismissible, multi-action):**
+
+```ts
+import { dialog } from '@auldrant/ui';
+
+const choice = await dialog({
+  title: 'Unsaved changes',
+  message: 'You have unsaved changes. What would you like to do?',
+  defaultAction: { label: 'Save', shortcut: 'Enter' },
+  actions: [{ label: 'Discard', shortcut: 'd' }],
+});
+
+if (choice === 'Save') { await save(); }
+else if (choice === 'Discard') { discard(); }
+// null = dismissed via Escape/backdrop/X
+```
+
+**Setup:**
+
+```tsx
+import { DialogHost, Theme, Toaster } from '@auldrant/ui';
+
+function App() {
+  return (
+    <Theme>
+      <Main />
+      <Toaster />
+      <DialogHost />
+    </Theme>
+  );
+}
+```
+
+Dialogs are queued — calling `confirm()` or `dialog()` while one is open shows the next dialog after the current one resolves. `confirm()` renders a `Modal` (action required, `role="alertdialog"`). `dialog()` renders a `Dialog` (dismissible).
+
 ### Dialog actions
+
+For advanced cases where you need full control (rich content via `children`, custom state management), `Dialog` and `Modal` are available with local-state props:
 
 ```tsx
 import type { IDialogAction } from '@auldrant/ui';
@@ -474,6 +580,25 @@ import { cx } from '@auldrant/ui';
 cx('btn', isActive && 'active');          // "btn active" or "btn"
 cx(styles.card, props.class);             // handles undefined class prop
 ```
+
+### `text`
+
+CSS module with common text treatments. Classes use library color tokens, so they respect theming automatically:
+
+```tsx
+import { text, cx } from '@auldrant/ui';
+
+<p class={text.muted}>Secondary information</p>
+<p class={text.primary}>Accented text</p>
+<p class={cx(text.muted, text.sm)}>Fine print</p>
+```
+
+| Class | Effect |
+|-------|--------|
+| `text.muted` | `color: var(--aui-color-text-muted)` |
+| `text.primary` | `color: var(--aui-color-primary)` |
+| `text.sm` | `font-size: 0.875em` |
+| `text.lg` | `font-size: 1.125em` |
 
 ## Development
 

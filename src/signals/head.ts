@@ -3,6 +3,9 @@ import { effect, signal } from '@preact/signals';
 /** Document title signal. Changes are synced to `document.title`. */
 export const title = signal(document.title);
 
+/** Page title signal. Used by Page components to sync document title and update the page heading. */
+export const pageTitle = signal('');
+
 /** Meta description signal. Empty string removes the tag. */
 export const description = signal('');
 

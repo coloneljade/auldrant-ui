@@ -207,8 +207,8 @@ describe('Pagination', () => {
 		// Act
 		const { getByRole } = render(<Pagination totalPages={10}>content</Pagination>);
 
-		// Assert — NotFound renders a main landmark, not a nav
-		getByRole('main');
+		// Assert — NotFound renders, nav should not be present
+		getByRole('link', { name: 'Go home' });
 		expect(() => getByRole('navigation')).toThrow();
 	});
 
@@ -220,7 +220,7 @@ describe('Pagination', () => {
 		const { getByRole } = render(<Pagination totalPages={10}>content</Pagination>);
 
 		// Assert
-		getByRole('main');
+		getByRole('link', { name: 'Go home' });
 		expect(() => getByRole('navigation')).toThrow();
 	});
 
@@ -232,7 +232,7 @@ describe('Pagination', () => {
 		const { getByRole } = render(<Pagination totalPages={10}>content</Pagination>);
 
 		// Assert
-		getByRole('main');
+		getByRole('link', { name: 'Go home' });
 	});
 
 	it('renders NotFound for /page/0', () => {
@@ -243,7 +243,7 @@ describe('Pagination', () => {
 		const { getByRole } = render(<Pagination totalPages={10}>content</Pagination>);
 
 		// Assert
-		getByRole('main');
+		getByRole('link', { name: 'Go home' });
 	});
 
 	it('children are not rendered when NotFound is shown', () => {

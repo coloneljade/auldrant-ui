@@ -3,23 +3,7 @@ import NotFound from '@components/NotFound';
 import { render } from '@testing-library/preact';
 
 describe('NotFound', () => {
-	it('renders the default "Page not found" heading', () => {
-		// Act
-		const { getByRole } = render(<NotFound />);
-
-		// Assert
-		getByRole('heading', { name: 'Page not found' });
-	});
-
-	it('renders a custom heading when provided', () => {
-		// Act
-		const { getByRole } = render(<NotFound heading="404 — Nothing here" />);
-
-		// Assert
-		getByRole('heading', { name: '404 — Nothing here' });
-	});
-
-	it('renders a message when provided', () => {
+	it('renders the message when provided', () => {
 		// Act
 		const { getByText } = render(<NotFound message="The page you requested does not exist." />);
 

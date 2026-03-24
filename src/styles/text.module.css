@@ -1,0 +1,15 @@
+.muted {
+	color: var(--aui-color-text-muted);
+}
+
+.primary {
+	color: var(--aui-color-primary);
+}
+
+.sm {
+	font-size: 0.875em;
+}
+
+.lg {
+	font-size: 1.125em;
+}

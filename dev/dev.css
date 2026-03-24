@@ -28,6 +28,7 @@ body {
 	text-align: center;
 	font-size: 1.25em;
 	border-bottom: 1px solid var(--aui-color-border);
+	color: var(--aui-color-primary);
 }
 
 .dev-header nav {
