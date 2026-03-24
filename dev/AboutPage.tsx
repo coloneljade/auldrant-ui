@@ -1,6 +1,8 @@
 import Badge from '@components/Badge';
 import Card from '@components/Card';
 import Link from '@components/Link';
+import { cx } from '@scripts/utils';
+import text from '@styles/text.module.css';
 import type { FunctionComponent } from 'preact';
 
 interface IAboutPageProps {
@@ -14,7 +16,7 @@ export const AboutPage: FunctionComponent<IAboutPageProps> = (props) => {
 			<h1>
 				Auldrant UI <Badge>v0.16.0</Badge>
 			</h1>
-			<p class="dev-about-tagline">
+			<p class={cx(text.muted, text.lg)}>
 				Accessible Preact component library with design tokens and CSS modules.
 			</p>
 
@@ -31,7 +33,7 @@ export const AboutPage: FunctionComponent<IAboutPageProps> = (props) => {
 				</Card>
 			</div>
 
-			<p class="dev-about-footer">
+			<p class={cx(text.muted, text.sm)}>
 				Built with <Link href="https://preactjs.com">Preact</Link>. Styled with CSS Modules and
 				custom properties.
 			</p>

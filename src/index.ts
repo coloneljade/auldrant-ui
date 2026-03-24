@@ -61,3 +61,4 @@ export { canonical, description, ogDescription, ogImage, ogTitle, title } from '
 export { hash, location, navigate } from '@signals/routing';
 export { palette } from '@signals/theme';
 export { toast } from '@signals/toasts';
+export { default as text } from '@styles/text.module.css';

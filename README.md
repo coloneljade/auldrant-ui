@@ -538,6 +538,25 @@ cx('btn', isActive && 'active');          // "btn active" or "btn"
 cx(styles.card, props.class);             // handles undefined class prop
 ```
 
+### `text`
+
+CSS module with common text treatments. Classes use library color tokens, so they respect theming automatically:
+
+```tsx
+import { text, cx } from '@auldrant/ui';
+
+<p class={text.muted}>Secondary information</p>
+<p class={text.primary}>Accented text</p>
+<p class={cx(text.muted, text.sm)}>Fine print</p>
+```
+
+| Class | Effect |
+|-------|--------|
+| `text.muted` | `color: var(--aui-color-text-muted)` |
+| `text.primary` | `color: var(--aui-color-primary)` |
+| `text.sm` | `font-size: 0.875em` |
+| `text.lg` | `font-size: 1.125em` |
+
 ## Development
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for setup, code style, dev test page, and PR workflow.
