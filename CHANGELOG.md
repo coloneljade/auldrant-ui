@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.2.2] - 2026-03-25
+
+### Fixed
+
+- Add explicit type definitions for text CSS module properties (muted, primary, sm, lg) ([#144](https://github.com/coloneljade/auldrant-ui/pull/144))
+- Remove unused ./styles export from package.json — CSS is already bundled via JS entry point ([#144](https://github.com/coloneljade/auldrant-ui/pull/144))
+
 ## [1.2.1] - 2026-03-25
 
 ### Fixed

@@ -1,6 +1,6 @@
 {
   "name": "@auldrant/ui",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "type": "module",
   "description": "Accessible Preact component library with design tokens and CSS modules",
   "author": "Colonel Jade",
@@ -31,8 +31,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/auldrant-ui.js"
-    },
-    "./styles": "./dist/auldrant-ui.css"
+    }
   },
   "files": [
     "dist",
