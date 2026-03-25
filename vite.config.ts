@@ -11,13 +11,14 @@ export default defineConfig({
 	plugins: [
 		preact(),
 		dts({
-			include: ['src'],
 			outDir: 'dist',
+			entryRoot: 'src',
 		}),
 	],
 	resolve: {
 		tsconfigPaths: true,
 	},
+
 	build: {
 		lib: {
 			entry: 'src/index.ts',
