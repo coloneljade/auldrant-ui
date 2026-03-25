@@ -41,6 +41,5 @@
 			"@hooks": ["./src/scripts/hooks.ts"]
 		}
 	},
-	"include": ["src", "dev"],
-	"exclude": ["node_modules", "dist"]
+	"exclude": ["node_modules", "dist", "tests", "scripts", "dev"]
 }
