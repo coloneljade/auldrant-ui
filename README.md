@@ -41,9 +41,7 @@ function App() {
 |------|-------------|---------|
 | `@auldrant/ui/styles` | CSS tokens + component styles (import once in app entry) | `import '@auldrant/ui/styles'` |
 | `@auldrant/ui/components` | All components | `import { Button, Theme } from '@auldrant/ui/components'` |
-| `@auldrant/ui/components/*` | Individual component | `import Button from '@auldrant/ui/components/Button'` |
 | `@auldrant/ui/signals` | All signals | `import { navigate, toast } from '@auldrant/ui/signals'` |
-| `@auldrant/ui/signals/*` | Individual signal module | `import { navigate } from '@auldrant/ui/signals/routing'` |
 | `@auldrant/ui/hooks` | Hooks (`useTimer`, `usePage`) | `import useTimer from '@auldrant/ui/hooks'` |
 | `@auldrant/ui/utils` | Utilities (`cx`, `HeadingLevel`) | `import { cx } from '@auldrant/ui/utils'` |
 
@@ -96,10 +94,8 @@ function App() {
 
 | Component | Description | Key Props |
 |-----------|-------------|-----------|
-| `Dialog` | Dismissible dialog (Escape, backdrop, X button) | `open`, `title`, `onClose`, `message?`, `defaultAction?` |
 | `DialogHost` | Global dialog queue host. Mount once in app root; show dialogs via `confirm()` / `dialog()` | — |
 | `Dropdown` + `DropdownItem` | Trigger button with a Popover API menu, full keyboard support, and type-ahead navigation | `trigger` on Dropdown; `onSelect?`, `disabled?` on DropdownItem |
-| `Modal` | Action-required modal (`role="alertdialog"`) | `open`, `title`, `onCancel`, `defaultAction`, `focusCancel?` |
 | `Tooltip` | Hover/focus tooltip with CSS Anchor Positioning and accessible `aria-describedby` wiring | `content`, `delay?` |
 
 ### Layout
@@ -142,7 +138,8 @@ function App() {
 Use `Router` to coordinate multiple pages with exclusive matching. `Page` handles routing, document title via `Head`, and signals the page title:
 
 ```tsx
-import { Router, Page, NotFound, pageTitle } from '@auldrant/ui';
+import { Router, Page, NotFound } from '@auldrant/ui/components';
+import { pageTitle } from '@auldrant/ui/signals';
 
 export default function App() {
  return (
@@ -230,14 +227,14 @@ A `Route` outside a `Router` renders based on location alone — no exclusive ma
 
 Default size is `1em × 1em`. Override via `class`. Never import lucide-preact directly — use `Icon` so icon swaps require only one file change.
 
-All components extend `IBaseProps` which includes `class?` and `id?`. Form controls extend `IFieldProps` which adds `label`, `name?`, `required?`, and `disabled?`. Dialog and Modal actions use the exported `IDialogAction` type (`label`, `description`, `onClick`, `shortcut`). Full prop types are available in the `.d.ts` files.
+All components accept `class?` and `id?`. Form controls add `label`, `name?`, `required?`, and `disabled?`. Full prop types are available in the `.d.ts` files.
 
 ### Head component
 
 Render `<Head>` on each page/route to declaratively manage document metadata. All props are optional — only set what the page needs:
 
 ```tsx
-import { Head } from '@auldrant/ui';
+import { Head } from '@auldrant/ui/components';
 
 function AboutPage() {
   return (
@@ -279,7 +276,7 @@ Mount `<DialogHost />` once in the app root alongside `<Toaster />`. Then call `
 **Confirmation (Modal behavior — action required, no backdrop dismiss):**
 
 ```ts
-import { confirm, toast } from '@auldrant/ui';
+import { confirm, toast } from '@auldrant/ui/signals';
 
 async function handleDelete(item: Item) {
   const confirmed = await confirm({
@@ -300,7 +297,7 @@ async function handleDelete(item: Item) {
 **Dialog (dismissible, multi-action):**
 
 ```ts
-import { dialog } from '@auldrant/ui';
+import { dialog } from '@auldrant/ui/signals';
 
 const choice = await dialog({
   title: 'Unsaved changes',
@@ -317,7 +314,7 @@ else if (choice === 'Discard') { discard(); }
 **Setup:**
 
 ```tsx
-import { DialogHost, Theme, Toaster } from '@auldrant/ui';
+import { DialogHost, Theme, Toaster } from '@auldrant/ui/components';
 
 function App() {
   return (
@@ -330,24 +327,7 @@ function App() {
 }
 ```
 
-Dialogs are queued — calling `confirm()` or `dialog()` while one is open shows the next dialog after the current one resolves. `confirm()` renders a `Modal` (action required, `role="alertdialog"`). `dialog()` renders a `Dialog` (dismissible).
-
-### Dialog actions
-
-For advanced cases where you need full control (rich content via `children`, custom state management), `Dialog` and `Modal` are available with local-state props:
-
-```tsx
-import type { IDialogAction } from '@auldrant/ui';
-
-const saveAction: IDialogAction = {
-  label: 'Save',
-  description: 'Save changes and close',
-  onClick: () => handleSave(),
-  shortcut: 'Enter',
-};
-
-<Dialog open={open} title="Edit record" onClose={() => setOpen(false)} defaultAction={saveAction} />
-```
+Dialogs are queued — calling `confirm()` or `dialog()` while one is open shows the next dialog after the current one resolves. `confirm()` shows an action-required modal (`role="alertdialog"`). `dialog()` shows a dismissible dialog.
 
 ### Form field errors
 
@@ -397,7 +377,8 @@ Invalid page URLs (non-numeric suffix, page number beyond `totalPages`) render `
 in place of the children and nav. `totalPages` must be ≥ 1 or Pagination throws.
 
 ```tsx
-import { Pagination, usePage } from 'auldrant-ui';
+import { Pagination } from '@auldrant/ui/components';
+import { usePage } from '@auldrant/ui/hooks';
 import { useEffect } from 'preact/hooks';
 
 const ResultsComponent: FunctionComponent = () => (
@@ -428,7 +409,7 @@ URL param changes — not in an event handler that fires before navigation compl
 For signals outside the component tree:
 
 ```tsx
-import { page } from 'auldrant-ui';
+import { page } from '@auldrant/ui/hooks';
 import { computed } from '@preact/signals';
 
 export const currentPage = page(); // ReadonlySignal<number | undefined>
@@ -568,7 +549,8 @@ AAA-verified preset classes — apply directly on `<Theme>`:
 Built-in routing uses Preact signals and the History API:
 
 ```tsx
-import { location, hash, navigate, title, Route, Link } from '@auldrant/ui';
+import { Route, Link } from '@auldrant/ui/components';
+import { location, hash, navigate, title } from '@auldrant/ui/signals';
 
 // Read current path
 console.log(location.value); // "/about"
@@ -599,7 +581,8 @@ title.value = 'My Page';
 Switch the active palette imperatively from anywhere in the app:
 
 ```ts
-import { palette, Palette } from '@auldrant/ui';
+import { palette } from '@auldrant/ui/signals';
+import { Palette } from '@auldrant/ui/components';
 
 palette.value = Palette.blue;   // switch to blue
 palette.value = null;           // reset to default
@@ -623,7 +606,7 @@ All document head values are writable signals. They can be set from anywhere —
 Empty string removes the corresponding tag. These signals are SSR-compatible — the `<Head>` component syncs the same signals via `useEffect` on the client.
 
 ```ts
-import { title, description, canonical } from '@auldrant/ui';
+import { title, description, canonical } from '@auldrant/ui/signals';
 
 // Set on navigation
 title.value = 'Dashboard';
@@ -638,7 +621,7 @@ canonical.value = 'https://example.com/dashboard';
 Combine CSS class names, filtering out falsy values:
 
 ```tsx
-import { cx } from '@auldrant/ui';
+import { cx } from '@auldrant/ui/utils';
 
 cx('btn', isActive && 'active');          // "btn active" or "btn"
 cx(styles.card, props.class);             // handles undefined class prop
@@ -649,7 +632,8 @@ cx(styles.card, props.class);             // handles undefined class prop
 CSS module with common text treatments. Classes use library color tokens, so they respect theming automatically:
 
 ```tsx
-import { text, cx } from '@auldrant/ui';
+import { text } from '@auldrant/ui/components';
+import { cx } from '@auldrant/ui/utils';
 
 <p class={text.muted}>Secondary information</p>
 <p class={text.primary}>Accented text</p>

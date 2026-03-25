@@ -4,7 +4,7 @@
 
 All icon usage in library components goes through `<Icon name={IconName.x} />` from `@components/Icon`.
 
-Never import lucide-preact directly in feature components (`src/components/`, `src/scripts/`, `src/signals/`).
+Never import lucide-preact directly in feature components (`src/components/`, `src/internal/`, `src/signals/`).
 
 Dev sections (`dev/`) may import lucide directly for demo-only icons not part of the library API.
 

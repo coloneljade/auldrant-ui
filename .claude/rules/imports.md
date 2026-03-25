@@ -9,31 +9,13 @@ Always use `@<directory>` aliases for cross-directory imports. No `../` relative
 | Alias | Resolves To | Contains |
 |-------|-------------|----------|
 | `@components/*` | `src/components/*` | Component `.tsx` files (flat) |
-| `@internal/*` | `src/internal/*` | Non-exported components used by other components |
-| `@scripts/*` | `src/scripts/*` | Shared types and utilities |
+| `@internal/*` | `src/internal/*` | Non-exported types, utilities, and components |
 | `@signals/*` | `src/signals/*` | Preact signal stores |
 | `@styles/*` | `src/styles/*` | All CSS — layout, tokens, component modules |
+| `@hooks` | `src/hooks.ts` | Public hooks (useTimer, usePage) |
+| `@utils` | `src/utils.ts` | Public utilities (cx, HeadingLevel) |
 
 Aliases are defined in both `tsconfig.json` (paths) and `vite.config.ts` (resolve.alias).
-
-## Examples
-
-```ts
-// Component importing another component
-import FormField from '@components/FormField';
-
-// Component importing styles
-import styles from '@styles/Button.module.css';
-
-// Component importing shared types
-import type { IBaseProps } from '@scripts/types';
-
-// Component importing utilities
-import { cx } from '@scripts/utils';
-
-// Test importing a component
-import Button from '@components/Button';
-```
 
 ## Allowed
 
@@ -43,7 +25,7 @@ import Button from '@components/Button';
 ## Forbidden
 
 - `'../'` traversal of any kind — always use aliases
-- `'./'` relative imports — components, styles, and scripts are in separate directories
+- `'./'` relative imports — source is split across separate directories
 
 ## Adding New Directories
 

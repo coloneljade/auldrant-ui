@@ -35,14 +35,23 @@ Preact component library with strong accessibility, performance, and consistent 
 
 ```
 src/
-  index.ts              # Library entry point (public API)
+  hooks.ts              # Public hooks (useTimer, usePage)
+  utils.ts              # Public utilities (cx, HeadingLevel)
+  styles.ts             # CSS entry point (tokens import)
   components/           # Flat — one .tsx per component, no subdirectories
+    index.ts            # Component barrel (subpath export)
     Button.tsx
     Card.tsx
     ...
-  scripts/              # Shared types and utilities
+  internal/             # Non-exported components, types, and utilities
     types.ts            # IBaseProps, IFieldProps
-    utils.ts            # cx()
+    utils.ts            # flattenChildren, describeBy
+    FormField.tsx
+    DialogBase.tsx
+    ...
+  signals/              # Preact signal stores
+    index.ts            # Signal barrel (subpath export)
+    ...
   styles/               # All CSS — tokens and component modules
     shared.css          # Shared interactive element styles (composed)
     Button.module.css   # Component-scoped CSS modules
