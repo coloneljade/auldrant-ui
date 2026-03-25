@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - 2026-03-25
+
+### Added
+
+- feat(routing): support wrapped Route/Page children via context-based claiming ([#139](https://github.com/coloneljade/auldrant-ui/pull/139))
+- test(routing): add tests for wrapped and mixed Router children ([#139](https://github.com/coloneljade/auldrant-ui/pull/139))
+- docs(routing): document self-contained pages and standalone Route ([#139](https://github.com/coloneljade/auldrant-ui/pull/139))
+
 ## [1.1.1] - 2026-03-24
 
 ### Changed

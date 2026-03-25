@@ -112,7 +112,7 @@ function App() {
 
 | Export | Description | Key Props / Signature |
 |--------|-------------|----------------------|
-| `Router` | Exclusive route matching wrapper. Renders only the first matching Route or Page child. | `children` (Route and/or Page components) |
+| `Router` | Exclusive route matching via context. Only the first matching Route or Page renders — children can be direct elements or custom wrapper components. | `children` |
 | `Page` | Render-less page orchestrator. Handles routing, document title, and page heading signal via `pageTitle`. Uses Route internally. | `path` (required), `title` (required), `description?`, `children` |
 | `Route` | Renders children when location matches path. Supports exact, wildcard (`/*`), and param (`:id`) patterns | `path`, `children` |
 | `Pagination` | URL-driven pagination wrapper. Renders children above a `<nav>`. Renders `<NotFound>` for invalid/out-of-range pages | `totalPages` (≥ 1), `children`, `prevLabel?`, `nextLabel?` |
@@ -157,10 +157,55 @@ export default function App() {
 }
 ```
 
-- **Router** renders only the first matching child (Page or Route)
+- **Router** provides exclusive matching via context — only the first matching Route or Page renders
 - **Page** is render-less: it syncs the title signal and metadata, then renders children
 - **NotFound** is content-only: pair it with a catch-all Page (`path="/*"`) as the last route
-- Routes outside a Router still work independently
+
+#### Self-contained pages
+
+Route and Page children don't need to be direct Router children — they can be wrapped in custom components. This lets page components own their routing metadata:
+
+```tsx
+// Home.tsx — self-contained page
+const Home = () => (
+ <Page path="/" title="Home" description="Welcome to Auldrant UI">
+  <Section title="Home">...</Section>
+ </Page>
+);
+
+// NotFoundPage.tsx
+const NotFoundPage = () => (
+ <Page path="/*" title="Page not found">
+  <NotFound message="The page you were looking for doesn't exist." />
+ </Page>
+);
+
+// App.tsx — just lists pages
+<Router>
+ <Home />
+ <AboutPage />
+ <NotFoundPage />
+</Router>
+```
+
+#### Standalone Route
+
+A `Route` outside a `Router` renders based on location alone — no exclusive matching. This is useful for conditional sections that appear or disappear based on the URL without participating in full page routing:
+
+```tsx
+<div>
+ <Nav />
+ {/* Settings panel appears only on /settings/* URLs */}
+ <Route path="/settings/*">
+  <SettingsPanel />
+ </Route>
+ <Router>
+  <Home />
+  <AboutPage />
+  <NotFoundPage />
+ </Router>
+</div>
+```
 
 ### Icons
 
