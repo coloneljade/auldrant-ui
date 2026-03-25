@@ -31,8 +31,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/auldrant-ui.js"
-    },
-    "./styles": "./dist/auldrant-ui.css"
+    }
   },
   "files": [
     "dist",
