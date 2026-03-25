@@ -1,5 +1,5 @@
 export type { IConfirmOptions, IDialogActionOption, IDialogOptions } from './dialogs';
-export { confirm, dialog, dismiss, queue } from './dialogs';
+export { confirm, dialog } from './dialogs';
 export {
 	canonical,
 	description,
@@ -9,7 +9,6 @@ export {
 	pageTitle,
 	title,
 } from './head';
-export { hash, location, matchParams, navigate } from './routing';
+export { hash, location, navigate } from './routing';
 export { palette } from './theme';
-export type { IToastItem } from './toasts';
-export { remove, toast, toasts } from './toasts';
+export { toast } from './toasts';
