@@ -114,6 +114,101 @@ describe('Router', () => {
 		expect(queryByText('Second about')).toBeNull();
 	});
 
+	it('renders a wrapped Route inside a custom component', () => {
+		// Arrange
+		location.value = '/dashboard';
+		const Dashboard = () => (
+			<Route path="/dashboard">
+				<p>Dashboard</p>
+			</Route>
+		);
+
+		// Act
+		const { getByText } = render(
+			<Router>
+				<Dashboard />
+			</Router>
+		);
+
+		// Assert
+		getByText('Dashboard');
+	});
+
+	it('renders a wrapped Page inside a custom component', () => {
+		// Arrange
+		location.value = '/profile';
+		const Profile = () => (
+			<Page path="/profile" title="Profile">
+				<p>Profile content</p>
+			</Page>
+		);
+
+		// Act
+		const { getByText } = render(
+			<Router>
+				<Profile />
+			</Router>
+		);
+
+		// Assert
+		getByText('Profile content');
+	});
+
+	it('renders only the first matching wrapped child', () => {
+		// Arrange
+		location.value = '/items';
+		const Items = () => (
+			<Route path="/items">
+				<p>Items page</p>
+			</Route>
+		);
+		const AlsoItems = () => (
+			<Route path="/items">
+				<p>Duplicate items</p>
+			</Route>
+		);
+
+		// Act
+		const { getByText, queryByText } = render(
+			<Router>
+				<Items />
+				<AlsoItems />
+			</Router>
+		);
+
+		// Assert
+		getByText('Items page');
+		expect(queryByText('Duplicate items')).toBeNull();
+	});
+
+	it('mixes direct and wrapped children correctly', () => {
+		// Arrange
+		location.value = '/wrapped';
+		const WrappedRoute = () => (
+			<Route path="/wrapped">
+				<p>Wrapped</p>
+			</Route>
+		);
+
+		// Act
+		const { getByText, queryByText } = render(
+			<Router>
+				<Route path="/direct">
+					<p>Direct</p>
+				</Route>
+				<WrappedRoute />
+				<Route path="/*">
+					<p>Catch-all</p>
+				</Route>
+			</Router>
+		);
+
+		// Assert
+		getByText('Wrapped');
+		expect(queryByText('Direct')).toBeNull();
+		expect(queryByText('Catch-all')).toBeNull();
+	});
+
 	it('supports exact and wildcard paths in mixed routes', () => {
 		// Arrange
 		location.value = '/docs/guide';
