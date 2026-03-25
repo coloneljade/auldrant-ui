@@ -1,7 +1,8 @@
+import type { IBaseProps } from '@internal/types';
+import { flattenChildren } from '@internal/utils';
 import { useSignal } from '@preact/signals';
-import type { IBaseProps } from '@scripts/types';
-import { cx, flattenChildren } from '@scripts/utils';
 import styles from '@styles/Tabs.module.css';
+import { cx } from '@utils';
 import type { ComponentChildren, FunctionComponent, VNode } from 'preact';
 import { isValidElement } from 'preact';
 import { useEffect, useId, useRef } from 'preact/hooks';

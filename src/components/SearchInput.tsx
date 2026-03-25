@@ -1,8 +1,8 @@
-import FormField from '@components/FormField';
 import Icon, { IconName } from '@components/Icon';
 import Tooltip from '@components/Tooltip';
-import type { IFieldProps } from '@scripts/types';
-import { describeBy } from '@scripts/utils';
+import FormField from '@internal/FormField';
+import type { IFieldProps } from '@internal/types';
+import { describeBy } from '@internal/utils';
 import styles from '@styles/SearchInput.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';

@@ -1,10 +1,10 @@
 import Icon, { IconName } from '@components/Icon';
 import Tooltip from '@components/Tooltip';
+import useTimer from '@hooks';
+import type { IBaseProps } from '@internal/types';
 import { useSignal } from '@preact/signals';
-import useTimer from '@scripts/hooks';
-import type { IBaseProps } from '@scripts/types';
-import { cx } from '@scripts/utils';
 import styles from '@styles/Toast.module.css';
+import { cx } from '@utils';
 import type { FunctionComponent } from 'preact';
 
 /** Severity variants for {@link Toast}. Controls color and leading icon. */

@@ -1,8 +1,8 @@
 import Badge from '@components/Badge';
 import Card from '@components/Card';
 import Link from '@components/Link';
-import { cx } from '@scripts/utils';
 import text from '@styles/text.module.css';
+import { cx } from '@utils';
 import type { FunctionComponent } from 'preact';
 
 interface IAboutPageProps {

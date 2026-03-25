@@ -1,8 +1,8 @@
 import Icon, { IconName } from '@components/Icon';
 import Tooltip from '@components/Tooltip';
-import type { IBaseProps } from '@scripts/types';
-import { cx } from '@scripts/utils';
+import type { IBaseProps } from '@internal/types';
 import styles from '@styles/Chip.module.css';
+import { cx } from '@utils';
 import type { FunctionComponent } from 'preact';
 
 /** Color variants for {@link Chip}. */

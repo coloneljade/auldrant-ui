@@ -21,8 +21,8 @@ import '@auldrant/ui/styles';
 ## Quick Start
 
 ```tsx
-import { Button, Form, Theme } from '@auldrant/ui';
 import '@auldrant/ui/styles';
+import { Button, Form, Theme } from '@auldrant/ui/components';
 
 function App() {
   return (
@@ -34,6 +34,20 @@ function App() {
   );
 }
 ```
+
+### Available Subpaths
+
+| Path | Description | Example |
+|------|-------------|---------|
+| `@auldrant/ui/styles` | CSS tokens + component styles (import once in app entry) | `import '@auldrant/ui/styles'` |
+| `@auldrant/ui/components` | All components | `import { Button, Theme } from '@auldrant/ui/components'` |
+| `@auldrant/ui/components/*` | Individual component | `import Button from '@auldrant/ui/components/Button'` |
+| `@auldrant/ui/signals` | All signals | `import { navigate, toast } from '@auldrant/ui/signals'` |
+| `@auldrant/ui/signals/*` | Individual signal module | `import { navigate } from '@auldrant/ui/signals/routing'` |
+| `@auldrant/ui/hooks` | Hooks (`useTimer`, `usePage`) | `import useTimer from '@auldrant/ui/hooks'` |
+| `@auldrant/ui/utils` | Utilities (`cx`, `HeadingLevel`) | `import { cx } from '@auldrant/ui/utils'` |
+
+> **Note:** Consumer tsconfig must use a `moduleResolution` mode that supports package `exports` (recommended: `"bundler"`).
 
 ## Components
 

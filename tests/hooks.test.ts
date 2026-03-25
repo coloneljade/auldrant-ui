@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
-import { page, usePage } from '@scripts/hooks';
+import { page, usePage } from '@hooks';
 import { location } from '@signals/routing';
 
 describe('usePage', () => {

@@ -1,9 +1,9 @@
-import FormField from '@components/FormField';
 import FileButton from '@internal/FileButton';
 import FileZone from '@internal/FileZone';
+import FormField from '@internal/FormField';
+import type { IFieldProps } from '@internal/types';
+import { describeBy } from '@internal/utils';
 import { useSignal } from '@preact/signals';
-import type { IFieldProps } from '@scripts/types';
-import { describeBy } from '@scripts/utils';
 import styles from '@styles/FileInput.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId, useRef } from 'preact/hooks';

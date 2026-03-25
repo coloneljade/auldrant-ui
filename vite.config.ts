@@ -1,6 +1,5 @@
 import preact from '@preact/preset-vite';
 import { defineConfig } from 'vite';
-import dts from 'vite-plugin-dts';
 
 export default defineConfig({
 	css: {
@@ -8,26 +7,30 @@ export default defineConfig({
 			localsConvention: 'camelCaseOnly',
 		},
 	},
-	plugins: [
-		preact(),
-		dts({
-			outDir: 'dist',
-			entryRoot: 'src',
-		}),
-	],
+	plugins: [preact()],
 	resolve: {
 		tsconfigPaths: true,
 	},
 
 	build: {
 		lib: {
-			entry: 'src/index.ts',
+			entry: {
+				'components/index': 'src/components/index.ts',
+				'signals/index': 'src/signals/index.ts',
+				hooks: 'src/hooks.ts',
+				utils: 'src/utils.ts',
+				styles: 'src/styles.ts',
+			},
 			formats: ['es'],
-			fileName: 'auldrant-ui',
 			cssFileName: 'auldrant-ui',
 		},
 		rollupOptions: {
 			external: ['preact', 'preact/hooks', 'preact/jsx-runtime', '@preact/signals'],
+			output: {
+				preserveModules: true,
+				preserveModulesRoot: 'src',
+				entryFileNames: '[name].js',
+			},
 		},
 	},
 });

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test';
-import FormField from '@components/FormField';
+import FormField from '@internal/FormField';
 import { render } from '@testing-library/preact';
 import { renderAndCheckA11y } from './setup';
 

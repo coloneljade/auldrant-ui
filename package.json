@@ -25,12 +25,35 @@
   "publishConfig": {
     "access": "public"
   },
-  "module": "./dist/auldrant-ui.js",
-  "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/auldrant-ui.js"
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.js"
+    },
+    "./components/*": {
+      "types": "./dist/components/*.d.ts",
+      "import": "./dist/components/*.js"
+    },
+    "./signals": {
+      "types": "./dist/signals/index.d.ts",
+      "import": "./dist/signals/index.js"
+    },
+    "./signals/*": {
+      "types": "./dist/signals/*.d.ts",
+      "import": "./dist/signals/*.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks.d.ts",
+      "import": "./dist/hooks.js"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.js"
+    },
+    "./styles": {
+      "types": "./dist/styles.d.ts",
+      "import": "./dist/auldrant-ui.css",
+      "default": "./dist/auldrant-ui.css"
     }
   },
   "files": [
@@ -44,7 +67,8 @@
     "**/*.css"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && tsc && tsc-alias",
+    "build:types": "tsc && tsc-alias",
     "check": "biome check .",
     "check:fix": "biome check --fix .",
     "format": "biome format --fix .",
@@ -70,9 +94,9 @@
     "culori": "^4.0.2",
     "lefthook": "^2.1.4",
     "preact": "^10.29.0",
+    "tsc-alias": "^1.8.16",
     "typescript": "^6.0.2",
-    "vite": "^8.0.2",
-    "vite-plugin-dts": "^4.5.4"
+    "vite": "^8.0.2"
   },
   "peerDependencies": {
     "@preact/signals": "^2.8.1",

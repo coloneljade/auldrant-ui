@@ -1,7 +1,6 @@
-import type { IBaseProps } from '@scripts/types';
-import { HeadingLevel } from '@scripts/types';
-import { cx } from '@scripts/utils';
+import type { IBaseProps } from '@internal/types';
 import styles from '@styles/Section.module.css';
+import { cx, HeadingLevel } from '@utils';
 import type { ComponentChildren, FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
