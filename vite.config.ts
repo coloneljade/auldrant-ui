@@ -27,8 +27,6 @@ export default defineConfig({
 		rollupOptions: {
 			external: ['preact', 'preact/hooks', 'preact/jsx-runtime', '@preact/signals'],
 			output: {
-				preserveModules: true,
-				preserveModulesRoot: 'src',
 				entryFileNames: '[name].js',
 			},
 		},

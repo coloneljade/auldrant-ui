@@ -30,17 +30,9 @@
       "types": "./dist/components/index.d.ts",
       "import": "./dist/components/index.js"
     },
-    "./components/*": {
-      "types": "./dist/components/*.d.ts",
-      "import": "./dist/components/*.js"
-    },
     "./signals": {
       "types": "./dist/signals/index.d.ts",
       "import": "./dist/signals/index.js"
-    },
-    "./signals/*": {
-      "types": "./dist/signals/*.d.ts",
-      "import": "./dist/signals/*.js"
     },
     "./hooks": {
       "types": "./dist/hooks.d.ts",
