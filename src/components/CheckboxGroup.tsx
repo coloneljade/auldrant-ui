@@ -1,6 +1,7 @@
-import type { IBaseProps } from '@scripts/types';
-import { cx, describeBy } from '@scripts/utils';
+import type { IBaseProps } from '@internal/types';
+import { describeBy } from '@internal/utils';
 import styles from '@styles/CheckboxGroup.module.css';
+import { cx } from '@utils';
 import type { ComponentChildren, FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 

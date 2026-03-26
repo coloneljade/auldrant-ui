@@ -1,9 +1,9 @@
 import Icon, { IconName } from '@components/Icon';
 import Tooltip from '@components/Tooltip';
-import type { IBaseProps } from '@scripts/types';
-import useDraggable from '@scripts/useDraggable';
-import { cx } from '@scripts/utils';
+import type { IBaseProps } from '@internal/types';
+import useDraggable from '@internal/useDraggable';
 import styles from '@styles/Dialog.module.css';
+import { cx } from '@utils';
 import type { ComponentChildren, FunctionComponent } from 'preact';
 import { useEffect, useId, useRef } from 'preact/hooks';
 

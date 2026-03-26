@@ -1,8 +1,8 @@
+import type { IBaseProps } from '@internal/types';
+import useTooltipPosition from '@internal/useTooltipPosition';
 import { useSignal } from '@preact/signals';
-import type { IBaseProps } from '@scripts/types';
-import useTooltipPosition from '@scripts/useTooltipPosition';
-import { cx } from '@scripts/utils';
 import styles from '@styles/Tooltip.module.css';
+import { cx } from '@utils';
 import type { ComponentChildren, FunctionComponent, VNode } from 'preact';
 import { cloneElement, isValidElement } from 'preact';
 import { useEffect, useId, useRef } from 'preact/hooks';

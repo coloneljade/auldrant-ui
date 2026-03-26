@@ -1,7 +1,7 @@
 import Icon, { IconName } from '@components/Icon';
 import Tooltip from '@components/Tooltip';
-import { cx } from '@scripts/utils';
 import styles from '@styles/FileInput.module.css';
+import { cx } from '@utils';
 import type { FunctionComponent } from 'preact';
 
 /** Formatted file info for display. */

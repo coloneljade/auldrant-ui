@@ -1,6 +1,6 @@
-import type { IBaseProps } from '@scripts/types';
-import { cx } from '@scripts/utils';
+import type { IBaseProps } from '@internal/types';
 import styles from '@styles/Theme.module.css';
+import { cx } from '@utils';
 import type { ComponentChildren, FunctionComponent } from 'preact';
 
 /** Preset palette class names for `<Theme class={Palette.blue}>`. */

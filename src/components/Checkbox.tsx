@@ -1,7 +1,8 @@
 import Icon, { IconName } from '@components/Icon';
-import type { IFieldProps } from '@scripts/types';
-import { cx, describeBy } from '@scripts/utils';
+import type { IFieldProps } from '@internal/types';
+import { describeBy } from '@internal/utils';
 import styles from '@styles/Checkbox.module.css';
+import { cx } from '@utils';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 

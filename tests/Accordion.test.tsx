@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import Accordion, { AccordionItem } from '@components/Accordion';
-import { HeadingLevel } from '@scripts/types';
 import { fireEvent, render } from '@testing-library/preact';
+import { HeadingLevel } from '@utils';
 
 describe('Accordion', () => {
 	describe('rendering', () => {

@@ -1,7 +1,7 @@
 import Icon, { IconName } from '@components/Icon';
-import type { IBaseProps } from '@scripts/types';
-import { cx } from '@scripts/utils';
+import type { IBaseProps } from '@internal/types';
 import styles from '@styles/Toggle.module.css';
+import { cx } from '@utils';
 import type { FunctionComponent } from 'preact';
 
 /** Props for {@link Toggle}. */

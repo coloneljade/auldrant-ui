@@ -1,6 +1,7 @@
-import type { IBaseProps } from '@scripts/types';
-import { cx, describeBy, flattenChildren } from '@scripts/utils';
+import type { IBaseProps } from '@internal/types';
+import { describeBy, flattenChildren } from '@internal/utils';
 import styles from '@styles/RadioGroup.module.css';
+import { cx } from '@utils';
 import type { ComponentChildren, FunctionComponent, VNode } from 'preact';
 import { isValidElement } from 'preact';
 import { useId } from 'preact/hooks';

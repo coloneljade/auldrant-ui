@@ -160,7 +160,7 @@ autocomplete, and exhaustive checks that raw strings cannot provide.
 | Reactive boolean/value | `useSignal` | `useState` |
 | Derived/computed value | `useComputed` | `useMemo` |
 | Module-level shared state | `signal()` | context or external store |
-| Pausable countdown timer | `useTimer` (from `@scripts/hooks`) | raw `setTimeout` + `useEffect` |
+| Pausable countdown timer | `useTimer` (from `@hooks`) | raw `setTimeout` + `useEffect` |
 | DOM ref | `useRef` | — |
 | Event listeners, DOM side effects | `useEffect` | — |
 | Stable IDs | `useId` | — |
@@ -177,7 +177,7 @@ Components are arrow functions typed with `FunctionComponent`, with a separate d
 
 ```tsx
 import type { FunctionComponent } from 'preact';
-import type { IBaseProps } from '@scripts/types';
+import type { IBaseProps } from '@internal/types';
 
 interface IButtonProps extends IBaseProps {
   /** Visible button text. */
@@ -219,7 +219,7 @@ it should be a typed prop. If the component is a structural wrapper, use childre
 
 - Use `?` for optional props; omit `| undefined` unless needed for prop forwarding
 - Document every prop with JSDoc
-- Extend `IBaseProps` (or `IFieldProps` for form fields) from `@scripts/types`
+- Extend `IBaseProps` (or `IFieldProps` for form fields) from `@internal/types`
 
 ### Collection Keys
 

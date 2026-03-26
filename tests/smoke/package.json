@@ -1,0 +1,13 @@
+{
+	"name": "auldrant-smoke",
+	"private": true,
+	"type": "module",
+	"dependencies": {
+		"@auldrant/ui": "link:@auldrant/ui",
+		"@preact/signals": "^2.8.2",
+		"preact": "^10.29.0"
+	},
+	"devDependencies": {
+		"typescript": "^6.0.2"
+	}
+}

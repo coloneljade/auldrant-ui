@@ -1,5 +1,5 @@
-import { cx } from '@scripts/utils';
 import styles from '@styles/Icon.module.css';
+import { cx } from '@utils';
 import {
 	Check,
 	CheckCircle,

@@ -12,7 +12,10 @@
 		"allowImportingTsExtensions": true,
 		"moduleDetection": "force",
 
-		"noEmit": true,
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"rootDir": "src",
+		"outDir": "dist",
 		"isolatedModules": true,
 
 		"strict": true,
@@ -34,12 +37,13 @@
 		"types": ["vite/client"],
 		"paths": {
 			"@components/*": ["./src/components/*"],
-			"@scripts/*": ["./src/scripts/*"],
 			"@signals/*": ["./src/signals/*"],
 			"@styles/*": ["./src/styles/*"],
 			"@internal/*": ["./src/internal/*"],
-			"@hooks": ["./src/scripts/hooks.ts"]
+			"@hooks": ["./src/hooks.ts"],
+			"@utils": ["./src/utils.ts"]
 		}
 	},
-	"exclude": ["node_modules", "dist", "tests", "scripts", "dev"]
+	"include": ["src"],
+	"exclude": ["node_modules", "dist"]
 }

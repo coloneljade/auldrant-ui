@@ -1,7 +1,7 @@
-import type { IBaseProps } from '@scripts/types';
-import { cx } from '@scripts/utils';
+import type { IBaseProps } from '@internal/types';
 import { navigate } from '@signals/routing';
 import styles from '@styles/Link.module.css';
+import { cx } from '@utils';
 import type { ComponentChildren, FunctionComponent } from 'preact';
 
 /** Props for {@link Link}. */

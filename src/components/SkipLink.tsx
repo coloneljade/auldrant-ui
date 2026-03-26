@@ -1,6 +1,6 @@
-import type { IBaseProps } from '@scripts/types';
-import { cx } from '@scripts/utils';
+import type { IBaseProps } from '@internal/types';
 import styles from '@styles/SkipLink.module.css';
+import { cx } from '@utils';
 import type { FunctionComponent } from 'preact';
 
 /** Props for {@link SkipLink}. */

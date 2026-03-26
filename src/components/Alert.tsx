@@ -1,9 +1,9 @@
 import Icon, { IconName } from '@components/Icon';
 import Link from '@components/Link';
+import type { IBaseProps } from '@internal/types';
 import { useSignal } from '@preact/signals';
-import type { IBaseProps } from '@scripts/types';
-import { cx } from '@scripts/utils';
 import styles from '@styles/Alert.module.css';
+import { cx } from '@utils';
 import type { FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
 

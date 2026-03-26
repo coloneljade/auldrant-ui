@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.0.0] - 2026-03-26
+
+### Added
+
+- Add subpath exports: `./components`, `./signals`, `./hooks`, `./utils`, `./styles` ([#146](https://github.com/coloneljade/auldrant-ui/pull/146))
+- Replace vite-plugin-dts with tsc + tsc-alias for .d.ts generation ([#146](https://github.com/coloneljade/auldrant-ui/pull/146))
+- Fix alias leaks in emitted type declarations ([#146](https://github.com/coloneljade/auldrant-ui/pull/146))
+- Add CI smoke test workflow for subpath export resolution ([#146](https://github.com/coloneljade/auldrant-ui/pull/146))
+- **Breaking:** Remove single entry point — consumers must use subpath imports ([#146](https://github.com/coloneljade/auldrant-ui/pull/146))
+- **Breaking:** Remove `Dialog` and `Modal` from public exports — use `confirm()`/`dialog()` imperative API ([#146](https://github.com/coloneljade/auldrant-ui/pull/146))
+- **Breaking:** Remove internal signals from public barrel (`dismiss`, `queue`, `matchParams`, `remove`, `toasts`, `IToastItem`) ([#146](https://github.com/coloneljade/auldrant-ui/pull/146))
+- **Breaking:** Remove wildcard subpath exports (`./components/*`, `./signals/*`) ([#146](https://github.com/coloneljade/auldrant-ui/pull/146))
+
 ## [1.2.2] - 2026-03-25
 
 ### Fixed

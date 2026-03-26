@@ -1,9 +1,9 @@
-import FormField from '@components/FormField';
 import Icon, { IconName } from '@components/Icon';
 import Tooltip from '@components/Tooltip';
+import FormField from '@internal/FormField';
+import type { IFieldProps } from '@internal/types';
+import { describeBy } from '@internal/utils';
 import { useSignal } from '@preact/signals';
-import type { IFieldProps } from '@scripts/types';
-import { describeBy } from '@scripts/utils';
 import styles from '@styles/PasswordInput.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
