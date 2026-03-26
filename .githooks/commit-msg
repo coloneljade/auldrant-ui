@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# Validate commit message format against conventional commit syntax.
+#
+# Algorithm:
+#   1. Read the commit message file (path passed as $1 by git)
+#   2. Extract the first line (subject), stripping comment lines
+#   3. Allow empty subjects — git will abort the commit on its own
+#   4. Allow merge commits ("Merge ...") and revert commits ("Revert ...")
+#   5. Validate subject matches: type(optional-scope)!?: description
+#   6. Validate the type against the known allow list
+#   7. Reject with an actionable error if validation fails
+#
+# The regex and type list are aligned with merge-bot's commit parser so
+# commits accepted here will be parseable by the CHANGELOG generator.
+# The `wip` type is additionally allowed for checkpoint commits during
+# development; these are blocked at push time by the pre-push hook.
+#
+# Exit 0: commit message is valid
+# Exit 1: commit message is malformed or uses an unknown type
+
+set -euo pipefail
+
+MSG_FILE="$1"
+SUBJECT=$(head -1 "$MSG_FILE" | sed 's/^#.*//')
+
+# Allow empty subject — git will abort the commit on its own
+if [ -z "$SUBJECT" ]; then
+  exit 0
+fi
+
+# Allow merge commits and revert commits
+if [[ "$SUBJECT" =~ ^Merge\  ]] || [[ "$SUBJECT" =~ ^Revert\  ]]; then
+  exit 0
+fi
+
+# Validate conventional commit format: type(optional-scope)!?: description
+if ! [[ "$SUBJECT" =~ ^([a-zA-Z]+)(\(.*\))?\!?:[[:space:]].+ ]]; then
+  echo "error: commit message does not match conventional format"
+  echo "  expected: type(scope): description"
+  echo "  got:      $SUBJECT"
+  echo ""
+  echo "Valid types: feat, fix, refactor, perf, security, docs, test, chore, ci, build, style, wip"
+  exit 1
+fi
+
+TYPE="${BASH_REMATCH[1]}"
+VALID_TYPES="feat fix refactor perf security docs test chore ci build style wip"
+
+for valid in $VALID_TYPES; do
+  if [ "$TYPE" = "$valid" ]; then
+    exit 0
+  fi
+done
+
+echo "error: unknown commit type \"$TYPE\""
+echo "Valid types: feat, fix, refactor, perf, security, docs, test, chore, ci, build, style, wip"
+exit 1
