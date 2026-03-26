@@ -64,7 +64,7 @@ tests/
 ### Required Files
 
 - `package.json`, `tsconfig.json`, `vite.config.ts`
-- `biome.json`, `.editorconfig`, `lefthook.yml`
+- `biome.json`, `.editorconfig`
 - `.gitignore`, `.gitattributes`, `LICENSE`, `NOTICES`
 
 ## Search Exclusions

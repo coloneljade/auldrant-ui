@@ -39,7 +39,7 @@
 	"files.insertFinalNewline": true,
 	"files.trimTrailingWhitespace": true,
 	"cSpell.ignorePaths": ["devcontainer.json", "biome.json", "bun.lock"],
-	"cSpell.words": ["Auldrant", "biomejs", "preact", "lefthook", "vite"],
+	"cSpell.words": ["Auldrant", "biomejs", "preact", "githooks", "vite"],
 	"github.gitProtocol": "ssh",
 	"css.customData": [".vscode/css_custom_data.json"],
 	"search.exclude": {

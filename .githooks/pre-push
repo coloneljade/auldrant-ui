@@ -1,0 +1,134 @@
+#!/usr/bin/env bash
+# Validate branch name and all outgoing commit messages before push.
+#
+# Algorithm:
+#   1. Read the current branch name
+#   2. Allow main and detached HEAD unconditionally
+#   3. Validate branch uses type/description format with a recognized prefix
+#   4. Read stdin for remote ref and local/remote SHAs (provided by git)
+#   5. For each ref being pushed, determine new commits not yet on the remote
+#   6. Skip delete operations and refs with no new commits
+#   7. For new branches, compare against origin/main as the base
+#   8. Validate every new commit message matches conventional format
+#   9. Reject wip: commits — allowed locally but must not reach the remote
+#  10. Report all errors with short SHA and subject, then fail
+#
+# Branch validation matches merge-bot's pre-push hook. Commit validation
+# mirrors the commit-msg hook but catches commits that bypassed it (e.g.,
+# --no-verify, cherry-pick, rebase).
+#
+# Exit 0: branch and all commits are valid
+# Exit 1: branch name invalid, or one or more commits have bad messages
+
+set -euo pipefail
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+# --- Branch name validation ---
+
+if [ "$BRANCH" != "main" ] && [ "$BRANCH" != "HEAD" ]; then
+  PREFIX="${BRANCH%%/*}"
+
+  if [ "$PREFIX" = "$BRANCH" ]; then
+    echo "error: branch \"$BRANCH\" must use type/description format (e.g., feat/my-feature)"
+    echo "Valid prefixes: feature, feat, fix, refactor, docs, chore, ci, test, style, perf, security"
+    exit 1
+  fi
+
+  VALID_PREFIXES="feature feat fix refactor docs chore ci test style perf security"
+  prefix_valid=false
+  for valid in $VALID_PREFIXES; do
+    if [ "$PREFIX" = "$valid" ]; then
+      prefix_valid=true
+      break
+    fi
+  done
+
+  if [ "$prefix_valid" = false ]; then
+    echo "error: unrecognized branch prefix \"$PREFIX\" in branch \"$BRANCH\""
+    echo "Valid prefixes: feature, feat, fix, refactor, docs, chore, ci, test, style, perf, security"
+    exit 1
+  fi
+fi
+
+# --- Commit message validation ---
+
+ZERO="0000000000000000000000000000000000000000"
+VALID_TYPES="feat fix refactor perf security docs test chore ci build style"
+errors=0
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  # Skip delete operations
+  if [ "$local_sha" = "$ZERO" ]; then
+    continue
+  fi
+
+  # Determine commit range
+  if [ "$remote_sha" = "$ZERO" ]; then
+    # New branch — compare against origin/main
+    if git rev-parse --verify origin/main >/dev/null 2>&1; then
+      range="origin/main..$local_sha"
+    else
+      # Fresh repo with no origin/main — validate all commits
+      range="$local_sha"
+    fi
+  else
+    range="$remote_sha..$local_sha"
+  fi
+
+  # Get commit subjects in the range
+  commits=$(git log --format="%H %s" "$range" 2>/dev/null) || continue
+
+  if [ -z "$commits" ]; then
+    continue
+  fi
+
+  while IFS= read -r line; do
+    sha="${line%% *}"
+    subject="${line#* }"
+    short_sha="${sha:0:7}"
+
+    # Allow merge and revert commits
+    if [[ "$subject" =~ ^Merge\  ]] || [[ "$subject" =~ ^Revert\  ]]; then
+      continue
+    fi
+
+    # Validate format
+    if ! [[ "$subject" =~ ^([a-zA-Z]+)(\(.*\))?\!?:[[:space:]].+ ]]; then
+      echo "error: commit $short_sha has malformed message: $subject"
+      errors=$((errors + 1))
+      continue
+    fi
+
+    type="${BASH_REMATCH[1]}"
+
+    # Reject wip commits at push time
+    if [ "$type" = "wip" ]; then
+      echo "error: commit $short_sha is a wip commit and cannot be pushed: $subject"
+      echo "  hint: squash or reword wip commits before pushing"
+      errors=$((errors + 1))
+      continue
+    fi
+
+    # Validate type
+    type_valid=false
+    for valid in $VALID_TYPES; do
+      if [ "$type" = "$valid" ]; then
+        type_valid=true
+        break
+      fi
+    done
+
+    if [ "$type_valid" = false ]; then
+      echo "error: commit $short_sha has unknown type \"$type\": $subject"
+      errors=$((errors + 1))
+    fi
+  done <<< "$commits"
+done
+
+if [ "$errors" -gt 0 ]; then
+  echo ""
+  echo "Valid types: feat, fix, refactor, perf, security, docs, test, chore, ci, build, style"
+  echo "($errors commit(s) failed validation)"
+  exit 1
+fi

@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# Run lint/format checks, type checking, and license validation in parallel
+# before allowing commit.
+#
+# Algorithm:
+#   1. Launch `bun run check`, `bun run typecheck`, and `bun run licenses`
+#      as background processes
+#   2. Capture each command's output to a temp file (prevents interleaving)
+#   3. Wait for all to complete, recording individual exit codes
+#   4. If any failed, print the failing command's output and exit 1
+#   5. If all passed, exit 0
+#
+# PATH is extended to include bun's install location so the hook works in GUI
+# git clients that don't source shell profiles.
+#
+# Exit 0: all checks passed
+# Exit 1: one or more checks failed
+
+set -euo pipefail
+
+export PATH="$HOME/.bun/bin:$PATH"
+
+check_output=$(mktemp)
+typecheck_output=$(mktemp)
+licenses_output=$(mktemp)
+trap 'rm -f "$check_output" "$typecheck_output" "$licenses_output"' EXIT
+
+bun run check > "$check_output" 2>&1 &
+check_pid=$!
+
+bun run typecheck > "$typecheck_output" 2>&1 &
+typecheck_pid=$!
+
+bun run licenses > "$licenses_output" 2>&1 &
+licenses_pid=$!
+
+check_exit=0
+typecheck_exit=0
+licenses_exit=0
+
+wait "$check_pid" || check_exit=$?
+wait "$typecheck_pid" || typecheck_exit=$?
+wait "$licenses_pid" || licenses_exit=$?
+
+failed=0
+
+if [ "$check_exit" -ne 0 ]; then
+  echo "--- bun run check FAILED (exit $check_exit) ---"
+  cat "$check_output"
+  echo ""
+  failed=1
+fi
+
+if [ "$typecheck_exit" -ne 0 ]; then
+  echo "--- bun run typecheck FAILED (exit $typecheck_exit) ---"
+  cat "$typecheck_output"
+  echo ""
+  failed=1
+fi
+
+if [ "$licenses_exit" -ne 0 ]; then
+  echo "--- bun run licenses FAILED (exit $licenses_exit) ---"
+  cat "$licenses_output"
+  echo ""
+  failed=1
+fi
+
+exit "$failed"
