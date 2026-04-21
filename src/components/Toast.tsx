@@ -7,6 +7,7 @@ import { useSignal } from '@preact/signals';
 import styles from '@styles/Toast.module.css';
 import { cx } from '@utils';
 import type { FunctionComponent } from 'preact';
+import { useEffect, useRef } from 'preact/hooks';
 
 export { ToastVariant } from '@internal/types';
 
@@ -43,8 +44,9 @@ const variantClass: { [key in ToastVariant]: string | undefined } = {
 /**
  * Individual toast notification. Mount via {@link Toaster} — do not use directly.
  *
- * Always `role="status"` (polite). Toasts are transient; for critical errors
- * the user must act on, use {@link Alert} instead.
+ * Toasts are rendered as plain content inside the Toaster's single polite live region
+ * (a per-toast live region would nest with the wrapper's and cause inconsistent
+ * announcements). Transient — for critical errors the user must act on, use {@link Alert}.
  */
 const Toast: FunctionComponent<IToastProps> = (props) => {
 	const {
@@ -58,6 +60,7 @@ const Toast: FunctionComponent<IToastProps> = (props) => {
 	} = props;
 
 	const dismissing = useSignal(false);
+	const rootRef = useRef<HTMLDivElement>(null);
 
 	const timer = useTimer(duration, () => {
 		dismissing.value = true;
@@ -68,18 +71,37 @@ const Toast: FunctionComponent<IToastProps> = (props) => {
 		dismissing.value = true;
 	}
 
+	// Pause-on-hover / pause-on-focus wired as imperative DOM listeners. The root
+	// <div> is presentational (no role); JSX event handlers on a static element
+	// trigger biome's noStaticElementInteractions — this pattern mirrors Tooltip.tsx.
+	useEffect(() => {
+		const root = rootRef.current;
+		if (!root) {
+			return;
+		}
+		const pause = () => timer.pause();
+		const resume = () => timer.resume();
+		root.addEventListener('mouseenter', pause);
+		root.addEventListener('mouseleave', resume);
+		root.addEventListener('focusin', pause);
+		root.addEventListener('focusout', resume);
+		return () => {
+			root.removeEventListener('mouseenter', pause);
+			root.removeEventListener('mouseleave', resume);
+			root.removeEventListener('focusin', pause);
+			root.removeEventListener('focusout', resume);
+		};
+	}, [timer]);
+
 	return (
-		<output
+		<div
+			ref={rootRef}
 			class={cx(
 				styles.toast,
 				variantClass[variant],
 				dismissing.value && styles.dismissing,
 				className
 			)}
-			onMouseEnter={() => timer.pause()}
-			onMouseLeave={() => timer.resume()}
-			onFocusIn={() => timer.pause()}
-			onFocusOut={() => timer.resume()}
 			onAnimationEnd={(e) => {
 				if (dismissing.value && e.target === e.currentTarget) {
 					onDismiss?.();
@@ -101,7 +123,7 @@ const Toast: FunctionComponent<IToastProps> = (props) => {
 					<Icon name={IconName.dismiss} />
 				</button>
 			</Tooltip>
-		</output>
+		</div>
 	);
 };
 
