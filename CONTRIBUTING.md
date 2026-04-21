@@ -56,6 +56,8 @@ This adds the following to your commit message:
 2. Open in DevContainer (recommended) or install [Bun](https://bun.sh/) locally
 3. Run `bun install`
 
+`bun install` runs `prepare` which wires `.githooks/` via `core.hooksPath`. Skipping `bun install` means the `commit-msg` and `pre-push` hooks (sign-off validation, conventional-commit format) won't fire.
+
 ## Code Style
 
 - **Formatter/Linter**: Biome (configured in `biome.json`)
@@ -71,8 +73,8 @@ Run `bun run check` to verify, `bun run check:fix` to auto-fix.
 - Use semantic HTML elements before reaching for ARIA
 - Use CSS modules (`.module.css`) for component styles
 - Use CSS Grid for layout (no flexbox for page/component layout)
-- Use `em` units for spacing and sizing
-- Export all public components from `src/index.ts`
+- Use `em` units for spacing and sizing. `rem` is permitted only on `min-width`/`min-height` of interactive elements to meet WCAG 2.5.5 / 2.5.8 touch-target minimums.
+- Export all public components from `src/components/index.ts` (the components subpath barrel)
 - Test your component on the dev test page (`bun run dev`)
 
 ## Dev Test Page
@@ -113,11 +115,18 @@ Before submitting, all of these must pass:
 
 ### Merging
 
-PRs are merged by the merge bot. A maintainer comments one of:
+PRs are merged by the [merge bot](https://github.com/coloneljade/merge-bot). A maintainer posts a `/merge` comment; the bot determines the version bump from the branch prefix (default map: `feat`/`feature` → minor, `fix` → patch). Other prefixes (`refactor/`, `chore/`, `docs/`, etc.) merge without a version bump.
 
-- `/merge fix` — patch bump (bug fixes, `0.0.x`)
-- `/merge feat` — minor bump (new features, `0.x.0`)
-- `/merge feature` — minor bump (alias for feat)
+Override flags:
+
+- `/merge` — merge with auto-detected bump from branch prefix
+- `/merge --major` — force major bump (explicit opt-in; never inferred)
+- `/merge --minor` — force minor bump
+- `/merge --patch` — force patch bump
+- `/merge --no-bump` — merge without version bump or CHANGELOG entry
+- `/merge --no-squash` — merge commit instead of squash
+
+Flags can be combined: `/merge --patch --no-squash`.
 
 The bot handles CHANGELOG entries and version bumps automatically. Do not edit these manually.
 
