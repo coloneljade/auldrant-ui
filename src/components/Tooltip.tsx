@@ -121,12 +121,23 @@ const Tooltip: FunctionComponent<ITooltipProps> = (props) => {
 	}, [isVisible.value]);
 
 	// Inject aria-describedby into the child element if it is a single VNode;
-	// otherwise wrap in a span so the attribute is still applied.
-	const trigger = isValidElement(children)
-		? cloneElement(children as VNode<{ 'aria-describedby'?: string }>, {
-				'aria-describedby': tooltipId,
-			})
-		: ((<span aria-describedby={tooltipId}>{children}</span>) as ComponentChildren);
+	// otherwise wrap in a focusable span so keyboard users can reveal the tooltip.
+	// WCAG 1.4.13 requires tooltips to be discoverable on focus, not only on hover —
+	// without tabIndex, a non-VNode child (plain text, fragment) would produce a
+	// tooltip that is inaccessible to keyboard users.
+	let trigger: ComponentChildren;
+	if (isValidElement(children)) {
+		trigger = cloneElement(children as VNode<{ 'aria-describedby'?: string }>, {
+			'aria-describedby': tooltipId,
+		});
+	} else {
+		trigger = (
+			// biome-ignore lint/a11y/noNoninteractiveTabindex: WCAG 1.4.13 — fallback span must be focusable so keyboard users can reveal the tooltip on non-VNode children
+			<span tabIndex={0} aria-describedby={tooltipId}>
+				{children}
+			</span>
+		);
+	}
 
 	return (
 		<span ref={wrapperRef} class={cx(styles.tooltip, className)} data-placement="above">
