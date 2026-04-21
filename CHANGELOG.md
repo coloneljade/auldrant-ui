@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [2.1.0] - 2026-04-21
+
+### Changed
+
+- Consolidate cross-cutting types and rename useTimer to named export ([#152](https://github.com/coloneljade/auldrant-ui/pull/152))
+- Narrow target type to fragment identifier ([#152](https://github.com/coloneljade/auldrant-ui/pull/152))
+
+### Fixed
+
+- Tie arrow-key activation to eager mount mode ([#152](https://github.com/coloneljade/auldrant-ui/pull/152))
+- Render disabled prev/next as non-navigable buttons ([#152](https://github.com/coloneljade/auldrant-ui/pull/152))
+- Consolidate to a single persistent live region ([#152](https://github.com/coloneljade/auldrant-ui/pull/152))
+- Make fallback wrapper keyboard-focusable ([#152](https://github.com/coloneljade/auldrant-ui/pull/152))
+- Update useTimer import to named form ([#152](https://github.com/coloneljade/auldrant-ui/pull/152))
+
 ## [2.0.0] - 2026-03-26
 
 ### Added
