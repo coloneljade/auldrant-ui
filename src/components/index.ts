@@ -1,4 +1,4 @@
-export { default as text } from '../styles/text.module.css';
+export { default as text } from '@styles/text.module.css';
 export { AccordionItem, default as Accordion } from './Accordion';
 export { AlertVariant, default as Alert } from './Alert';
 export { BadgeVariant, default as Badge } from './Badge';

@@ -1,6 +1,5 @@
-import type { IDialogAction } from '@internal/DialogBase';
 import DialogBase from '@internal/DialogBase';
-import type { IBaseProps } from '@internal/types';
+import type { IBaseProps, IDialogAction } from '@internal/types';
 import type { ComponentChildren, FunctionComponent } from 'preact';
 
 /** Props for {@link Dialog}. */

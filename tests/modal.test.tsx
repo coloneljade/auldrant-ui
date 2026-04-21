@@ -1,6 +1,6 @@
 import { describe, expect, it, mock } from 'bun:test';
-import type { IDialogAction } from '@components/DialogBase';
 import Modal from '@components/Modal';
+import type { IDialogAction } from '@internal/types';
 import { fireEvent, render } from '@testing-library/preact';
 
 const defaultAction: IDialogAction = {

@@ -65,7 +65,7 @@ export interface ITimerControls {
  * state that survives renders without causing them. Only the component's own
  * `dismissing` boolean (or equivalent) needs to trigger a render.
  */
-function useTimer(duration: number, onComplete: () => void): ITimerControls {
+export function useTimer(duration: number, onComplete: () => void): ITimerControls {
 	const remainingRef = useRef<number>(duration);
 	const startRef = useRef<number | null>(null);
 	const handleRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -111,5 +111,3 @@ function useTimer(duration: number, onComplete: () => void): ITimerControls {
 
 	return controlsRef.current;
 }
-
-export default useTimer;
