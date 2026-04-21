@@ -5,8 +5,8 @@ import type { FunctionComponent } from 'preact';
 
 /** Props for {@link SkipLink}. */
 interface ISkipLinkProps extends IBaseProps {
-	/** Target element ID (including `#`). */
-	target: string;
+	/** Target element ID (must start with `#`). */
+	target: `#${string}`;
 	/** Visible link text. Defaults to `'Skip to main content'`. */
 	label?: string;
 }
