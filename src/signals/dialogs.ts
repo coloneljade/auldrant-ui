@@ -1,4 +1,4 @@
-import type { IDialogAction } from '@internal/DialogBase';
+import type { IDialogAction } from '@internal/types';
 import { signal } from '@preact/signals';
 import type { ComponentChildren } from 'preact';
 

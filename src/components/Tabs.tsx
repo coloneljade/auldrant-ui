@@ -103,10 +103,15 @@ export const Tab: FunctionComponent<ITabProps> = () => null;
  * Accessible tab interface with ARIA state, keyboard navigation, and lazy panel mounting.
  *
  * Keyboard: ArrowRight/Left navigate tabs with wrapping; Home/End jump to first/last.
- * All navigation auto-activates the focused tab.
+ *
+ * Activation mode follows mount mode (W3C WAI-ARIA APG Tabs pattern):
+ * - `eager: false` (default, lazy mount) — arrow keys move focus only; Enter, Space,
+ *   or click activate. Avoids mounting every panel as the user browses tabs.
+ * - `eager: true` — arrow keys move focus and auto-activate the focused tab. Safe
+ *   because panels are already mounted.
  *
  * Panels are lazy-mounted by default — content renders on first activation and stays
- * mounted. Set `eager` on the group or individual tabs to mount immediately.
+ * mounted.
  */
 const TabGroup: FunctionComponent<ITabGroupProps> = (props) => {
 	const {
@@ -175,6 +180,11 @@ const TabGroup: FunctionComponent<ITabGroupProps> = (props) => {
 		tabs.find((t) => t.props.id === id)?.props.onActivate?.();
 	}
 
+	// Auto-activate on arrow only when tabs are eagerly mounted — otherwise every
+	// arrow keypress would mount the focused tab's panel, defeating lazy mounting.
+	// Per-tab `eager` opts in individually; group `eager` opts in for all.
+	const anyEager = tabs.some((t) => t.props.eager ?? groupEager);
+
 	function handleKeyDown(e: KeyboardEvent) {
 		const tabEls = tablistRef.current
 			? Array.from(tablistRef.current.querySelectorAll<HTMLElement>('[role=tab]'))
@@ -201,7 +211,9 @@ const TabGroup: FunctionComponent<ITabGroupProps> = (props) => {
 			const tabId = targetEl?.dataset.tabId;
 			if (targetEl && tabId) {
 				targetEl.focus();
-				activateTab(tabId);
+				if (anyEager) {
+					activateTab(tabId);
+				}
 			}
 		}
 	}

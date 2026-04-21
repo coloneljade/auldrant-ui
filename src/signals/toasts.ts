@@ -1,4 +1,4 @@
-import type { ToastVariant } from '@components/Toast';
+import type { ToastVariant } from '@internal/types';
 import { signal } from '@preact/signals';
 
 /** A single toast item in the queue. */

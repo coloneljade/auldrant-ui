@@ -16,15 +16,8 @@ describe('Toast a11y', () => {
 		);
 	});
 
-	it('WCAG SC 4.1.3: all variants use role="status" (polite)', () => {
-		for (const variant of Object.values(ToastVariant)) {
-			const { getByRole, unmount } = render(
-				<Toast variant={variant} message={`${variant} toast`} onDismiss={() => {}} />
-			);
-			getByRole('status');
-			unmount();
-		}
-	});
+	// Toast is plain content inside Toaster's single persistent live region — the
+	// live region semantics live on the wrapper, not per-toast. See Toaster.a11y.
 
 	it('WCAG SC 4.1.2: dismiss button has an accessible name', () => {
 		const { getByRole } = render(<Toast message="Test" onDismiss={() => {}} />);

@@ -3,15 +3,7 @@ import styles from '@styles/Theme.module.css';
 import { cx } from '@utils';
 import type { ComponentChildren, FunctionComponent } from 'preact';
 
-/** Preset palette class names for `<Theme class={Palette.blue}>`. */
-export enum Palette {
-	blue = 'aui-blue',
-	purple = 'aui-purple',
-	teal = 'aui-teal',
-	red = 'aui-red',
-	orange = 'aui-orange',
-	yellow = 'aui-yellow',
-}
+export { Palette } from '@internal/types';
 
 /** Props for {@link Theme}. */
 interface IThemeProps extends IBaseProps {

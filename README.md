@@ -42,10 +42,14 @@ function App() {
 | `@auldrant/ui/styles` | CSS tokens + component styles (import once in app entry) | `import '@auldrant/ui/styles'` |
 | `@auldrant/ui/components` | All components | `import { Button, Theme } from '@auldrant/ui/components'` |
 | `@auldrant/ui/signals` | All signals | `import { navigate, toast } from '@auldrant/ui/signals'` |
-| `@auldrant/ui/hooks` | Hooks (`useTimer`, `usePage`) | `import useTimer from '@auldrant/ui/hooks'` |
+| `@auldrant/ui/hooks` | Hooks (`useTimer`, `usePage`) | `import { useTimer } from '@auldrant/ui/hooks'` |
 | `@auldrant/ui/utils` | Utilities (`cx`, `HeadingLevel`) | `import { cx } from '@auldrant/ui/utils'` |
 
 > **Note:** Consumer tsconfig must use a `moduleResolution` mode that supports package `exports` (recommended: `"bundler"`).
+>
+> **No root export:** the package intentionally has no `.` entry point — all imports use subpaths. Import from `@auldrant/ui/components`, `@auldrant/ui/signals`, etc. rather than `@auldrant/ui`.
+>
+> **URL props are not sanitized.** Components that accept a URL (`Link.href`, `DownloadLink.href`, `SkipLink.target`, `Alert.actionHref`) forward the value directly to the rendered `<a href>`. Validate any URL derived from untrusted input before passing it to these components.
 
 ## Components
 
@@ -69,7 +73,7 @@ function App() {
 | `Skeleton` | Loading placeholder with shimmer animation. Size via the `class` prop | `rounded?` (pill/avatar shape) |
 | `Toast` + `Toaster` | Transient notification with auto-dismiss and hover/focus pause. Mount `<Toaster />` once in app root; call `toast()` anywhere | `message`, `variant?`, `title?`, `duration?`, `dismissLabel?`, `onDismiss?` on Toast |
 
-> **Note:** Toasts are intentionally transient — content must be safe to miss. For critical errors the user must act on, use `Alert`. All toasts use `role="status"` (polite) and do not interrupt screen reader focus.
+> **Note:** Toasts are intentionally transient — content must be safe to miss. For critical errors the user must act on, use `Alert`. The `Toaster` wrapper is a single polite live region (`aria-live="polite"`); individual toasts are plain content inserted into it, so screen readers announce without duplicate or missed notifications.
 
 ### Form Controls
 

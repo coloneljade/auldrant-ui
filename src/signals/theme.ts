@@ -1,4 +1,4 @@
-import type { Palette } from '@components/Theme';
+import type { Palette } from '@internal/types';
 import { signal } from '@preact/signals';
 
 /** Currently active palette class. Set to change the theme library-wide. */

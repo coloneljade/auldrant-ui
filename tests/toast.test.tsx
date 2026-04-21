@@ -1,36 +1,8 @@
 import { describe, expect, it, mock } from 'bun:test';
-import Toast, { ToastVariant } from '@components/Toast';
+import Toast from '@components/Toast';
 import { act, fireEvent, render } from '@testing-library/preact';
 
 describe('Toast', () => {
-	describe('ARIA role', () => {
-		it('renders role="status" for the default (info) variant', () => {
-			const { getByRole } = render(<Toast message="Info" onDismiss={() => {}} />);
-			getByRole('status');
-		});
-
-		it('renders role="status" for the success variant', () => {
-			const { getByRole } = render(
-				<Toast variant={ToastVariant.success} message="Done" onDismiss={() => {}} />
-			);
-			getByRole('status');
-		});
-
-		it('renders role="status" for the warning variant', () => {
-			const { getByRole } = render(
-				<Toast variant={ToastVariant.warning} message="Warning" onDismiss={() => {}} />
-			);
-			getByRole('status');
-		});
-
-		it('renders role="status" for the error variant', () => {
-			const { getByRole } = render(
-				<Toast variant={ToastVariant.error} message="Error" onDismiss={() => {}} />
-			);
-			getByRole('status');
-		});
-	});
-
 	describe('content', () => {
 		it('renders the message text', () => {
 			const { getByText } = render(<Toast message="Hello world" onDismiss={() => {}} />);
@@ -75,7 +47,8 @@ describe('Toast', () => {
 	});
 
 	// Bun 1.3.x has no mock.timers API. We replace global.setTimeout with a stub
-	// that captures the callback and delay, then manually invoke it.
+	// that captures the callback and delay, then manually invoke it. try/finally
+	// ensures a failed assertion doesn't leak stubbed globals into other tests.
 	describe('auto-dismiss timer', () => {
 		it('calls onDismiss after the specified duration', () => {
 			let capturedCallback: (() => void) | null = null;
@@ -87,19 +60,22 @@ describe('Toast', () => {
 				return 0;
 			}) as unknown as typeof setTimeout;
 
-			const onDismiss = mock(() => {});
-			const { container } = render(
-				<Toast message="Auto-dismiss" duration={3000} onDismiss={onDismiss} />
-			);
+			try {
+				const onDismiss = mock(() => {});
+				const { container } = render(
+					<Toast message="Auto-dismiss" duration={3000} onDismiss={onDismiss} />
+				);
 
-			expect(capturedDelay).toBe(3000);
-			act(() => {
-				capturedCallback?.();
-			});
-			fireEvent.animationEnd(container.firstElementChild as HTMLElement);
+				expect(capturedDelay).toBe(3000);
+				act(() => {
+					capturedCallback?.();
+				});
+				fireEvent.animationEnd(container.firstElementChild as HTMLElement);
 
-			expect(onDismiss).toHaveBeenCalledTimes(1);
-			global.setTimeout = origSetTimeout;
+				expect(onDismiss).toHaveBeenCalledTimes(1);
+			} finally {
+				global.setTimeout = origSetTimeout;
+			}
 		});
 
 		it('pauses timer on mouse enter and resumes on mouse leave', () => {
@@ -112,24 +88,26 @@ describe('Toast', () => {
 			}) as unknown as typeof setTimeout;
 			global.clearTimeout = ((_handle: unknown) => {}) as unknown as typeof clearTimeout;
 
-			const { container } = render(
-				<Toast message="Hover pause" duration={5000} onDismiss={() => {}} />
-			);
+			try {
+				const { container } = render(
+					<Toast message="Hover pause" duration={5000} onDismiss={() => {}} />
+				);
 
-			// Timer started — one timeout queued
-			expect(timeouts.length).toBe(1);
+				// Timer started — one timeout queued
+				expect(timeouts.length).toBe(1);
 
-			// Hover pauses (clearTimeout called), leave resumes (new setTimeout queued)
-			fireEvent.mouseEnter(container.firstElementChild as HTMLElement);
-			fireEvent.mouseLeave(container.firstElementChild as HTMLElement);
+				// Hover pauses (clearTimeout called), leave resumes (new setTimeout queued)
+				fireEvent.mouseEnter(container.firstElementChild as HTMLElement);
+				fireEvent.mouseLeave(container.firstElementChild as HTMLElement);
 
-			// A new timeout should have been queued for the resumed timer
-			expect(timeouts.length).toBe(2);
-			// Resumed delay should be <= original duration (remaining time)
-			expect(timeouts[1]?.delay).toBeLessThanOrEqual(5000);
-
-			global.setTimeout = origSetTimeout;
-			global.clearTimeout = origClearTimeout;
+				// A new timeout should have been queued for the resumed timer
+				expect(timeouts.length).toBe(2);
+				// Resumed delay should be <= original duration (remaining time)
+				expect(timeouts[1]?.delay).toBeLessThanOrEqual(5000);
+			} finally {
+				global.setTimeout = origSetTimeout;
+				global.clearTimeout = origClearTimeout;
+			}
 		});
 	});
 

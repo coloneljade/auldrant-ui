@@ -23,10 +23,10 @@ import type { FunctionComponent } from 'preact';
 const Toaster: FunctionComponent = () => {
 	const items = toasts.value;
 
-	if (items.length === 0) {
-		return null;
-	}
-
+	// Wrapper is the single persistent live region — always mounted so new toasts
+	// are inserted into a region that already exists in the DOM. Screen readers
+	// announce content added to a pre-existing live region; content inserted in
+	// the same render that creates the region is commonly missed.
 	return (
 		<div class={styles.toaster} aria-live="polite" aria-atomic="false">
 			{items.map((item) => (

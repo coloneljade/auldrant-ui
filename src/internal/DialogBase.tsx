@@ -1,25 +1,11 @@
 import Icon, { IconName } from '@components/Icon';
 import Tooltip from '@components/Tooltip';
-import type { IBaseProps } from '@internal/types';
+import type { IBaseProps, IDialogAction } from '@internal/types';
 import useDraggable from '@internal/useDraggable';
 import styles from '@styles/Dialog.module.css';
 import { cx } from '@utils';
 import type { ComponentChildren, FunctionComponent } from 'preact';
 import { useEffect, useId, useRef } from 'preact/hooks';
-
-/** Action button metadata. All fields required to enforce a11y-complete definitions. */
-export interface IDialogAction {
-	/** Button label text. */
-	label: string;
-	/** Accessible description. Rendered as native `title` tooltip. */
-	description: string;
-	/** Click handler. */
-	onClick: () => void;
-	/** Keyboard shortcut string. Single key ('d') or combo ('Shift+D', 'Ctrl+Enter').
-	 *  Parsed internally and wired to a keydown listener while the dialog is open.
-	 *  Displayed visually on the button as a hint. */
-	shortcut: string;
-}
 
 /** Props for {@link DialogBase}. */
 interface IDialogBaseProps extends IBaseProps {

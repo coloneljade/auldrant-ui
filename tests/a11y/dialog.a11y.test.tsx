@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import Dialog from '@components/Dialog';
-import type { IDialogAction } from '@components/DialogBase';
 import Modal from '@components/Modal';
+import type { IDialogAction } from '@internal/types';
 import { render } from '@testing-library/preact';
 import { checkA11y, expectNoViolations, renderAndCheckA11y } from './setup';
 

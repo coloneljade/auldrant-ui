@@ -10,7 +10,7 @@ import {
 	Palette,
 	Theme,
 } from '@auldrant/ui/components';
-import useTimer, { type ITimerControls, page, usePage } from '@auldrant/ui/hooks';
+import { type ITimerControls, page, usePage, useTimer } from '@auldrant/ui/hooks';
 import {
 	confirm,
 	dialog,

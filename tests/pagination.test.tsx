@@ -88,37 +88,29 @@ describe('Pagination', () => {
 		}
 	});
 
-	it('prev link is disabled at page 1', () => {
+	it('disabled prev renders as a disabled button at page 1', () => {
 		// Arrange — page 1 (base URL)
 
 		// Act
-		const { getByRole } = render(<Pagination totalPages={10}>content</Pagination>);
+		const { getByRole, queryByRole } = render(<Pagination totalPages={10}>content</Pagination>);
 
-		// Assert
-		const prev = getByRole('link', { name: 'Previous page' });
-		expect(prev.getAttribute('aria-disabled')).toBe('true');
-		expect(prev.getAttribute('tabindex')).toBe('-1');
+		// Assert — disabled prev is a <button disabled>, not a link
+		const prev = getByRole('button', { name: 'Previous page' }) as HTMLButtonElement;
+		expect(prev.disabled).toBe(true);
+		expect(queryByRole('link', { name: 'Previous page' })).toBeNull();
 	});
 
-	it('prev link href is clamped to page 1 when disabled', () => {
-		// Act
-		const { getByRole } = render(<Pagination totalPages={10}>content</Pagination>);
-
-		// Assert — href stays at base (page 1)
-		expect(getByRole('link', { name: 'Previous page' }).getAttribute('href')).toBe('/results');
-	});
-
-	it('next link is disabled at last page', () => {
+	it('disabled next renders as a disabled button at last page', () => {
 		// Arrange — last page
 		location.value = '/results/page/10';
 
 		// Act
-		const { getByRole } = render(<Pagination totalPages={10}>content</Pagination>);
+		const { getByRole, queryByRole } = render(<Pagination totalPages={10}>content</Pagination>);
 
 		// Assert
-		const next = getByRole('link', { name: 'Next page' });
-		expect(next.getAttribute('aria-disabled')).toBe('true');
-		expect(next.getAttribute('tabindex')).toBe('-1');
+		const next = getByRole('button', { name: 'Next page' }) as HTMLButtonElement;
+		expect(next.disabled).toBe(true);
+		expect(queryByRole('link', { name: 'Next page' })).toBeNull();
 	});
 
 	it('page 1 href is base URL', () => {
@@ -145,6 +137,9 @@ describe('Pagination', () => {
 	});
 
 	it('supports custom prevLabel and nextLabel', () => {
+		// Arrange — non-first, non-last page so both prev and next are enabled links
+		location.value = '/results/page/3';
+
 		// Act
 		const { getByRole } = render(
 			<Pagination totalPages={5} prevLabel="← Back" nextLabel="Forward →">
@@ -162,8 +157,10 @@ describe('Pagination', () => {
 		const { getByRole } = render(<Pagination totalPages={1}>content</Pagination>);
 
 		// Assert
-		expect(getByRole('link', { name: 'Previous page' }).getAttribute('aria-disabled')).toBe('true');
-		expect(getByRole('link', { name: 'Next page' }).getAttribute('aria-disabled')).toBe('true');
+		const prev = getByRole('button', { name: 'Previous page' }) as HTMLButtonElement;
+		const next = getByRole('button', { name: 'Next page' }) as HTMLButtonElement;
+		expect(prev.disabled).toBe(true);
+		expect(next.disabled).toBe(true);
 	});
 
 	it('page 1 of 10 renders first 3 pages and last page with ellipsis', () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it, mock } from 'bun:test';
 import Dialog from '@components/Dialog';
-import type { IDialogAction } from '@components/DialogBase';
+import type { IDialogAction } from '@internal/types';
 import { fireEvent, render } from '@testing-library/preact';
 
 describe('Dialog', () => {
