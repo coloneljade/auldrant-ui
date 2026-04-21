@@ -162,8 +162,9 @@ describe('TabGroup', () => {
 		});
 	});
 
-	describe('keyboard navigation', () => {
-		it('ArrowRight moves focus to the next tab and activates it', () => {
+	describe('keyboard navigation (lazy mode — focus only)', () => {
+		it('ArrowRight moves focus without activating the target tab', () => {
+			// Arrange
 			const { getByRole } = render(
 				<TabGroup>
 					<Tab id="a" label="A">
@@ -180,13 +181,17 @@ describe('TabGroup', () => {
 			const tabA = getByRole('tab', { name: 'A' });
 			const tabB = getByRole('tab', { name: 'B' });
 
+			// Act
 			fireEvent.keyDown(tabA, { key: 'ArrowRight' });
 
+			// Assert — focus moves but activation stays on A (APG manual-activation for lazy panels)
 			expect(document.activeElement).toBe(tabB);
-			expect(tabB.getAttribute('aria-selected')).toBe('true');
+			expect(tabB.getAttribute('aria-selected')).toBe('false');
+			expect(tabA.getAttribute('aria-selected')).toBe('true');
 		});
 
-		it('ArrowLeft moves focus to the previous tab and activates it', () => {
+		it('ArrowLeft moves focus without activating the target tab', () => {
+			// Arrange
 			const { getByRole } = render(
 				<TabGroup defaultActive="b">
 					<Tab id="a" label="A">
@@ -200,10 +205,36 @@ describe('TabGroup', () => {
 			const tabA = getByRole('tab', { name: 'A' });
 			const tabB = getByRole('tab', { name: 'B' });
 
+			// Act
 			fireEvent.keyDown(tabB, { key: 'ArrowLeft' });
 
+			// Assert — focus moves but B stays selected
 			expect(document.activeElement).toBe(tabA);
-			expect(tabA.getAttribute('aria-selected')).toBe('true');
+			expect(tabA.getAttribute('aria-selected')).toBe('false');
+			expect(tabB.getAttribute('aria-selected')).toBe('true');
+		});
+
+		it('eager mode auto-activates on arrow navigation', () => {
+			// Arrange
+			const { getByRole } = render(
+				<TabGroup eager>
+					<Tab id="a" label="A">
+						Content A
+					</Tab>
+					<Tab id="b" label="B">
+						Content B
+					</Tab>
+				</TabGroup>
+			);
+			const tabA = getByRole('tab', { name: 'A' });
+			const tabB = getByRole('tab', { name: 'B' });
+
+			// Act
+			fireEvent.keyDown(tabA, { key: 'ArrowRight' });
+
+			// Assert — eager panels are already mounted, so auto-activation is safe
+			expect(document.activeElement).toBe(tabB);
+			expect(tabB.getAttribute('aria-selected')).toBe('true');
 		});
 
 		it('ArrowRight from last tab wraps to first', () => {
@@ -583,7 +614,29 @@ describe('TabGroup', () => {
 			expect(onActivate).toHaveBeenCalledTimes(1);
 		});
 
-		it('calls onChange on keyboard navigation', () => {
+		it('calls onChange on keyboard navigation in eager mode', () => {
+			// Arrange
+			const onChange = mock(() => {});
+			const { getByRole } = render(
+				<TabGroup eager onChange={onChange}>
+					<Tab id="a" label="A">
+						Content A
+					</Tab>
+					<Tab id="b" label="B">
+						Content B
+					</Tab>
+				</TabGroup>
+			);
+
+			// Act
+			fireEvent.keyDown(getByRole('tab', { name: 'A' }), { key: 'ArrowRight' });
+
+			// Assert
+			expect(onChange).toHaveBeenCalledWith('b');
+		});
+
+		it('does not call onChange on arrow navigation in lazy mode', () => {
+			// Arrange
 			const onChange = mock(() => {});
 			const { getByRole } = render(
 				<TabGroup onChange={onChange}>
@@ -596,9 +649,11 @@ describe('TabGroup', () => {
 				</TabGroup>
 			);
 
+			// Act — arrow moves focus only; no activation means no onChange
 			fireEvent.keyDown(getByRole('tab', { name: 'A' }), { key: 'ArrowRight' });
 
-			expect(onChange).toHaveBeenCalledWith('b');
+			// Assert
+			expect(onChange).not.toHaveBeenCalled();
 		});
 	});
 
