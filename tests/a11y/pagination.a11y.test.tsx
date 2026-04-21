@@ -62,8 +62,8 @@ describe('Pagination a11y', () => {
 		expect(current?.tagName.toLowerCase()).toBe('span');
 	});
 
-	// WCAG SC 4.1.2: disabled state is exposed to AT via aria-disabled
-	it('disabled prev/next have aria-disabled="true"', () => {
+	// WCAG SC 4.1.2: disabled state is exposed to AT and controls are non-actionable
+	it('disabled prev is a non-link button with native disabled state', () => {
 		// First page — prev is disabled
 		const { getByRole } = render(
 			<Pagination totalPages={10}>
@@ -71,7 +71,8 @@ describe('Pagination a11y', () => {
 			</Pagination>
 		);
 
-		expect(getByRole('link', { name: 'Previous page' }).getAttribute('aria-disabled')).toBe('true');
+		const prev = getByRole('button', { name: 'Previous page' }) as HTMLButtonElement;
+		expect(prev.disabled).toBe(true);
 	});
 
 	// WCAG SC 4.1.2: all interactive controls must have accessible names

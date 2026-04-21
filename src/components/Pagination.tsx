@@ -133,15 +133,19 @@ const Pagination: FunctionComponent<IPaginationProps> = (props) => {
 			<nav class={cx(styles.pagination, className)} aria-label="Pagination">
 				<ul class={styles.list}>
 					<li class={styles.item}>
-						<Link
-							href={pageHref(base, prevPage)}
-							class={styles.pageButton}
-							aria-label="Previous page"
-							aria-disabled={isPrevDisabled ? true : undefined}
-							tabIndex={isPrevDisabled ? -1 : undefined}
-						>
-							{prevLabel}
-						</Link>
+						{isPrevDisabled ? (
+							<button type="button" class={styles.pageButton} aria-label="Previous page" disabled>
+								{prevLabel}
+							</button>
+						) : (
+							<Link
+								href={pageHref(base, prevPage)}
+								class={styles.pageButton}
+								aria-label="Previous page"
+							>
+								{prevLabel}
+							</Link>
+						)}
 					</li>
 
 					{items.map((item, i) =>
@@ -169,15 +173,19 @@ const Pagination: FunctionComponent<IPaginationProps> = (props) => {
 					)}
 
 					<li class={styles.item}>
-						<Link
-							href={pageHref(base, nextPage)}
-							class={styles.pageButton}
-							aria-label="Next page"
-							aria-disabled={isNextDisabled ? true : undefined}
-							tabIndex={isNextDisabled ? -1 : undefined}
-						>
-							{nextLabel}
-						</Link>
+						{isNextDisabled ? (
+							<button type="button" class={styles.pageButton} aria-label="Next page" disabled>
+								{nextLabel}
+							</button>
+						) : (
+							<Link
+								href={pageHref(base, nextPage)}
+								class={styles.pageButton}
+								aria-label="Next page"
+							>
+								{nextLabel}
+							</Link>
+						)}
 					</li>
 				</ul>
 			</nav>
