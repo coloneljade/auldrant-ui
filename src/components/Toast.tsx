@@ -1,8 +1,8 @@
 import Icon, { IconName } from '@components/Icon';
 import Tooltip from '@components/Tooltip';
 import { useTimer } from '@hooks';
-import { ToastVariant } from '@internal/types';
 import type { IBaseProps } from '@internal/types';
+import { ToastVariant } from '@internal/types';
 import { useSignal } from '@preact/signals';
 import styles from '@styles/Toast.module.css';
 import { cx } from '@utils';
