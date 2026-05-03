@@ -8,11 +8,14 @@ import {
 	EyeOff,
 	File,
 	Info,
+	Rocket,
 	Search,
+	Settings,
 	TriangleAlert,
 	Upload,
 	X,
 	XCircle,
+	Zap,
 } from 'lucide-preact';
 import type { FunctionComponent } from 'preact';
 
@@ -25,11 +28,14 @@ export enum IconName {
 	file = 'file',
 	hidePassword = 'hidePassword',
 	info = 'info',
+	rocket = 'rocket',
 	search = 'search',
+	settings = 'settings',
 	showPassword = 'showPassword',
 	success = 'success',
 	upload = 'upload',
 	warning = 'warning',
+	zap = 'zap',
 }
 
 /** Props for {@link Icon}. Also serves as the base type for icon props across library components. */
@@ -54,11 +60,14 @@ const iconMap = {
 	[IconName.file]: File,
 	[IconName.hidePassword]: EyeOff,
 	[IconName.info]: Info,
+	[IconName.rocket]: Rocket,
 	[IconName.search]: Search,
+	[IconName.settings]: Settings,
 	[IconName.showPassword]: Eye,
 	[IconName.success]: CheckCircle,
 	[IconName.upload]: Upload,
 	[IconName.warning]: TriangleAlert,
+	[IconName.zap]: Zap,
 } satisfies { [key in IconName]: unknown };
 
 /**
