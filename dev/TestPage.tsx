@@ -44,6 +44,7 @@ import { SelectSection } from './sections/SelectSection';
 import { SkeletonSection } from './sections/SkeletonSection';
 import { SpinnerSection } from './sections/SpinnerSection';
 import { TableSection } from './sections/TableSection';
+import { TabsSection } from './sections/TabsSection';
 import { TextareaSection } from './sections/TextareaSection';
 import { ToastSection } from './sections/ToastSection';
 import { ToggleSection } from './sections/ToggleSection';
@@ -76,6 +77,7 @@ const ALL_SECTIONS: { key: string; Section: FunctionComponent }[] = [
 	{ key: 'routing', Section: RoutingSection },
 	{ key: 'form', Section: FormDemo },
 	{ key: 'accordion', Section: AccordionSection },
+	{ key: 'tabs', Section: TabsSection },
 	{ key: 'dialog', Section: DialogSection },
 	{ key: 'dialoghost', Section: DialogHostSection },
 	{ key: 'dropdown', Section: DropdownSection },
@@ -220,6 +222,7 @@ export const TestPage: FunctionComponent = () => {
 									</Tab>
 									<Tab id="disclosure" label="Disclosure">
 										<AccordionSection />
+										<TabsSection />
 									</Tab>
 									<Tab id="overlay" label="Overlay">
 										<DialogSection />

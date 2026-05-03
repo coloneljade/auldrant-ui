@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import Accordion, { AccordionItem } from '@components/Accordion';
+import { IconName } from '@components/Icon';
 import { fireEvent, render } from '@testing-library/preact';
 import { HeadingLevel } from '@utils';
 
@@ -527,6 +528,40 @@ describe('Accordion', () => {
 			getByText('Content one');
 			getByText('Content two');
 			getByText('Content three');
+		});
+	});
+
+	describe('icon prop', () => {
+		it('preserves accessible name from label when icon is set', () => {
+			// Arrange & Act
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="settings" label="Settings" icon={IconName.settings}>
+						Content
+					</AccordionItem>
+				</Accordion>
+			);
+
+			// Assert — icons are aria-hidden by Icon's lucide default; label remains the accessible name
+			expect(getByRole('button', { name: 'Settings' })).toBeTruthy();
+		});
+
+		it('does not affect open/close behavior when icon is set', () => {
+			// Arrange
+			const { getByRole } = render(
+				<Accordion>
+					<AccordionItem id="security" label="Security" icon={IconName.warning}>
+						Content
+					</AccordionItem>
+				</Accordion>
+			);
+
+			// Act
+			const trigger = getByRole('button', { name: 'Security' });
+			fireEvent.click(trigger);
+
+			// Assert
+			expect(trigger.getAttribute('aria-expanded')).toBe('true');
 		});
 	});
 });

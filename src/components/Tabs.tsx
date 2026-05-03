@@ -1,3 +1,4 @@
+import Icon, { type IconName } from '@components/Icon';
 import type { IBaseProps } from '@internal/types';
 import { flattenChildren } from '@internal/utils';
 import { useSignal } from '@preact/signals';
@@ -18,6 +19,8 @@ interface ITabProps extends IBaseProps {
 	id: string;
 	/** Visible tab label text. */
 	label: string;
+	/** Optional leading icon rendered before the label. */
+	icon?: IconName;
 	/** Called when this tab is activated. */
 	onActivate?: () => void;
 	/**
@@ -93,6 +96,9 @@ const TabPanel: FunctionComponent<ITabPanelProps> = (props) => {
  *   </Tab>
  *   <Tab id="details" label="Details" onActivate={fetchDetails} eager>
  *     <p>Details content</p>
+ *   </Tab>
+ *   <Tab id="settings" label="Settings" icon={IconName.settings}>
+ *     <p>Settings panel</p>
  *   </Tab>
  * </TabGroup>
  * ```
@@ -222,7 +228,7 @@ const TabGroup: FunctionComponent<ITabGroupProps> = (props) => {
 		<div class={cx(styles.tabGroup, className)}>
 			<div ref={tablistRef} role="tablist" class={styles.tabList} onKeyDown={handleKeyDown}>
 				{tabs.map((tab) => {
-					const { id, label } = tab.props;
+					const { id, label, icon } = tab.props;
 					const isActive = activeId.value === id;
 					const tabDomId = `${instanceId}-tab-${id}`;
 					const panelDomId = `${instanceId}-tabpanel-${id}`;
@@ -240,6 +246,7 @@ const TabGroup: FunctionComponent<ITabGroupProps> = (props) => {
 							data-tab-id={id}
 							onClick={() => activateTab(id)}
 						>
+							{icon ? <Icon name={icon} class={styles.tabIcon} /> : null}
 							{label}
 						</button>
 					);

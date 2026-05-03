@@ -11,6 +11,10 @@
 
 .tab {
 	composes: focus-ring from "@styles/shared.css";
+	display: inline-grid;
+	grid-auto-flow: column;
+	align-items: center;
+	column-gap: 0.5em;
 	padding: 0.5em 1em;
 	border: none;
 	border-bottom: 2px solid transparent;
@@ -20,6 +24,12 @@
 	font: inherit;
 	cursor: pointer;
 	white-space: nowrap;
+}
+
+/* Icons render larger than the text — text is read, the icon is glanced. */
+.tab-icon {
+	width: 1.5em;
+	height: 1.5em;
 }
 
 .tab:hover {

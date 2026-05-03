@@ -19,6 +19,8 @@ interface IAccordionItemProps extends IBaseProps {
 	id: string;
 	/** Visible trigger label text. */
 	label: string;
+	/** Optional leading icon rendered before the label. */
+	icon?: IconName;
 	/** Panel content. Supports arbitrary markup. */
 	children: ComponentChildren;
 	/** Whether this panel is open on initial render. Ignored after mount. */
@@ -85,6 +87,9 @@ const AccordionPanel: FunctionComponent<IAccordionPanelProps> = (props) => {
  *   </AccordionItem>
  *   <AccordionItem id="two" label="Panel two">
  *     <p>Content two</p>
+ *   </AccordionItem>
+ *   <AccordionItem id="three" label="Settings" icon={IconName.settings}>
+ *     <p>Settings panel</p>
  *   </AccordionItem>
  * </Accordion>
  * ```
@@ -166,7 +171,7 @@ const Accordion: FunctionComponent<IAccordionProps> = (props) => {
 	return (
 		<div class={cx(styles.accordion, className)}>
 			{items.map((item, index) => {
-				const { id, label, children: itemChildren } = item.props;
+				const { id, label, icon, children: itemChildren } = item.props;
 				const triggerId = `${instanceId}-trigger-${id}`;
 				const panelId = `${instanceId}-panel-${id}`;
 				const isOpen = openIds.value.has(id);
@@ -180,12 +185,13 @@ const Accordion: FunctionComponent<IAccordionProps> = (props) => {
 								ref={(el) => {
 									triggerRefs.current[index] = el as HTMLButtonElement | null;
 								}}
-								class={styles.accordionTrigger}
+								class={cx(styles.accordionTrigger, icon && styles.accordionTriggerWithIcon)}
 								aria-expanded={isOpen ? 'true' : 'false'}
 								aria-controls={panelId}
 								onClick={() => toggleItem(id)}
 								onKeyDown={(e) => handleKeyDown(e, index)}
 							>
+								{icon ? <Icon name={icon} class={styles.accordionTriggerLeadIcon} /> : null}
 								{label}
 								<span class={styles.accordionTriggerIcon} aria-hidden="true">
 									<Icon name={IconName.chevronDown} />
