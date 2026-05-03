@@ -38,6 +38,16 @@
 	background: var(--aui-color-background-hover);
 }
 
+.accordion-trigger-with-icon {
+	grid-template-columns: auto 1fr auto;
+	column-gap: 0.5em;
+}
+
+.accordion-trigger-lead-icon {
+	display: inline-grid;
+	place-items: center;
+}
+
 .accordion-trigger-icon {
 	display: inline-grid;
 	place-items: center;

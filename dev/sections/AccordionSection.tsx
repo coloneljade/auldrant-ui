@@ -1,4 +1,5 @@
 import Accordion, { AccordionItem } from '@components/Accordion';
+import { IconName } from '@components/Icon';
 import type { FunctionComponent } from 'preact';
 
 export const AccordionSection: FunctionComponent = () => (
@@ -39,6 +40,32 @@ export const AccordionSection: FunctionComponent = () => (
 					Not directly, but Preact's compatibility layer (<code>preact/compat</code>) allows
 					React-targeted code to use Preact components.
 				</p>
+			</AccordionItem>
+		</Accordion>
+
+		<h3>With icons — every item</h3>
+		<Accordion>
+			<AccordionItem id="icon-status" label="Status" icon={IconName.info} defaultOpen>
+				<p>Informational status message.</p>
+			</AccordionItem>
+			<AccordionItem id="icon-warnings" label="Warnings" icon={IconName.warning}>
+				<p>Warning details.</p>
+			</AccordionItem>
+			<AccordionItem id="icon-settings" label="Settings" icon={IconName.settings}>
+				<p>Settings configuration panel.</p>
+			</AccordionItem>
+		</Accordion>
+
+		<h3>Mixed — some items have icons, some don't</h3>
+		<Accordion>
+			<AccordionItem id="mixed-plain" label="Plain item">
+				<p>No icon.</p>
+			</AccordionItem>
+			<AccordionItem id="mixed-icon" label="With icon" icon={IconName.search}>
+				<p>This item has a leading icon.</p>
+			</AccordionItem>
+			<AccordionItem id="mixed-plain-2" label="Another plain item">
+				<p>Also no icon.</p>
 			</AccordionItem>
 		</Accordion>
 

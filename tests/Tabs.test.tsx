@@ -1,4 +1,5 @@
 import { describe, expect, it, mock } from 'bun:test';
+import { IconName } from '@components/Icon';
 import TabGroup, { Tab } from '@components/Tabs';
 import { fireEvent, render } from '@testing-library/preact';
 
@@ -696,6 +697,43 @@ describe('TabGroup', () => {
 					</TabGroup>
 				)
 			).toThrow('[TabGroup] Duplicate tab id: "dup". Tab ids must be unique.');
+		});
+	});
+
+	describe('icon prop', () => {
+		it('preserves accessible name from label when icon is set', () => {
+			// Arrange & Act
+			const { getByRole } = render(
+				<TabGroup>
+					<Tab id="search" label="Search" icon={IconName.search}>
+						Content
+					</Tab>
+				</TabGroup>
+			);
+
+			// Assert — icon is aria-hidden by Icon's lucide default; label remains the accessible name
+			expect(getByRole('tab', { name: 'Search' })).toBeTruthy();
+		});
+
+		it('does not affect tab activation when icon is set', () => {
+			// Arrange
+			const { getByRole } = render(
+				<TabGroup>
+					<Tab id="a" label="A" icon={IconName.search}>
+						Content A
+					</Tab>
+					<Tab id="b" label="B" icon={IconName.settings}>
+						Content B
+					</Tab>
+				</TabGroup>
+			);
+
+			// Act
+			fireEvent.click(getByRole('tab', { name: 'B' }));
+
+			// Assert
+			expect(getByRole('tab', { name: 'B' }).getAttribute('aria-selected')).toBe('true');
+			expect(getByRole('tab', { name: 'A' }).getAttribute('aria-selected')).toBe('false');
 		});
 	});
 });
