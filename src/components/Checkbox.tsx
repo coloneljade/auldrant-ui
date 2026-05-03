@@ -1,4 +1,5 @@
 import Icon, { IconName } from '@components/Icon';
+import FieldError from '@internal/FieldError';
 import type { IFieldProps } from '@internal/types';
 import { describeBy } from '@internal/utils';
 import styles from '@styles/Checkbox.module.css';
@@ -36,11 +37,7 @@ const Checkbox: FunctionComponent<ICheckboxProps> = (props) => {
 				<Icon name={IconName.check} class={styles.checkIcon} />
 				{label}
 			</label>
-			{error && (
-				<p id={errorId} class={styles.error} role="alert">
-					{error}
-				</p>
-			)}
+			{error && <FieldError id={errorId}>{error}</FieldError>}
 		</>
 	);
 };

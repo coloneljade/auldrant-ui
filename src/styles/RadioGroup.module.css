@@ -55,6 +55,5 @@
 }
 
 .error {
-	composes: field-error from "@styles/shared.css";
 	grid-column: 1 / -1;
 }

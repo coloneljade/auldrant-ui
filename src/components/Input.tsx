@@ -1,19 +1,11 @@
+import DataInput, { type DataInputType } from '@internal/DataInput';
 import FormField from '@internal/FormField';
 import type { IFieldProps } from '@internal/types';
-import { describeBy } from '@internal/utils';
-import styles from '@styles/Input.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
 /** Input types supported by the {@link Input} component. */
-export type InputType = 'text' | 'email' | 'url' | 'tel' | 'date' | 'time' | 'datetime-local';
-
-/** Types with unambiguous autocomplete mappings per WHATWG/WCAG. */
-const autocompleteByType: { [key: string]: string } = {
-	email: 'email',
-	tel: 'tel',
-	url: 'url',
-};
+export type InputType = DataInputType;
 
 /** Props for {@link Input}. */
 interface IInputProps extends IFieldProps {
@@ -40,7 +32,7 @@ const Input: FunctionComponent<IInputProps> = (props) => {
 	const {
 		label,
 		name,
-		type = 'text',
+		type,
 		value,
 		placeholder,
 		maxLength,
@@ -58,22 +50,21 @@ const Input: FunctionComponent<IInputProps> = (props) => {
 
 	return (
 		<FormField label={label} required={required} error={error} inputId={id} class={className}>
-			<input
-				class={styles.input}
+			<DataInput
 				id={id}
 				type={type}
 				name={name}
 				value={value}
 				placeholder={placeholder}
 				maxLength={maxLength}
-				autoComplete={autocomplete ?? autocompleteByType[type]}
+				autocomplete={autocomplete}
 				readOnly={readOnly}
 				pattern={pattern}
 				required={required}
 				disabled={disabled}
-				aria-invalid={!!error || undefined}
-				aria-describedby={describeBy(error && errorId)}
-				onInput={onInput && ((e) => onInput((e.target as HTMLInputElement).value))}
+				error={error}
+				ariaDescribedby={error ? errorId : undefined}
+				onInput={onInput}
 			/>
 		</FormField>
 	);
