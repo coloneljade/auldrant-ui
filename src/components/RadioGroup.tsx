@@ -1,3 +1,4 @@
+import FieldError from '@internal/FieldError';
 import type { IBaseProps } from '@internal/types';
 import { describeBy, flattenChildren } from '@internal/utils';
 import styles from '@styles/RadioGroup.module.css';
@@ -104,9 +105,9 @@ const RadioGroup: FunctionComponent<IRadioGroupProps> = (props) => {
 				);
 			})}
 			{error && (
-				<p id={errorId} class={styles.error} role="alert">
+				<FieldError id={errorId} class={styles.error}>
 					{error}
-				</p>
+				</FieldError>
 			)}
 		</fieldset>
 	);

@@ -1,3 +1,4 @@
+import FieldError from '@internal/FieldError';
 import type { IBaseProps } from '@internal/types';
 import styles from '@styles/FormField.module.css';
 import { cx } from '@utils';
@@ -41,9 +42,9 @@ const FormField: FunctionComponent<IFormFieldProps> = (props) => {
 			</label>
 			{children}
 			{error && (
-				<p id={errorId} class={styles.error} role="alert">
+				<FieldError id={errorId} class={styles.error}>
 					{error}
-				</p>
+				</FieldError>
 			)}
 		</div>
 	);

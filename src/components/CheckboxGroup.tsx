@@ -1,3 +1,4 @@
+import FieldError from '@internal/FieldError';
 import type { IBaseProps } from '@internal/types';
 import { describeBy } from '@internal/utils';
 import styles from '@styles/CheckboxGroup.module.css';
@@ -29,9 +30,9 @@ const CheckboxGroup: FunctionComponent<ICheckboxGroupProps> = (props) => {
 			<legend class={styles.legend}>{legend}</legend>
 			{children}
 			{error && (
-				<p id={errorId} class={styles.error} role="alert">
+				<FieldError id={errorId} class={styles.error}>
 					{error}
-				</p>
+				</FieldError>
 			)}
 		</fieldset>
 	);

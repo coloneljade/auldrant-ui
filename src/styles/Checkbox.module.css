@@ -43,7 +43,3 @@
 .field:has(.input:disabled) .input {
 	cursor: not-allowed;
 }
-
-.error {
-	composes: field-error from "@styles/shared.css";
-}
