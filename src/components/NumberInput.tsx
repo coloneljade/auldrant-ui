@@ -1,7 +1,6 @@
+import DataInput from '@internal/DataInput';
 import FormField from '@internal/FormField';
 import type { IFieldProps } from '@internal/types';
-import { describeBy } from '@internal/utils';
-import styles from '@styles/NumberInput.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
@@ -42,21 +41,20 @@ const NumberInput: FunctionComponent<INumberInputProps> = (props) => {
 
 	return (
 		<FormField label={label} required={required} error={error} inputId={id} class={className}>
-			<input
-				class={styles.input}
+			<DataInput
 				id={id}
 				type="number"
 				name={name}
+				value={value}
 				min={min}
 				max={max}
 				step={step}
-				value={value}
 				placeholder={placeholder}
 				required={required}
 				disabled={disabled}
-				aria-invalid={!!error || undefined}
-				aria-describedby={describeBy(error && errorId)}
-				onInput={onInput && ((e) => onInput((e.target as HTMLInputElement).valueAsNumber))}
+				error={error}
+				ariaDescribedby={error ? errorId : undefined}
+				onInput={onInput}
 			/>
 		</FormField>
 	);

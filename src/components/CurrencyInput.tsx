@@ -1,8 +1,7 @@
+import DataInput from '@internal/DataInput';
 import FormField from '@internal/FormField';
 import type { IFieldProps } from '@internal/types';
-import { describeBy } from '@internal/utils';
 import { useSignal } from '@preact/signals';
-import styles from '@styles/CurrencyInput.module.css';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
@@ -64,8 +63,7 @@ const CurrencyInput: FunctionComponent<ICurrencyInputProps> = (props) => {
 
 	return (
 		<FormField label={label} required={required} error={error} inputId={id} class={className}>
-			<input
-				class={styles.input}
+			<DataInput
 				id={id}
 				type="text"
 				inputMode="decimal"
@@ -73,20 +71,17 @@ const CurrencyInput: FunctionComponent<ICurrencyInputProps> = (props) => {
 				value={displayValue}
 				required={required}
 				disabled={disabled}
-				aria-invalid={!!error || undefined}
-				aria-describedby={describeBy(error && errorId)}
+				error={error}
+				ariaDescribedby={error ? errorId : undefined}
 				onFocus={() => {
 					rawText.value = value !== undefined && !Number.isNaN(value) ? String(value) : '';
 				}}
-				onInput={(e) => {
-					const text = (e.target as HTMLInputElement).value;
+				onInput={(text) => {
 					rawText.value = text;
 					onInput?.(parseCurrency(text, locale));
 				}}
-				onBlur={(e) => {
-					const text = (e.target as HTMLInputElement).value;
+				onBlur={() => {
 					rawText.value = null;
-					onInput?.(parseCurrency(text, locale));
 				}}
 			/>
 		</FormField>
