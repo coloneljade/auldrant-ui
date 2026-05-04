@@ -37,7 +37,6 @@ These strict flags are enabled and must not be disabled:
 | `noUnusedParameters: true` | No unused params |
 | `noFallthroughCasesInSwitch: true` | Explicit switch cases |
 | `noUncheckedIndexedAccess: true` | Safe index access |
-| `exactOptionalPropertyTypes: true` | Strict optional props |
 | `verbatimModuleSyntax: true` | Explicit import/export types |
 
 ### biome.json
