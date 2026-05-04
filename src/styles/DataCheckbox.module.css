@@ -1,0 +1,45 @@
+.field {
+	display: grid;
+	grid-auto-flow: column;
+	grid-auto-columns: auto;
+	align-items: center;
+	justify-content: center;
+	gap: 0.375em;
+	padding: 0.75em 1em;
+	border: 1px solid var(--aui-color-border);
+	border-radius: 0.25em;
+	cursor: pointer;
+	position: relative;
+}
+
+.input {
+	composes: overlay-input from "@styles/shared.css";
+}
+
+.check-icon {
+	display: none;
+}
+
+.field:has(.input:checked) .check-icon {
+	display: block;
+}
+
+.field:has(.input:checked) {
+	background: var(--aui-color-primary);
+	color: var(--aui-color-background);
+	border-color: var(--aui-color-primary);
+}
+
+.field:has(.input:focus-visible) {
+	outline: 2px solid var(--aui-color-focus-ring);
+	outline-offset: 2px;
+}
+
+.field:has(.input:disabled) {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.field:has(.input:disabled) .input {
+	cursor: not-allowed;
+}

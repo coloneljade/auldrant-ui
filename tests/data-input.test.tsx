@@ -131,4 +131,75 @@ describe('DataInput', () => {
 		// Assert
 		expect(input.className.split(' ')).toContain('extra');
 	});
+
+	describe('number variant', () => {
+		const qtyHeaderId = 'col-qty';
+
+		function renderNumberWithHeader(node: ReturnType<typeof DataInput>) {
+			return render(
+				<>
+					<span id={qtyHeaderId}>Qty</span>
+					{node}
+				</>
+			);
+		}
+
+		it('sets type="number" and accepts a numeric value', () => {
+			// Act
+			const { getByRole } = renderNumberWithHeader(
+				<DataInput ariaLabelledby={qtyHeaderId} type="number" value={42} />
+			);
+			const input = getByRole('spinbutton', { name: /Qty/ }) as HTMLInputElement;
+
+			// Assert
+			expect(input.type).toBe('number');
+			expect(input.value).toBe('42');
+		});
+
+		it('sets min, max, and step', () => {
+			// Act
+			const { getByRole } = renderNumberWithHeader(
+				<DataInput ariaLabelledby={qtyHeaderId} type="number" min={0} max={100} step={5} />
+			);
+			const input = getByRole('spinbutton', { name: /Qty/ }) as HTMLInputElement;
+
+			// Assert
+			expect(input.min).toBe('0');
+			expect(input.max).toBe('100');
+			expect(input.step).toBe('5');
+		});
+
+		it('calls onInput with valueAsNumber', () => {
+			// Arrange
+			const handleInput = mock((_: number) => {});
+			const { getByRole } = renderNumberWithHeader(
+				<DataInput ariaLabelledby={qtyHeaderId} type="number" onInput={handleInput} />
+			);
+
+			// Act
+			fireEvent.input(getByRole('spinbutton', { name: /Qty/ }), {
+				target: { value: '17' },
+			});
+
+			// Assert
+			expect(handleInput).toHaveBeenCalledWith(17);
+		});
+
+		it('calls onInput with NaN for empty input', () => {
+			// Arrange
+			const handleInput = mock((_: number) => {});
+			const { getByRole } = renderNumberWithHeader(
+				<DataInput ariaLabelledby={qtyHeaderId} type="number" onInput={handleInput} />
+			);
+
+			// Act
+			fireEvent.input(getByRole('spinbutton', { name: /Qty/ }), {
+				target: { value: '' },
+			});
+
+			// Assert
+			expect(handleInput).toHaveBeenCalledTimes(1);
+			expect(Number.isNaN(handleInput.mock.calls[0]?.[0])).toBe(true);
+		});
+	});
 });
