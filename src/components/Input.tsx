@@ -1,11 +1,11 @@
-import DataInput, { type DataInputType } from '@internal/DataInput';
+import DataInput, { type DataInputTextType } from '@internal/DataInput';
 import FormField from '@internal/FormField';
 import type { IFieldProps } from '@internal/types';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
 /** Input types supported by the {@link Input} component. */
-export type InputType = DataInputType;
+export type InputType = DataInputTextType;
 
 /** Props for {@link Input}. */
 interface IInputProps extends IFieldProps {

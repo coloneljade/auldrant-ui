@@ -1,9 +1,6 @@
-import Icon, { IconName } from '@components/Icon';
+import DataCheckbox from '@internal/DataCheckbox';
 import FieldError from '@internal/FieldError';
 import type { IFieldProps } from '@internal/types';
-import { describeBy } from '@internal/utils';
-import styles from '@styles/Checkbox.module.css';
-import { cx } from '@utils';
 import type { FunctionComponent } from 'preact';
 import { useId } from 'preact/hooks';
 
@@ -22,21 +19,18 @@ const Checkbox: FunctionComponent<ICheckboxProps> = (props) => {
 
 	return (
 		<>
-			<label class={cx(styles.field, className)}>
-				<input
-					class={styles.input}
-					type="checkbox"
-					name={name}
-					checked={checked}
-					required={required}
-					disabled={disabled}
-					aria-invalid={!!error || undefined}
-					aria-describedby={describeBy(error && errorId)}
-					onChange={onChange && ((e) => onChange((e.target as HTMLInputElement).checked))}
-				/>
-				<Icon name={IconName.check} class={styles.checkIcon} />
+			<DataCheckbox
+				class={className}
+				name={name}
+				checked={checked}
+				required={required}
+				disabled={disabled}
+				error={error}
+				ariaDescribedby={error ? errorId : undefined}
+				onChange={onChange}
+			>
 				{label}
-			</label>
+			</DataCheckbox>
 			{error && <FieldError id={errorId}>{error}</FieldError>}
 		</>
 	);
