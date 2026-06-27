@@ -9,7 +9,7 @@ permissions:
   checks: read
 jobs:
   readiness:
-    uses: coloneljade/merge-bot/.github/workflows/readiness.yml@v1
+    uses: coloneljade/merge-bot/.github/workflows/readiness.yml@v2
     with:
       pr-number: ${{ github.event.pull_request.number }}
       pr-sha: ${{ github.event.pull_request.head.sha }}
