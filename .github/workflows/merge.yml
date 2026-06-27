@@ -16,7 +16,7 @@ jobs:
       github.event.issue.pull_request &&
       startsWith(github.event.comment.body, '/merge') &&
       github.event.comment.author_association == 'OWNER'
-    uses: coloneljade/merge-bot/.github/workflows/merge.yml@v1
+    uses: coloneljade/merge-bot/.github/workflows/merge.yml@v2
     with:
       bump-map: '{"feature":"minor","feat":"minor","fix":"patch"}'
       version-file: 'package.json'
