@@ -36,10 +36,17 @@
 		"skipLibCheck": true,
 		"types": ["vite/client"],
 		"paths": {
+			// Modern dual-mapping syntax for folder aliases
+			"@components": ["./src/components"],
 			"@components/*": ["./src/components/*"],
+			"@signals": ["./src/signals"],
 			"@signals/*": ["./src/signals/*"],
+			"@styles": ["./src/styles"],
 			"@styles/*": ["./src/styles/*"],
+			"@internal": ["./src/internal"],
 			"@internal/*": ["./src/internal/*"],
+
+			// Direct file aliases
 			"@hooks": ["./src/hooks.ts"],
 			"@utils": ["./src/utils.ts"]
 		}
