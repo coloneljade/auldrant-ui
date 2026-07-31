@@ -21,5 +21,5 @@ jobs:
       bump-map: '{"feature":"minor","feat":"minor","fix":"patch"}'
       version-file: 'package.json'
     secrets:
-      app-id: ${{ secrets.MERGE_APP_ID }}
+      client-id: ${{ secrets.MERGE_CLIENT_ID }}
       private-key: ${{ secrets.MERGE_APP_PRIVATE_KEY }}
