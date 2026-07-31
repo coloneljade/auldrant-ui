@@ -1,3 +1,4 @@
+import path from 'node:path';
 import preact from '@preact/preset-vite';
 import { defineConfig } from 'vite';
 
@@ -9,9 +10,15 @@ export default defineConfig({
 	},
 	plugins: [preact()],
 	resolve: {
-		tsconfigPaths: true,
+		alias: {
+			'@components': path.resolve(import.meta.dirname, './src/components'),
+			'@signals': path.resolve(import.meta.dirname, './src/signals'),
+			'@styles': path.resolve(import.meta.dirname, './src/styles'),
+			'@internal': path.resolve(import.meta.dirname, './src/internal'),
+			'@hooks': path.resolve(import.meta.dirname, './src/hooks.ts'),
+			'@utils': path.resolve(import.meta.dirname, './src/utils.ts'),
+		},
 	},
-
 	build: {
 		lib: {
 			entry: {
